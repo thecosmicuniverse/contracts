@@ -1,29 +1,25 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract CosmicGuild is ERC721Enumerable, Ownable {
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {ReentrancyGuard} from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+contract CosmicGuild is ERC721Enumerable,ReentrancyGuard, Ownable {
     using Strings for uint256;
 
-    uint256 public constant NFT_MAX = 12000;
+    uint256 public constant NFT_MAX = 11664;
 
     IERC20 private MAGIC ;
 
-
-
     string private _tokenBaseURI = "";
     string private _tokenRevealedBaseURI = "";
-
     // Epoch time set Sunday, February 20, 2022 3:00:00 PM GMT
     uint256 private _startTime = 1645369200;
-
-    string private revealedBaseURI;
-    uint256 private tokenId;
     address private withdrawalWallet;
 
     //Land Array
@@ -32,17 +28,16 @@ contract CosmicGuild is ERC721Enumerable, Ownable {
     uint256[] public soldTokens;
     // address[] public whitelistUser;
 
-    function isLandAvailable(uint256 _tokenId)
+    event SetStartTime(uint256 _timestamp);
+
+    function isLandAvailable(uint256 tokenId)
         public view
         returns (bool) {
-            if(_exists(_tokenId) == true)return false; // Not sold out
-            return (landPrice[_tokenId] != 0);
-        }
+            return (!_exists(tokenId)) && (landPrice[tokenId] != 0);
+    }
 
-
-
-    modifier isLandAvailableMod(uint256 _tokenId) {
-        require(isLandAvailable(_tokenId), "Token is not Land or Sold out ");
+    modifier isLandAvailableMod(uint256 tokenId) {
+        require(isLandAvailable(tokenId), "Token is not Land or Sold out ");
         _;
     }
 
@@ -52,46 +47,25 @@ contract CosmicGuild is ERC721Enumerable, Ownable {
     }
 
     modifier canPurchase() {
-        uint256 PURCHASE_LIMIT = (block.timestamp >= (_startTime - 86400) ) ? 75 : 10; // presale will start before 24 hours
+        uint256 PURCHASE_LIMIT = (block.timestamp < _startTime ) ? 10 : 75; // if it's presale then limit is 10 else 75
         require(
             balanceOf(msg.sender) < PURCHASE_LIMIT,
             "Requested number exceeds purchase limit"
         );
         _;
     }
-    // function isIndexBefore(uint n) private view returns(bool){
-    //     for(uint i = 0;i<n;i++){
-    //         if(whitelistUser[i] == msg.sender)return true;
-    //     }
-    //     return false;
-    // }
-
-    // modifier isWhiteListed(){
-    //     if(block.timestamp >= _startTime) {
-    //         // Everyone can purchase
-    //     }else if(block.timestamp >= (_startTime - 28800)){
-    //         // Tier 1 (before 8 hour of sale start)
-    //         require(isIndexBefore(1000),"Tier 1 or above allowed");
-    //     }else if(block.timestamp >= (_startTime - 56600)){
-    //         // Tier 2 (before 16 hour of sale)
-    //         require(isIndexBefore(500),"Tier 2 or above allowed");
-    //     }else if(block.timestamp >= (_startTime - 86400)){
-    //         // Tier 3 (before 24 hour of sale)
-    //         require(isIndexBefore(250),"Tier 3 or above allowed");
-    //     }else require(false,"Sale is not Start yet");
-    //     _;
-    // }
 
     modifier isWhiteListed(){
-        if(block.timestamp >= _startTime) {
+        uint256 startTime = _startTime;
+        if(block.timestamp >= startTime) {
              // Everyone can purchase
-        }else if(block.timestamp >= (_startTime - 28800)){
+        }else if(block.timestamp >= (startTime - 28800)){
             // Tier 1 (before 8 hour of sale start)
             require(whitelistUser[msg.sender] >=1,"Tier 1 or above allowed");
-        }else if(block.timestamp >= (_startTime - 56600)){
+        }else if(block.timestamp >= (startTime - 56600)){
             // Tier 2 (before 16 hour of sale)
             require(whitelistUser[msg.sender] >=2,"Tier 2 or above allowed");
-        }else if(block.timestamp >= (_startTime - 86400)){
+        }else if(block.timestamp >= (startTime - 86400)){
             // Tier 3 (before 24 hour of sale)
             require(whitelistUser[msg.sender] >=3,"Tier 3 or above allowed");
         }else require(false,"Sale is not Start yet");
@@ -104,55 +78,52 @@ contract CosmicGuild is ERC721Enumerable, Ownable {
     constructor(string memory name, string memory symbol, address wallet, address magic)
         ERC721(name, symbol)
     {
+        require(wallet != address(0),"Address Should be real");
+        require(magic != address(0),"MAGIC Address Should be real");
         withdrawalWallet = wallet;
         MAGIC = IERC20(magic);
+
     }
 
 
-    function purchase(uint256 _tokenId)
+    function purchase(uint256 tokenId)
         external
-        payable
         isLive
-        isLandAvailableMod(_tokenId)
+        isLandAvailableMod(tokenId)
         canPurchase
         isWhiteListed
+        nonReentrant
     {
-        require(NFT_MAX > _tokenId, "TokenID not within range");
+        require(NFT_MAX >= tokenId, "TokenID not within range");
 
-        // require(
-        //     PRICE <= msg.value,
-        //     "ETH amount is not sufficient"
-        // );
-        MAGIC.transferFrom(msg.sender,withdrawalWallet,landPrice[_tokenId]);
-        soldTokens.push(_tokenId);
-        _safeMint(msg.sender, _tokenId);
-        emit Purchase(msg.sender, _tokenId);
+        bool _success = MAGIC.transferFrom(msg.sender,withdrawalWallet,landPrice[tokenId]);
+        require(_success,"Transfer is not Done");
+        soldTokens.push(tokenId);
+        _safeMint(msg.sender, tokenId);
+        emit Purchase(msg.sender, tokenId);
     }
     
 
-    function soldTokensAll() public view returns( uint256 [] memory) {
-        uint256[] memory tokenAll = new uint256[](soldTokens.length);
-        for (uint i = 0; i < soldTokens.length; i++) {
-          tokenAll[i] = soldTokens[i];
-        }
-        return tokenAll;
+    function soldTokensAll() external view returns( uint256 [] memory) {
+        return soldTokens;
     }
 
-    function setLandPriceArr(uint256 price,uint256[] memory _arr) external onlyOwner {
-        for(uint i = 0 ; i < _arr.length;i++){
-            landPrice[_arr[i]] = price;
+    function setLandPriceArr(uint256 price,uint256[] memory arr) external onlyOwner {
+        for(uint i = 0 ; i < arr.length;i++){
+            landPrice[arr[i]] = price;
         }
     }
 
-    function setWhiteListArr(uint tier,address[] memory _arr) external onlyOwner {
-        for(uint i = 0 ; i < _arr.length;i++){
+    function setWhiteListArr(uint tier,address[] memory arr) external onlyOwner {
+        for(uint i = 0 ; i < arr.length;i++){
             // whitelistUser.push(_arr[i]);
-            whitelistUser[_arr[i]] = tier;
+            whitelistUser[arr[i]] = tier;
         }
     }
 
     function setStartTime(uint256 newTime) external onlyOwner {
         _startTime = newTime;
+        emit SetStartTime(newTime);
     }
 
     function withdraw() external {
@@ -162,8 +133,8 @@ contract CosmicGuild is ERC721Enumerable, Ownable {
         payable(msg.sender).transfer(balance);
     }
 
-    function setBaseURI(string calldata URI) external onlyOwner {
-        _tokenBaseURI = URI;
+    function setBaseURI(string calldata uri) external onlyOwner {
+        _tokenBaseURI = uri;
     }
 
     function setRevealedBaseURI(string calldata _revealedBaseURI)
