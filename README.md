@@ -10,7 +10,7 @@ Source code: cosmicyieldfarming.sol
 
 MainNet address: [0x12dc61f46718dd00e993da7865da15e8cb713094](https://explorer.harmony.one/address/0x892d81221484f690c0a97d3dd18b9144a3ecdfb7?activeTab=7)
 
-This contract is for the Cosmic yield farms located on LootSwap.  
+This contract is for the Cosmic yield farms located on LootSwap.
 
 **MAGIC token contract**
 
