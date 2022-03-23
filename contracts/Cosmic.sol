@@ -29,12 +29,7 @@ contract Cosmic is ERC20Capped, ERC20Burnable, ERC20Pausable, Ownable, Reentranc
     uint256 public totalBurned;
 
     constructor() ERC20("Cosmic", "COSMIC") ERC20Capped(1000000000 * (10**18)) {
-        transferOwnership(_msgSender());
-        uint256 balance9 = _COSMIC_V1.balanceOf(_V1_BURN_ADDRESS);
-        uint256 balance18 = convert9to18(balance9);
-        _mint(_msgSender(), balance18);
-        burn(balance18);
-        totalUpgraded += balance18;
+        burnSync();
     }
 
     // View functions
@@ -62,12 +57,46 @@ contract Cosmic is ERC20Capped, ERC20Burnable, ERC20Pausable, Ownable, Reentranc
     *      and then stores the balance for convenience calling.
     */
     function upgradeAll() external nonReentrant whenNotPaused {
-        uint256 balance9 = _COSMIC_V1.balanceOf(_msgSender());
-        require(balance9 > 0, "No old tokens to upgrade");
-        _COSMIC_V1.safeTransferFrom(_msgSender(), _V1_BURN_ADDRESS, balance9);
-        uint256 balance18 = convert9to18(balance9);
-        _mint(_msgSender(), balance18);
-        totalUpgraded += balance18;
+        // Get current balance of cosmic v1
+        uint256 userBalance = _COSMIC_V1.balanceOf(_msgSender());
+        require(userBalance > 0, "No old COSMIC to upgrade");
+
+        // Save burn address balance before and after to account for tax
+        uint256 burnStartBalance = _COSMIC_V1.balanceOf(_V1_BURN_ADDRESS);
+        _COSMIC_V1.safeTransferFrom(_msgSender(), _V1_BURN_ADDRESS, userBalance);
+        uint256 burnEndBalance = _COSMIC_V1.balanceOf(_V1_BURN_ADDRESS);
+
+        // Mint final balance
+        uint256 burnBalance18 = convert9to18(burnEndBalance - burnStartBalance);
+        _mint(_msgSender(), burnBalance18);
+
+        totalUpgraded += burnBalance18;
+    }
+
+    /**
+    * @notice Check for burn discrepancy
+    *
+    * @dev Checks to see if cosmic v1 has been burned through a means
+    *      other than upgrade
+    *
+    * @return amount available to burn
+    */
+    function missingBurn() public view virtual returns(uint256) {
+        return convert9to18(_COSMIC_V1.balanceOf(_V1_BURN_ADDRESS)) - totalUpgraded;
+    }
+
+    /**
+    * @dev Burns Cosmic to match CosmicCoin
+    *
+    * @return amount burned
+    */
+    function burnSync() public nonReentrant whenNotPaused returns(uint256) {
+        uint256 missing = missingBurn();
+        require(missing > 0, "No old COSMIC to burn");
+        _mint(_msgSender(), missing);
+        burn(missing);
+        totalUpgraded += missing;
+        return missing;
     }
 
     // Owner Functions
