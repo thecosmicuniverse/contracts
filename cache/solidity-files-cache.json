@@ -959,8 +959,8 @@
       ]
     },
     "D:\\thecosmicuniverse\\public-smart-contracts\\contracts\\CosmicWizards3D.sol": {
-      "lastModificationDate": 1650102395360,
-      "contentHash": "f74c9e88eedd424ab394eb87099676d1",
+      "lastModificationDate": 1650103956480,
+      "contentHash": "4aac1e748a2f269adeedfd50bc78fcd7",
       "sourceName": "contracts/CosmicWizards3D.sol",
       "solcConfig": {
         "version": "0.8.9",

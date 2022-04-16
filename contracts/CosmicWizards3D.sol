@@ -22,9 +22,9 @@ contract CosmicWizards3D is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Bu
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
     bytes32 public constant METADATA_ROLE = keccak256("METADATA_ROLE");
     // 2D Wizards
-    ERC721Enumerable private constant _WIZARDS = ERC721Enumerable(0x948F57583276B607DD61A64Ea8510ba8175b48B8);
+    ERC721Enumerable private constant _WIZARDS = ERC721Enumerable(0x37f47C343bfAF27A52bC1BD468b49d8E5eF89D67);
     // 2D Framed Wizards
-    IFramedWizards private constant _FRAMED_WIZARDS = IFramedWizards(0xaf8aE170022B867e7798773cA48b16ef3286F52d);
+    IFramedWizards private constant _FRAMED_WIZARDS = IFramedWizards(0xF22348e477753Bc6252237333d9a94B1FCe9c1D3);
     // Burn address for 2D Wizards
     address private constant _V1_BURN_ADDRESS = payable(0x0000000000000000000000000000000000000001);
     // Updatable baseURI
