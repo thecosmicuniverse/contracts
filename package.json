@@ -5,7 +5,14 @@
   "main": "index.js",
   "scripts": {
     "compile": "npx hardhat compile",
-    "deploy:cosmic": "npx hardhat run --network harmony scripts/deployCosmic.js"
+    "deploy:cosmic:harmony": "npx hardhat run --network harmony scripts/deployCosmic.js",
+    "deploy:cosmic:harmonyTest": "npx hardhat run --network harmonyTest scripts/deployCosmic.js",
+    "deploy:testWizards2D:harmony": "npx hardhat run --network harmony scripts/deployTestWizards2D.js",
+    "deploy:testWizards2D:harmonyTest": "npx hardhat run --network harmonyTest scripts/deployTestWizards2D.js",
+    "deploy:framedWizards2D:harmony": "npx hardhat run --network harmony scripts/deployFramedWizards2D.js",
+    "deploy:framedWizards2D:harmonyTest": "npx hardhat run --network harmonyTest scripts/deployFramedWizards2D.js",
+    "deploy:wizards3D:harmony": "npx hardhat run --network harmony scripts/deployWizards3D.js",
+    "deploy:wizards3D:harmonyTest": "npx hardhat run --network harmonyTest scripts/deployWizards3D.js"
   },
   "author": "",
   "license": "ISC",

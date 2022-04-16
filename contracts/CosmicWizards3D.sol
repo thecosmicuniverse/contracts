@@ -22,9 +22,9 @@ contract CosmicWizards3D is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Bu
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
     bytes32 public constant METADATA_ROLE = keccak256("METADATA_ROLE");
     // 2D Wizards
-    ERC721Enumerable private constant _WIZARDS = ERC721Enumerable(0x37f47C343bfAF27A52bC1BD468b49d8E5eF89D67);
+    ERC721Enumerable private constant _WIZARDS = ERC721Enumerable(0x948F57583276B607DD61A64Ea8510ba8175b48B8);
     // 2D Framed Wizards
-    IFramedWizards private constant _FRAMED_WIZARDS = IFramedWizards(0x37f47C343bfAF27A52bC1BD468b49d8E5eF89D67);
+    IFramedWizards private constant _FRAMED_WIZARDS = IFramedWizards(0xaf8aE170022B867e7798773cA48b16ef3286F52d);
     // Burn address for 2D Wizards
     address private constant _V1_BURN_ADDRESS = payable(0x0000000000000000000000000000000000000001);
     // Updatable baseURI
@@ -56,14 +56,16 @@ contract CosmicWizards3D is ERC721, ERC721Enumerable, ERC721URIStorage, ERC721Bu
     *      transfers them all to the predefined burn address. It then
     *      mints a 3D wizard, as well as minting a Framed Wizard collectable
     */
-    function upgrade2DWizards() public whenNotPaused {
+    function upgrade2DWizards(uint256[] memory tokenIds) public whenNotPaused {
         require(_WIZARDS.isApprovedForAll(_msgSender(), address(this)), "Contract missing approval for 2D Wizards");
-        uint256 wizardCount = _WIZARDS.balanceOf(_msgSender());
-        for (uint256 i=0; i<wizardCount; i++) {
-            uint256 wizardId = _WIZARDS.tokenOfOwnerByIndex(_msgSender(), i);
-            _WIZARDS.safeTransferFrom(_msgSender(), _V1_BURN_ADDRESS, wizardId);
-            _safeMint(_msgSender(), wizardId);
-            _FRAMED_WIZARDS.safeMint(_msgSender(), wizardId);
+        for (uint256 i=0;i<tokenIds.length;i++) {
+            require(_WIZARDS.ownerOf(tokenIds[i]) == _msgSender(), "Must be owner");
+        }
+
+        for (uint256 i=0; i<tokenIds.length; i++) {
+            _WIZARDS.safeTransferFrom(_msgSender(), _V1_BURN_ADDRESS, tokenIds[i]);
+            _safeMint(_msgSender(), tokenIds[i]);
+            _FRAMED_WIZARDS.safeMint(_msgSender(), tokenIds[i]);
         }
     }
 

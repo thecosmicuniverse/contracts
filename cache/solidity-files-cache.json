@@ -959,8 +959,8 @@
       ]
     },
     "D:\\thecosmicuniverse\\public-smart-contracts\\contracts\\CosmicWizards3D.sol": {
-      "lastModificationDate": 1650092098129,
-      "contentHash": "378b4fa503db7714c06e807edfdf7c2e",
+      "lastModificationDate": 1650102395360,
+      "contentHash": "f74c9e88eedd424ab394eb87099676d1",
       "sourceName": "contracts/CosmicWizards3D.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -1038,6 +1038,126 @@
       ],
       "artifacts": [
         "ERC721URIStorage"
+      ]
+    },
+    "D:\\thecosmicuniverse\\public-smart-contracts\\contracts\\FramedCosmicWizards2D.sol": {
+      "lastModificationDate": 1650097063609,
+      "contentHash": "17a321ded20cb725e8c9f4b13e95b9a0",
+      "sourceName": "contracts/FramedCosmicWizards2D.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "storageLayout"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol",
+        "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+        "@openzeppelin/contracts/access/AccessControl.sol",
+        "@openzeppelin/contracts/token/ERC721/ERC721.sol",
+        "@openzeppelin/contracts/security/Pausable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.7"
+      ],
+      "artifacts": [
+        "FramedCosmicWizards2D"
+      ]
+    },
+    "D:\\thecosmicuniverse\\public-smart-contracts\\node_modules\\@openzeppelin\\contracts\\utils\\math\\SafeMath.sol": {
+      "lastModificationDate": 1650081668527,
+      "contentHash": "a6a9d6c1f662e922b82c1ba4d81cdd48",
+      "sourceName": "@openzeppelin/contracts/utils/math/SafeMath.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "storageLayout"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "SafeMath"
+      ]
+    },
+    "D:\\thecosmicuniverse\\public-smart-contracts\\contracts\\TestWizards2D.sol": {
+      "lastModificationDate": 1650096896570,
+      "contentHash": "81af518bc43fe37e005b8afa2aab1775",
+      "sourceName": "contracts/TestWizards2D.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "storageLayout"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol",
+        "@openzeppelin/contracts/access/AccessControl.sol",
+        "@openzeppelin/contracts/token/ERC721/ERC721.sol",
+        "@openzeppelin/contracts/utils/math/SafeMath.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.7"
+      ],
+      "artifacts": [
+        "TestWizards2D"
       ]
     }
   }
