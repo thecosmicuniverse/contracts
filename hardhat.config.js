@@ -33,7 +33,7 @@ module.exports = {
 },
   networks: {
     harmony: {
-      url: process.env.RPC_URL,
+      url: "https://rpc.cosmicuniverse.one/",
       accounts: [process.env.PRIVATE_KEY]
     }
   },
