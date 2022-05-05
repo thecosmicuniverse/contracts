@@ -91,6 +91,26 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
     event PoolRewardsDeposited(address indexed from, address indexed token, uint256 amount);
     event PoolRewardsWithdrawn(address indexed by, address indexed to, address indexed token, uint256 amount);
 
+    event StakingUnlocked(address indexed by, address indexed nftAddress, uint256 tokenId);
+
+    event TrainingStarted(
+        address indexed by,
+        address indexed nftAddress,
+        uint256 tokenId,
+        uint256 treeId,
+        uint256 skillId,
+        uint256 level
+    );
+
+    event TrainingFinished(
+        address indexed by,
+        address indexed nftAddress,
+        uint256 tokenId,
+        uint256 treeId,
+        uint256 skillId,
+        uint256 level
+    );
+
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
 
@@ -115,6 +135,7 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         if (unlocked == 0) {
             IERC20Upgradeable token = IERC20Upgradeable(_config[nftAddress].rewardToken);
             token.transferFrom(_msgSender(), address(this), _training_config[0].cost);
+            emit StakingUnlocked(_msgSender(), nftAddress, tokenId);
         }
         IERC721Upgradeable(nftAddress).safeTransferFrom(_msgSender(), address(this), tokenId);
         GAME_STORAGE.updateSkill(nftAddress, tokenId, skill_config.treeId, skill_config.skillId, 1);
@@ -146,7 +167,7 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
                 nfts[nfts.length] = data.nfts[i];
             }
         }
-        require(data.nfts.length == (nfts.length +1), "Nft not staked");
+        require(data.nfts.length == (nfts.length + 1), "Nft not staked");
         _disburse_rewards(_msgSender());
         delete data.nfts;
         for (uint256 i = 0; i < nfts.length; i++) {
@@ -204,6 +225,8 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         trainingStatus.skillId = skillId;
         trainingStatus.startedAt = block.timestamp;
         trainingStatus.completeAt = block.timestamp + trainingConfig.time;
+
+        emit TrainingStarted(_msgSender(), nftAddress, tokenId, treeId, skillId, currentLevel + 1);
     }
 
     function finishTraining(address nftAddress, uint256 tokenId) public {
@@ -212,6 +235,16 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         require(trainingStatus.completeAt <= block.timestamp, "Training still in progress");
         _disburse_rewards(_msgSender());
         GAME_STORAGE.updateSkill(nftAddress, tokenId, trainingStatus.treeId, trainingStatus.skillId, trainingStatus.level);
+
+        emit TrainingFinished(
+            _msgSender(),
+            nftAddress,
+            tokenId,
+            trainingStatus.treeId,
+            trainingStatus.skillId,
+            trainingStatus.level
+        );
+
         delete _training_status[_msgSender()][nftAddress][tokenId];
     }
 
