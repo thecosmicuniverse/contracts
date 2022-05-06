@@ -411,17 +411,17 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         uint256[] memory levels = new uint256[](stakingConfig.treeIds.length);
         uint256 leveledSkillIdCount = 0;
         uint256 maxedSkillIdCount = 0;
-        for (uint256 i = 0; i < stakingConfig.treeIds; i++) {
-            level[i] = GAME_STORAGE.getSkill(
+        for (uint256 i = 0; i < stakingConfig.treeIds.length; i++) {
+            levels[i] = GAME_STORAGE.getSkill(
                 nftAddress,
                 tokenId,
                 stakingConfig.treeIds[i],
                 stakingConfig.skillIds[i]
             );
-            if (level[i] > 0) {
+            if (levels[i] > 0) {
                 leveledSkillIdCount++;
             }
-            if (level[i] == stakingConfig.maxPointsPerSkill) {
+            if (levels[i] == stakingConfig.maxPointsPerSkill) {
                 maxedSkillIdCount++;
             }
         }
@@ -429,16 +429,17 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
             return stakingConfig.skillIds;
         }
         if (maxedSkillIdCount == 2) {
-            return uint256[];
+            uint256[] memory empty;
+            return empty;
         }
         uint256[] memory all = new uint256[](stakingConfig.treeIds.length - 1);
         uint256 added = 0;
-        for (uint256 i = 0; i < levels.treeIds; i++) {
+        for (uint256 i = 0; i < levels.length; i++) {
             if ((maxedSkillIdCount == 1) && (leveledSkillIdCount == 1) && (levels[i] == 0)) {
-                all[added] = levels.skillIds[i];
+                all[added] = stakingConfig.skillIds[i];
             }
             if ((levels[i] > 0) && (levels[i] < stakingConfig.maxPointsPerSkill)) {
-                uint256[1] memory next;
+                uint256[] memory next = new uint256[](1);
                 next[0] = stakingConfig.skillIds[i];
                 return next;
             }
