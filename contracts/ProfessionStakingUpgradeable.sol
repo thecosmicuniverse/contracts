@@ -211,6 +211,17 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         TrainingStatus storage trainingStatus = _training_status[_msgSender()][nftAddress][tokenId];
         require(trainingStatus.startedAt == 0, "Training is already in progress");
 
+        uint256[] memory options = getAllowedSkillChoices(nftAddress, tokenId);
+        require(options.length > 0, "No training sessions available");
+        bool allowed = false;
+        for (uint256 i = 0; i < options.length; i++) {
+            if (options[i] == skillId) {
+                allowed = true;
+                break;
+            }
+        }
+        require(allowed, "Invalid training option");
+
         uint256 currentLevel = GAME_STORAGE.getSkill(nftAddress, tokenId, treeId, skillId);
         TrainingLevelConfig storage trainingConfig = _training_config[currentLevel + 1];
         require((currentLevel + 1) <= stakingConfig.maxPointsPerSkill, "Exceeds maximum training level");
@@ -393,6 +404,47 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
     }
 
     // internal
+
+    function getAllowedSkillChoices(address nftAddress, uint256 tokenId) public view returns(uint256[] memory) {
+        StakingConfig memory stakingConfig = _config[nftAddress];
+        require(stakingConfig.startTime > 0, "No training session configured");
+        uint256[] memory levels = new uint256[](stakingConfig.treeIds.length);
+        uint256 leveledSkillIdCount = 0;
+        uint256 maxedSkillIdCount = 0;
+        for (uint256 i = 0; i < stakingConfig.treeIds; i++) {
+            level[i] = GAME_STORAGE.getSkill(
+                nftAddress,
+                tokenId,
+                stakingConfig.treeIds[i],
+                stakingConfig.skillIds[i]
+            );
+            if (level[i] > 0) {
+                leveledSkillIdCount++;
+            }
+            if (level[i] == stakingConfig.maxPointsPerSkill) {
+                maxedSkillIdCount++;
+            }
+        }
+        if (leveledSkillIdCount == 0) {
+            return stakingConfig.skillIds;
+        }
+        if (maxedSkillIdCount == 2) {
+            return uint256[];
+        }
+        uint256[] memory all = new uint256[](stakingConfig.treeIds.length - 1);
+        uint256 added = 0;
+        for (uint256 i = 0; i < levels.treeIds; i++) {
+            if ((maxedSkillIdCount == 1) && (leveledSkillIdCount == 1) && (levels[i] == 0)) {
+                all[added] = levels.skillIds[i];
+            }
+            if ((levels[i] > 0) && (levels[i] < stakingConfig.maxPointsPerSkill)) {
+                uint256[1] memory next;
+                next[0] = stakingConfig.skillIds[i];
+                return next;
+            }
+        }
+        return all;
+    }
 
     function _clear_if_empty(ParticipantData storage data) internal {
         if ((data.nfts.length == 0) && (data.rewards.length == 0)) {
