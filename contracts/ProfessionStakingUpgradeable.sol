@@ -59,6 +59,8 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
     }
 
     struct TrainingStatus {
+        address _address;
+        uint256 tokenId;
         uint256 level;
         uint256 treeId;
         uint256 skillId;
@@ -126,19 +128,27 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
 
     // General staking
 
+    function enableStaking(address nftAddress, uint256 tokenId) public whenNotPaused {
+        StakingEnabledPointer storage skill_config = _game_storage_staking_skill_pointer[nftAddress];
+        bool unlocked = isStakingEnabled(nftAddress, tokenId);
+        require(!unlocked, "Staking already unlocked");
+        require(_config[nftAddress].startTime > 0, "Staking not configured");
+        require(_config[nftAddress].startTime <= block.timestamp, "Staking has not started");
+
+        IERC20Upgradeable token = IERC20Upgradeable(_config[nftAddress].rewardToken);
+        token.transferFrom(_msgSender(), address(this), _training_config[0].cost);
+
+        GAME_STORAGE.updateSkill(nftAddress, tokenId, skill_config.treeId, skill_config.skillId, 1);
+
+        emit StakingUnlocked(_msgSender(), nftAddress, tokenId);
+    }
+
     function stake(address nftAddress, uint256 tokenId) public whenNotPaused {
         require(_config[nftAddress].startTime > 0, "Invalid stake");
         require(_config[nftAddress].startTime <= block.timestamp, "Staking has not started");
+        require(isStakingEnabled(nftAddress, tokenId), "Staking is not unlocked for nft");
 
-        StakingEnabledPointer storage skill_config = _game_storage_staking_skill_pointer[nftAddress];
-        uint256 unlocked = GAME_STORAGE.getSkill(nftAddress, tokenId, skill_config.treeId, skill_config.skillId);
-        if (unlocked == 0) {
-            IERC20Upgradeable token = IERC20Upgradeable(_config[nftAddress].rewardToken);
-            token.transferFrom(_msgSender(), address(this), _training_config[0].cost);
-            emit StakingUnlocked(_msgSender(), nftAddress, tokenId);
-        }
         IERC721Upgradeable(nftAddress).safeTransferFrom(_msgSender(), address(this), tokenId);
-        GAME_STORAGE.updateSkill(nftAddress, tokenId, skill_config.treeId, skill_config.skillId, 1);
 
         NFT memory nft;
         nft._address = nftAddress;
@@ -236,6 +246,8 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         trainingStatus.skillId = skillId;
         trainingStatus.startedAt = block.timestamp;
         trainingStatus.completeAt = block.timestamp + trainingConfig.time;
+        trainingStatus._address = nftAddress;
+        trainingStatus.tokenId = tokenId;
 
         emit TrainingStarted(_msgSender(), nftAddress, tokenId, treeId, skillId, currentLevel + 1);
     }
@@ -389,6 +401,19 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
             rewardsArray[i] = token;
         }
         return rewardsArray;
+    }
+
+    function getStaked() public view returns(NFT[] memory) {
+        return _data[_msgSender()].nfts;
+    }
+
+    function isStakingEnabled(address nftAddress, uint256 tokenId) public view returns(bool) {
+        StakingEnabledPointer storage skill_config = _game_storage_staking_skill_pointer[nftAddress];
+        uint256 unlocked = GAME_STORAGE.getSkill(nftAddress, tokenId, skill_config.treeId, skill_config.skillId);
+        if (unlocked == 1) {
+            return true;
+        }
+        return false;
     }
 
     function getActiveTraining() public view returns (TrainingStatus[] memory) {

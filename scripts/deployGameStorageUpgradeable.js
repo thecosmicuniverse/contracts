@@ -2,6 +2,7 @@ const hre = require("hardhat");
 const { ethers, upgrades } = require("hardhat")
 require("dotenv").config()
 
+// 0xdc0B143afD1c806d142617f99c5eE037Df4bA28f
 async function deploy(name) {
     // Deploying
     console.log("Starting deployment...")
