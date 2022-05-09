@@ -1483,6 +1483,3100 @@
           }
         }
       }
+    },
+    "387820220a392fbba9399453f501c1576c71a41a5192007e51278df12fb1c55a": {
+      "address": "0xE4bD696Ac367D0dA04Add4a0Ba846Eac9Eb64566",
+      "txHash": "0x5d082a39c692601086e15598f0e64117d6c1cb8d4b8c55dc566fb474383c4682",
+      "layout": {
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:39"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:44"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:102"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\introspection\\ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)34_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:61"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:235"
+          },
+          {
+            "label": "GAME_STORAGE",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_contract(IGameStorageUpgradeable)2120",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:25"
+          },
+          {
+            "label": "_training_status",
+            "offset": 0,
+            "slot": "202",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)))",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:72"
+          },
+          {
+            "label": "_training_config",
+            "offset": 0,
+            "slot": "203",
+            "type": "t_mapping(t_uint256,t_struct(TrainingLevelConfig)2200_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:74"
+          },
+          {
+            "label": "_data",
+            "offset": 0,
+            "slot": "204",
+            "type": "t_mapping(t_address,t_struct(ParticipantData)2177_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:76"
+          },
+          {
+            "label": "_dataKeys",
+            "offset": 0,
+            "slot": "205",
+            "type": "t_struct(AddressSet)1654_storage",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:78"
+          },
+          {
+            "label": "_config",
+            "offset": 0,
+            "slot": "207",
+            "type": "t_mapping(t_address,t_struct(StakingConfig)2190_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:80"
+          },
+          {
+            "label": "_game_storage_staking_skill_pointer",
+            "offset": 0,
+            "slot": "208",
+            "type": "t_mapping(t_address,t_struct(StakingEnabledPointer)2195_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:82"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(NFT)2163_storage)dyn_storage": {
+            "label": "struct ProfessionStakingUpgradeable.NFT[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(Token)2168_storage)dyn_storage": {
+            "label": "struct ProfessionStakingUpgradeable.Token[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IGameStorageUpgradeable)2120": {
+            "label": "contract IGameStorageUpgradeable",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)))": {
+            "label": "mapping(address => mapping(address => mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus)))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage))": {
+            "label": "mapping(address => mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(ParticipantData)2177_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.ParticipantData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(StakingConfig)2190_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.StakingConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(StakingEnabledPointer)2195_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.StakingEnabledPointer)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)34_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingLevelConfig)2200_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingLevelConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(AddressSet)1654_storage": {
+            "label": "struct EnumerableSetUpgradeable.AddressSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)1353_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(NFT)2163_storage": {
+            "label": "struct ProfessionStakingUpgradeable.NFT",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "rewardFrom",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(ParticipantData)2177_storage": {
+            "label": "struct ProfessionStakingUpgradeable.ParticipantData",
+            "members": [
+              {
+                "label": "nfts",
+                "type": "t_array(t_struct(NFT)2163_storage)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "rewards",
+                "type": "t_array(t_struct(Token)2168_storage)dyn_storage",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(RoleData)34_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Set)1353_storage": {
+            "label": "struct EnumerableSetUpgradeable.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(StakingConfig)2190_storage": {
+            "label": "struct ProfessionStakingUpgradeable.StakingConfig",
+            "members": [
+              {
+                "label": "startTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "maxPointsPerSkill",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "treeIds",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "skillIds",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "rewardToken",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_struct(StakingEnabledPointer)2195_storage": {
+            "label": "struct ProfessionStakingUpgradeable.StakingEnabledPointer",
+            "members": [
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Token)2168_storage": {
+            "label": "struct ProfessionStakingUpgradeable.Token",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "amount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TrainingLevelConfig)2200_storage": {
+            "label": "struct ProfessionStakingUpgradeable.TrainingLevelConfig",
+            "members": [
+              {
+                "label": "cost",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "time",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TrainingStatus)2215_storage": {
+            "label": "struct ProfessionStakingUpgradeable.TrainingStatus",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "level",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "startedAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "completeAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        }
+      }
+    },
+    "53a8ae3648819b05f0a8b9a57495ab03834f7bf34374f79a66f8622d7186dc6c": {
+      "address": "0x535a226bf39684EB4e3bd27927654B34bCd1D62D",
+      "txHash": "0xf56424277c6fe4fce8cbf9332419fa47df8245a31db30b1f94e16c5a2c566974",
+      "layout": {
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:39"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:44"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:102"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\introspection\\ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)34_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:61"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:235"
+          },
+          {
+            "label": "GAME_STORAGE",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_contract(IGameStorageUpgradeable)2120",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:25"
+          },
+          {
+            "label": "_training_status",
+            "offset": 0,
+            "slot": "202",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)))",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:72"
+          },
+          {
+            "label": "_training_config",
+            "offset": 0,
+            "slot": "203",
+            "type": "t_mapping(t_uint256,t_struct(TrainingLevelConfig)2200_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:74"
+          },
+          {
+            "label": "_data",
+            "offset": 0,
+            "slot": "204",
+            "type": "t_mapping(t_address,t_struct(ParticipantData)2177_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:76"
+          },
+          {
+            "label": "_dataKeys",
+            "offset": 0,
+            "slot": "205",
+            "type": "t_struct(AddressSet)1654_storage",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:78"
+          },
+          {
+            "label": "_config",
+            "offset": 0,
+            "slot": "207",
+            "type": "t_mapping(t_address,t_struct(StakingConfig)2190_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:80"
+          },
+          {
+            "label": "_game_storage_staking_skill_pointer",
+            "offset": 0,
+            "slot": "208",
+            "type": "t_mapping(t_address,t_struct(StakingEnabledPointer)2195_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:82"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(NFT)2163_storage)dyn_storage": {
+            "label": "struct ProfessionStakingUpgradeable.NFT[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(Token)2168_storage)dyn_storage": {
+            "label": "struct ProfessionStakingUpgradeable.Token[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IGameStorageUpgradeable)2120": {
+            "label": "contract IGameStorageUpgradeable",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)))": {
+            "label": "mapping(address => mapping(address => mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus)))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage))": {
+            "label": "mapping(address => mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(ParticipantData)2177_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.ParticipantData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(StakingConfig)2190_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.StakingConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(StakingEnabledPointer)2195_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.StakingEnabledPointer)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)34_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingLevelConfig)2200_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingLevelConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(AddressSet)1654_storage": {
+            "label": "struct EnumerableSetUpgradeable.AddressSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)1353_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(NFT)2163_storage": {
+            "label": "struct ProfessionStakingUpgradeable.NFT",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "rewardFrom",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(ParticipantData)2177_storage": {
+            "label": "struct ProfessionStakingUpgradeable.ParticipantData",
+            "members": [
+              {
+                "label": "nfts",
+                "type": "t_array(t_struct(NFT)2163_storage)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "rewards",
+                "type": "t_array(t_struct(Token)2168_storage)dyn_storage",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(RoleData)34_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Set)1353_storage": {
+            "label": "struct EnumerableSetUpgradeable.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(StakingConfig)2190_storage": {
+            "label": "struct ProfessionStakingUpgradeable.StakingConfig",
+            "members": [
+              {
+                "label": "startTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "maxPointsPerSkill",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "treeIds",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "skillIds",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "rewardToken",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_struct(StakingEnabledPointer)2195_storage": {
+            "label": "struct ProfessionStakingUpgradeable.StakingEnabledPointer",
+            "members": [
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Token)2168_storage": {
+            "label": "struct ProfessionStakingUpgradeable.Token",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "amount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TrainingLevelConfig)2200_storage": {
+            "label": "struct ProfessionStakingUpgradeable.TrainingLevelConfig",
+            "members": [
+              {
+                "label": "cost",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "time",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TrainingStatus)2215_storage": {
+            "label": "struct ProfessionStakingUpgradeable.TrainingStatus",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "level",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "startedAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "completeAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        }
+      }
+    },
+    "eff04dc412e70fa39a27b8ad19fa3329b67418a591cba2fdc6adc01ef81fc44b": {
+      "address": "0x811969140f7bcC9A05033c9019c8C6854dF95738",
+      "txHash": "0x5a15873d6b32422b3c9acb73fad99fbd53bd70e233797ed390f5a547bc959d3c",
+      "layout": {
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:39"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:44"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:102"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\introspection\\ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)34_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:61"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:235"
+          },
+          {
+            "label": "GAME_STORAGE",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_contract(IGameStorageUpgradeable)2120",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:25"
+          },
+          {
+            "label": "_training_status",
+            "offset": 0,
+            "slot": "202",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)))",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:72"
+          },
+          {
+            "label": "_training_config",
+            "offset": 0,
+            "slot": "203",
+            "type": "t_mapping(t_uint256,t_struct(TrainingLevelConfig)2200_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:74"
+          },
+          {
+            "label": "_data",
+            "offset": 0,
+            "slot": "204",
+            "type": "t_mapping(t_address,t_struct(ParticipantData)2177_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:76"
+          },
+          {
+            "label": "_dataKeys",
+            "offset": 0,
+            "slot": "205",
+            "type": "t_struct(AddressSet)1654_storage",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:78"
+          },
+          {
+            "label": "_config",
+            "offset": 0,
+            "slot": "207",
+            "type": "t_mapping(t_address,t_struct(StakingConfig)2190_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:80"
+          },
+          {
+            "label": "_game_storage_staking_skill_pointer",
+            "offset": 0,
+            "slot": "208",
+            "type": "t_mapping(t_address,t_struct(StakingEnabledPointer)2195_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:82"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(NFT)2163_storage)dyn_storage": {
+            "label": "struct ProfessionStakingUpgradeable.NFT[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(Token)2168_storage)dyn_storage": {
+            "label": "struct ProfessionStakingUpgradeable.Token[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IGameStorageUpgradeable)2120": {
+            "label": "contract IGameStorageUpgradeable",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)))": {
+            "label": "mapping(address => mapping(address => mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus)))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage))": {
+            "label": "mapping(address => mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(ParticipantData)2177_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.ParticipantData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(StakingConfig)2190_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.StakingConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(StakingEnabledPointer)2195_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.StakingEnabledPointer)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)34_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingLevelConfig)2200_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingLevelConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(AddressSet)1654_storage": {
+            "label": "struct EnumerableSetUpgradeable.AddressSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)1353_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(NFT)2163_storage": {
+            "label": "struct ProfessionStakingUpgradeable.NFT",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "rewardFrom",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(ParticipantData)2177_storage": {
+            "label": "struct ProfessionStakingUpgradeable.ParticipantData",
+            "members": [
+              {
+                "label": "nfts",
+                "type": "t_array(t_struct(NFT)2163_storage)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "rewards",
+                "type": "t_array(t_struct(Token)2168_storage)dyn_storage",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(RoleData)34_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Set)1353_storage": {
+            "label": "struct EnumerableSetUpgradeable.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(StakingConfig)2190_storage": {
+            "label": "struct ProfessionStakingUpgradeable.StakingConfig",
+            "members": [
+              {
+                "label": "startTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "maxPointsPerSkill",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "treeIds",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "skillIds",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "rewardToken",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_struct(StakingEnabledPointer)2195_storage": {
+            "label": "struct ProfessionStakingUpgradeable.StakingEnabledPointer",
+            "members": [
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Token)2168_storage": {
+            "label": "struct ProfessionStakingUpgradeable.Token",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "amount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TrainingLevelConfig)2200_storage": {
+            "label": "struct ProfessionStakingUpgradeable.TrainingLevelConfig",
+            "members": [
+              {
+                "label": "cost",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "time",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TrainingStatus)2215_storage": {
+            "label": "struct ProfessionStakingUpgradeable.TrainingStatus",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "level",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "startedAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "completeAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        }
+      }
+    },
+    "e400ecac84e794dbe37bb3690c83634ea38a9635306839854859a606782d181b": {
+      "address": "0x1b51982A35781637DEaAa3C690b4842Dd17751d7",
+      "txHash": "0x9504d0574d69dadb9571e896972d70dda7994e2d9bbe868c185aadc759e6be6c",
+      "layout": {
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:39"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:44"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:102"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\introspection\\ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)34_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:61"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:235"
+          },
+          {
+            "label": "GAME_STORAGE",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_contract(IGameStorageUpgradeable)2120",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:25"
+          },
+          {
+            "label": "_training_status",
+            "offset": 0,
+            "slot": "202",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)))",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:72"
+          },
+          {
+            "label": "_training_config",
+            "offset": 0,
+            "slot": "203",
+            "type": "t_mapping(t_uint256,t_struct(TrainingLevelConfig)2200_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:74"
+          },
+          {
+            "label": "_data",
+            "offset": 0,
+            "slot": "204",
+            "type": "t_mapping(t_address,t_struct(ParticipantData)2177_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:76"
+          },
+          {
+            "label": "_dataKeys",
+            "offset": 0,
+            "slot": "205",
+            "type": "t_struct(AddressSet)1654_storage",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:78"
+          },
+          {
+            "label": "_config",
+            "offset": 0,
+            "slot": "207",
+            "type": "t_mapping(t_address,t_struct(StakingConfig)2190_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:80"
+          },
+          {
+            "label": "_game_storage_staking_skill_pointer",
+            "offset": 0,
+            "slot": "208",
+            "type": "t_mapping(t_address,t_struct(StakingEnabledPointer)2195_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:82"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(NFT)2163_storage)dyn_storage": {
+            "label": "struct ProfessionStakingUpgradeable.NFT[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(Token)2168_storage)dyn_storage": {
+            "label": "struct ProfessionStakingUpgradeable.Token[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IGameStorageUpgradeable)2120": {
+            "label": "contract IGameStorageUpgradeable",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)))": {
+            "label": "mapping(address => mapping(address => mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus)))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage))": {
+            "label": "mapping(address => mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(ParticipantData)2177_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.ParticipantData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(StakingConfig)2190_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.StakingConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(StakingEnabledPointer)2195_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.StakingEnabledPointer)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)34_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingLevelConfig)2200_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingLevelConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(AddressSet)1654_storage": {
+            "label": "struct EnumerableSetUpgradeable.AddressSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)1353_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(NFT)2163_storage": {
+            "label": "struct ProfessionStakingUpgradeable.NFT",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "rewardFrom",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(ParticipantData)2177_storage": {
+            "label": "struct ProfessionStakingUpgradeable.ParticipantData",
+            "members": [
+              {
+                "label": "nfts",
+                "type": "t_array(t_struct(NFT)2163_storage)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "rewards",
+                "type": "t_array(t_struct(Token)2168_storage)dyn_storage",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(RoleData)34_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Set)1353_storage": {
+            "label": "struct EnumerableSetUpgradeable.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(StakingConfig)2190_storage": {
+            "label": "struct ProfessionStakingUpgradeable.StakingConfig",
+            "members": [
+              {
+                "label": "startTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "maxPointsPerSkill",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "treeIds",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "skillIds",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "rewardToken",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_struct(StakingEnabledPointer)2195_storage": {
+            "label": "struct ProfessionStakingUpgradeable.StakingEnabledPointer",
+            "members": [
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Token)2168_storage": {
+            "label": "struct ProfessionStakingUpgradeable.Token",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "amount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TrainingLevelConfig)2200_storage": {
+            "label": "struct ProfessionStakingUpgradeable.TrainingLevelConfig",
+            "members": [
+              {
+                "label": "cost",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "time",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TrainingStatus)2215_storage": {
+            "label": "struct ProfessionStakingUpgradeable.TrainingStatus",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "level",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "startedAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "completeAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        }
+      }
+    },
+    "9375aa097b9b5d08714f7180da8eee9aa89ce25047d3a553c7e4a60fdfb3dcd9": {
+      "address": "0xA6E7b5F02f2E96C1c57010CDBAcE1958C47Ad19e",
+      "txHash": "0x46607112b0ce69f36124db829ec183e4289ad2c3fb6c5d1e33b22a48b2513ec7",
+      "layout": {
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:39"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:44"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:102"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\introspection\\ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)34_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:61"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:235"
+          },
+          {
+            "label": "GAME_STORAGE",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_contract(IGameStorageUpgradeable)2120",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:25"
+          },
+          {
+            "label": "_training_status",
+            "offset": 0,
+            "slot": "202",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)))",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:72"
+          },
+          {
+            "label": "_training_config",
+            "offset": 0,
+            "slot": "203",
+            "type": "t_mapping(t_uint256,t_struct(TrainingLevelConfig)2200_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:74"
+          },
+          {
+            "label": "_data",
+            "offset": 0,
+            "slot": "204",
+            "type": "t_mapping(t_address,t_struct(ParticipantData)2177_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:76"
+          },
+          {
+            "label": "_dataKeys",
+            "offset": 0,
+            "slot": "205",
+            "type": "t_struct(AddressSet)1654_storage",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:78"
+          },
+          {
+            "label": "_config",
+            "offset": 0,
+            "slot": "207",
+            "type": "t_mapping(t_address,t_struct(StakingConfig)2190_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:80"
+          },
+          {
+            "label": "_game_storage_staking_skill_pointer",
+            "offset": 0,
+            "slot": "208",
+            "type": "t_mapping(t_address,t_struct(StakingEnabledPointer)2195_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:82"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(NFT)2163_storage)dyn_storage": {
+            "label": "struct ProfessionStakingUpgradeable.NFT[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(Token)2168_storage)dyn_storage": {
+            "label": "struct ProfessionStakingUpgradeable.Token[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IGameStorageUpgradeable)2120": {
+            "label": "contract IGameStorageUpgradeable",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)))": {
+            "label": "mapping(address => mapping(address => mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus)))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage))": {
+            "label": "mapping(address => mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(ParticipantData)2177_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.ParticipantData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(StakingConfig)2190_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.StakingConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(StakingEnabledPointer)2195_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.StakingEnabledPointer)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)34_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingLevelConfig)2200_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingLevelConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(AddressSet)1654_storage": {
+            "label": "struct EnumerableSetUpgradeable.AddressSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)1353_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(NFT)2163_storage": {
+            "label": "struct ProfessionStakingUpgradeable.NFT",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "rewardFrom",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(ParticipantData)2177_storage": {
+            "label": "struct ProfessionStakingUpgradeable.ParticipantData",
+            "members": [
+              {
+                "label": "nfts",
+                "type": "t_array(t_struct(NFT)2163_storage)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "rewards",
+                "type": "t_array(t_struct(Token)2168_storage)dyn_storage",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(RoleData)34_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Set)1353_storage": {
+            "label": "struct EnumerableSetUpgradeable.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(StakingConfig)2190_storage": {
+            "label": "struct ProfessionStakingUpgradeable.StakingConfig",
+            "members": [
+              {
+                "label": "startTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "maxPointsPerSkill",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "treeIds",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "skillIds",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "rewardToken",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_struct(StakingEnabledPointer)2195_storage": {
+            "label": "struct ProfessionStakingUpgradeable.StakingEnabledPointer",
+            "members": [
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Token)2168_storage": {
+            "label": "struct ProfessionStakingUpgradeable.Token",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "amount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TrainingLevelConfig)2200_storage": {
+            "label": "struct ProfessionStakingUpgradeable.TrainingLevelConfig",
+            "members": [
+              {
+                "label": "cost",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "time",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TrainingStatus)2215_storage": {
+            "label": "struct ProfessionStakingUpgradeable.TrainingStatus",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "level",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "startedAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "completeAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        }
+      }
+    },
+    "3d36549978a3e8145134ac541f7472b295a5e764106385beb30e05ceb30c8a46": {
+      "address": "0xc820601EF8dBc2DDa94A243E03292De3800a2b89",
+      "txHash": "0x9d22b0c4bc4b0b5d4f39da076a7aee13b8dce9a60a607978083801d4d1f93332",
+      "layout": {
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:39"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:44"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:102"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\introspection\\ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)34_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:61"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:235"
+          },
+          {
+            "label": "GAME_STORAGE",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_contract(IGameStorageUpgradeable)2120",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:25"
+          },
+          {
+            "label": "_training_status",
+            "offset": 0,
+            "slot": "202",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)))",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:72"
+          },
+          {
+            "label": "_training_config",
+            "offset": 0,
+            "slot": "203",
+            "type": "t_mapping(t_uint256,t_struct(TrainingLevelConfig)2200_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:74"
+          },
+          {
+            "label": "_data",
+            "offset": 0,
+            "slot": "204",
+            "type": "t_mapping(t_address,t_struct(ParticipantData)2177_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:76"
+          },
+          {
+            "label": "_dataKeys",
+            "offset": 0,
+            "slot": "205",
+            "type": "t_struct(AddressSet)1654_storage",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:78"
+          },
+          {
+            "label": "_config",
+            "offset": 0,
+            "slot": "207",
+            "type": "t_mapping(t_address,t_struct(StakingConfig)2190_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:80"
+          },
+          {
+            "label": "_game_storage_staking_skill_pointer",
+            "offset": 0,
+            "slot": "208",
+            "type": "t_mapping(t_address,t_struct(StakingEnabledPointer)2195_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:82"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(NFT)2163_storage)dyn_storage": {
+            "label": "struct ProfessionStakingUpgradeable.NFT[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(Token)2168_storage)dyn_storage": {
+            "label": "struct ProfessionStakingUpgradeable.Token[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IGameStorageUpgradeable)2120": {
+            "label": "contract IGameStorageUpgradeable",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)))": {
+            "label": "mapping(address => mapping(address => mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus)))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage))": {
+            "label": "mapping(address => mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(ParticipantData)2177_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.ParticipantData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(StakingConfig)2190_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.StakingConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(StakingEnabledPointer)2195_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.StakingEnabledPointer)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)34_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingLevelConfig)2200_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingLevelConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(AddressSet)1654_storage": {
+            "label": "struct EnumerableSetUpgradeable.AddressSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)1353_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(NFT)2163_storage": {
+            "label": "struct ProfessionStakingUpgradeable.NFT",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "rewardFrom",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(ParticipantData)2177_storage": {
+            "label": "struct ProfessionStakingUpgradeable.ParticipantData",
+            "members": [
+              {
+                "label": "nfts",
+                "type": "t_array(t_struct(NFT)2163_storage)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "rewards",
+                "type": "t_array(t_struct(Token)2168_storage)dyn_storage",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(RoleData)34_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Set)1353_storage": {
+            "label": "struct EnumerableSetUpgradeable.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(StakingConfig)2190_storage": {
+            "label": "struct ProfessionStakingUpgradeable.StakingConfig",
+            "members": [
+              {
+                "label": "startTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "maxPointsPerSkill",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "treeIds",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "skillIds",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "rewardToken",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_struct(StakingEnabledPointer)2195_storage": {
+            "label": "struct ProfessionStakingUpgradeable.StakingEnabledPointer",
+            "members": [
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Token)2168_storage": {
+            "label": "struct ProfessionStakingUpgradeable.Token",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "amount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TrainingLevelConfig)2200_storage": {
+            "label": "struct ProfessionStakingUpgradeable.TrainingLevelConfig",
+            "members": [
+              {
+                "label": "cost",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "time",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TrainingStatus)2215_storage": {
+            "label": "struct ProfessionStakingUpgradeable.TrainingStatus",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "level",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "startedAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "completeAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        }
+      }
+    },
+    "51486460ef5936b6aa1074bb96c12d06fd6f458ad4d556af10ce00613e09975d": {
+      "address": "0xaA7D8B457831Cac193204a87E4DBF35074235295",
+      "txHash": "0x123efe4bee3b394c0e8da92a4bb0e7068f5a23a51b09f7c54448875500758893",
+      "layout": {
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:39"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:44"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:102"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\introspection\\ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)34_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:61"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:235"
+          },
+          {
+            "label": "GAME_STORAGE",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_contract(IGameStorageUpgradeable)2120",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:25"
+          },
+          {
+            "label": "_training_status",
+            "offset": 0,
+            "slot": "202",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)))",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:72"
+          },
+          {
+            "label": "_training_config",
+            "offset": 0,
+            "slot": "203",
+            "type": "t_mapping(t_uint256,t_struct(TrainingLevelConfig)2200_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:74"
+          },
+          {
+            "label": "_data",
+            "offset": 0,
+            "slot": "204",
+            "type": "t_mapping(t_address,t_struct(ParticipantData)2177_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:76"
+          },
+          {
+            "label": "_dataKeys",
+            "offset": 0,
+            "slot": "205",
+            "type": "t_struct(AddressSet)1654_storage",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:78"
+          },
+          {
+            "label": "_config",
+            "offset": 0,
+            "slot": "207",
+            "type": "t_mapping(t_address,t_struct(StakingConfig)2190_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:80"
+          },
+          {
+            "label": "_game_storage_staking_skill_pointer",
+            "offset": 0,
+            "slot": "208",
+            "type": "t_mapping(t_address,t_struct(StakingEnabledPointer)2195_storage)",
+            "contract": "ProfessionStakingUpgradeable",
+            "src": "contracts\\ProfessionStakingUpgradeable.sol:82"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(NFT)2163_storage)dyn_storage": {
+            "label": "struct ProfessionStakingUpgradeable.NFT[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(Token)2168_storage)dyn_storage": {
+            "label": "struct ProfessionStakingUpgradeable.Token[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IGameStorageUpgradeable)2120": {
+            "label": "contract IGameStorageUpgradeable",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)))": {
+            "label": "mapping(address => mapping(address => mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus)))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage))": {
+            "label": "mapping(address => mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(ParticipantData)2177_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.ParticipantData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(StakingConfig)2190_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.StakingConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(StakingEnabledPointer)2195_storage)": {
+            "label": "mapping(address => struct ProfessionStakingUpgradeable.StakingEnabledPointer)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)34_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingLevelConfig)2200_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingLevelConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingStatus)2215_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingUpgradeable.TrainingStatus)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(AddressSet)1654_storage": {
+            "label": "struct EnumerableSetUpgradeable.AddressSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)1353_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(NFT)2163_storage": {
+            "label": "struct ProfessionStakingUpgradeable.NFT",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "rewardFrom",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(ParticipantData)2177_storage": {
+            "label": "struct ProfessionStakingUpgradeable.ParticipantData",
+            "members": [
+              {
+                "label": "nfts",
+                "type": "t_array(t_struct(NFT)2163_storage)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "rewards",
+                "type": "t_array(t_struct(Token)2168_storage)dyn_storage",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(RoleData)34_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Set)1353_storage": {
+            "label": "struct EnumerableSetUpgradeable.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(StakingConfig)2190_storage": {
+            "label": "struct ProfessionStakingUpgradeable.StakingConfig",
+            "members": [
+              {
+                "label": "startTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "maxPointsPerSkill",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "treeIds",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "skillIds",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "rewardToken",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_struct(StakingEnabledPointer)2195_storage": {
+            "label": "struct ProfessionStakingUpgradeable.StakingEnabledPointer",
+            "members": [
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Token)2168_storage": {
+            "label": "struct ProfessionStakingUpgradeable.Token",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "amount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TrainingLevelConfig)2200_storage": {
+            "label": "struct ProfessionStakingUpgradeable.TrainingLevelConfig",
+            "members": [
+              {
+                "label": "cost",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "time",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TrainingStatus)2215_storage": {
+            "label": "struct ProfessionStakingUpgradeable.TrainingStatus",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "level",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "startedAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "completeAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        }
+      }
     }
   }
 }

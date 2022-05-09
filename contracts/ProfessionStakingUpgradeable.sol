@@ -85,8 +85,8 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
     event StakingConfigUpdated(address indexed nftAddress, address rewardToken, uint256 startTime);
     event StakingConfigDeleted(address indexed nftAddress);
 
-    event Staked(address indexed from, address indexed nftAddresss, uint256 tokenId);
-    event Unstaked(address indexed from, address indexed nftAddresss, uint256 tokenId);
+    event Staked(address indexed from, address indexed nftAddress, uint256 tokenId);
+    event Unstaked(address indexed from, address indexed nftAddress, uint256 tokenId);
 
     event Claimed(address indexed by, address indexed token, uint256 amount);
 
@@ -101,7 +101,9 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         uint256 tokenId,
         uint256 treeId,
         uint256 skillId,
-        uint256 level
+        uint256 level,
+        uint256 startedAt,
+        uint256 completeAt
     );
 
     event TrainingFinished(
@@ -111,6 +113,15 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         uint256 treeId,
         uint256 skillId,
         uint256 level
+    );
+
+    event TrainingCanceled(
+        address indexed by,
+        address indexed nftAddress,
+        uint256 tokenId,
+        uint256 treeId,
+        uint256 skillId,
+        uint256 canceledAt
     );
 
     /// @custom:oz-upgrades-unsafe-allow constructor
@@ -249,7 +260,16 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         trainingStatus._address = nftAddress;
         trainingStatus.tokenId = tokenId;
 
-        emit TrainingStarted(_msgSender(), nftAddress, tokenId, treeId, skillId, currentLevel + 1);
+        emit TrainingStarted(
+            _msgSender(),
+                nftAddress,
+                tokenId,
+                treeId,
+                skillId,
+                currentLevel + 1,
+                trainingStatus.startedAt,
+                trainingStatus.completeAt
+        );
     }
 
     function finishTraining(address nftAddress, uint256 tokenId) public {
@@ -266,6 +286,24 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
             trainingStatus.treeId,
             trainingStatus.skillId,
             trainingStatus.level
+        );
+
+        delete _training_status[_msgSender()][nftAddress][tokenId];
+    }
+
+    function cancelTraining(address nftAddress, uint256 tokenId) public {
+        TrainingStatus storage trainingStatus = _training_status[_msgSender()][nftAddress][tokenId];
+        require(trainingStatus.startedAt > 0, "Not training");
+        require(trainingStatus.completeAt > block.timestamp, "Training already finished");
+        _disburse_rewards(_msgSender());
+
+        emit TrainingCanceled(
+            _msgSender(),
+            nftAddress,
+            tokenId,
+            trainingStatus.treeId,
+            trainingStatus.skillId,
+            block.timestamp
         );
 
         delete _training_status[_msgSender()][nftAddress][tokenId];
@@ -314,15 +352,12 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
 
         _disburse_all_rewards();
 
-        StakingConfig storage config = _config[nftAddress];
-        config.rewardToken = rewardToken;
-        config.startTime = startTime;
-        config.maxPointsPerSkill = maxPointsPerSkill;
+        _config[nftAddress].rewardToken = rewardToken;
+        _config[nftAddress].startTime = startTime;
+        _config[nftAddress].maxPointsPerSkill = maxPointsPerSkill;
         for (uint256 i = 0; i < treeIds.length; i++) {
-            config.treeIds[i] = treeIds[i];
-        }
-        for (uint256 i = 0; i < skillIds.length; i++) {
-            config.skillIds[i] = skillIds[i];
+            _config[nftAddress].treeIds.push(treeIds[i]);
+            _config[nftAddress].skillIds.push(skillIds[i]);
         }
         emit StakingConfigCreated(nftAddress, rewardToken, startTime);
     }
@@ -373,34 +408,12 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
 
     // view
 
-    function pendingRewards() public view returns(Token[] memory) {
-        address[] memory tokenAddresses;
-        uint256[] memory balances;
-        Token[] memory rewards = _data[_msgSender()].rewards;
-        for (uint256 i = 0; i < rewards.length; i++) {
-            bool found = false;
-            uint256 index;
-            for (uint256 j = 0; j < tokenAddresses.length; j++) {
-                if (rewards[i]._address == tokenAddresses[j]) {
-                    found = true;
-                    index = j;
-                    break;
-                }
-            }
-            if (!found) {
-                index = tokenAddresses.length;
-                tokenAddresses[tokenAddresses.length] = rewards[i]._address;
-            }
-            balances[index] += rewards[i].amount;
+    function pendingRewards() public view returns(uint256) {
+        uint256 total = 0;
+        for (uint256 i = 0; i < _data[_msgSender()].rewards.length; i++) {
+            total += _data[_msgSender()].rewards[i].amount;
         }
-        Token[] memory rewardsArray;
-        for (uint256 i = 0; i < tokenAddresses.length; i++) {
-            Token memory token;
-            token._address = tokenAddresses[i];
-            token.amount = balances[i];
-            rewardsArray[i] = token;
-        }
-        return rewardsArray;
+        return total;
     }
 
     function getStaked() public view returns(NFT[] memory) {
@@ -417,12 +430,21 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
     }
 
     function getActiveTraining() public view returns (TrainingStatus[] memory) {
-        TrainingStatus[] memory training;
         NFT[] memory nfts = _data[_msgSender()].nfts;
+        uint256 count = 0;
         for (uint256 i = 0; i < nfts.length; i++) {
             TrainingStatus memory status = _training_status[_msgSender()][nfts[i]._address][nfts[i].tokenId];
             if (status.completeAt > 0) {
-                training[training.length] = status;
+                count++;
+            }
+        }
+        TrainingStatus[] memory training = new TrainingStatus[](count);
+        uint256 added = 0;
+        for (uint256 i = 0; i < nfts.length; i++) {
+            TrainingStatus memory status = _training_status[_msgSender()][nfts[i]._address][nfts[i].tokenId];
+            if (status.completeAt > 0) {
+                training[added] = status;
+                added++;
             }
         }
         return training;

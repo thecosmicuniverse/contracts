@@ -18,6 +18,7 @@
     "upgrade:gameStorageUpgradeable:harmonyTest": "npx hardhat run --network harmonyTest scripts/upgradeGameStorageUpgradeable.js",
     "deploy:professionStakingUpgradeable:harmony": "npx hardhat run --network harmony scripts/deployProfessionStakingUpgradeable.js",
     "upgrade:professionStakingUpgradeable:harmony": "npx hardhat run --network harmony scripts/upgradeProfessionStakingUpgradeable.js",
+    "configure:professionStakingUpgradeable:harmony": "npx hardhat run --network harmony scripts/configureProfessionStakingUpgradeable.js",
     "script:gameStorage:test": "npx hardhat run --network harmonyTest scripts/testGameStorage.js"
   },
   "author": "",

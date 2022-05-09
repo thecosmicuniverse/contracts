@@ -17,7 +17,7 @@ async function main(name, address) {
     await deploy(name, address)
 }
 
-main("GameStorageUpgradeableV2", "0x53f0E805bDFa8418213aC7e306e1C0B6c9e44714")
+main("GameStorageUpgradeable", "0xdc0B143afD1c806d142617f99c5eE037Df4bA28f")
     .then(() => process.exit(0))
     .catch((error) => {
         console.error(error)
