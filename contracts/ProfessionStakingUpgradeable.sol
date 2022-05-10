@@ -12,7 +12,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "./IGameStorageUpgradeable.sol";
 
 /**
-* @title Cosmic Universe NFT Staking v1.0.0
+* @title Cosmic Universe NFT Staking v1.4.2
 * @author @DirtyCajunRice
 */
 contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, AccessControlUpgradeable, IERC721ReceiverUpgradeable {
@@ -203,6 +203,7 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         if ((data.nfts.length == 0) && (data.rewards.length == 0)) {
             _dataKeys.remove(_msgSender());
         }
+        delete _training_status[_msgSender()][nftAddress][tokenId];
         IERC721Upgradeable(nftAddress).transferFrom(address(this), _msgSender(), tokenId);
 
         emit Unstaked(_msgSender(), nftAddress, tokenId);
@@ -541,6 +542,10 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
 
     function forceDisperse() public onlyRole(DEFAULT_ADMIN_ROLE) {
         _disburse_all_rewards();
+    }
+
+    function forceCancelTraining(address _address, address nftAddress, uint256 tokenId) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        delete _training_status[_address][nftAddress][tokenId];
     }
 
     function getTotalProfessionSkillPoints(address ntfAddress, uint256 tokenId) public view returns(uint256){
