@@ -216,6 +216,7 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
     }
 
     function claim() public {
+        _disburse_rewards(_msgSender());
         ParticipantData storage data = _data[_msgSender()];
         require(data.rewards.length > 0, "Nothing to claim");
         uint256 amountToClaim = 0;
@@ -424,6 +425,13 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         uint256 total = 0;
         for (uint256 i = 0; i < _data[_msgSender()].rewards.length; i++) {
             total += _data[_msgSender()].rewards[i].amount;
+        }
+        ParticipantData storage data = _data[_msgSender()];
+        for (uint256 i = 0; i < data.nfts.length; i++) {
+            uint256 elapsed = block.timestamp - data.nfts[i].rewardFrom;
+            StakingConfig storage config = _config[data.nfts[i]._address];
+            uint256 totalSkill = getTotalProfessionSkillPoints(data.nfts[i]._address, data.nfts[i].tokenId);
+            total += ((totalSkill + 1) * 1e18 / 1 days) * elapsed;
         }
         return total;
     }

@@ -1541,8 +1541,8 @@
       ]
     },
     "D:\\thecosmicuniverse\\contracts\\contracts\\ProfessionStakingUpgradeable.sol": {
-      "lastModificationDate": 1652091964978,
-      "contentHash": "f14055c66212af98cfbffeae19b227da",
+      "lastModificationDate": 1652178622329,
+      "contentHash": "80a58498c215320379e12daee1566aaa",
       "sourceName": "contracts/ProfessionStakingUpgradeable.sol",
       "solcConfig": {
         "version": "0.8.9",
