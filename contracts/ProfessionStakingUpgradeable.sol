@@ -155,6 +155,13 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         emit StakingUnlocked(_msgSender(), nftAddress, tokenId);
     }
 
+    function batchEnableStaking(address[] memory nftAddresses, uint256[] memory tokenIds) public whenNotPaused {
+        require(nftAddresses.length == tokenIds.length, "address count must match token count");
+        for (uint256 i = 0; i < nftAddresses.length; i++) {
+            enableStaking(nftAddresses[i], tokenIds[i]);
+        }
+    }
+
     function stake(address nftAddress, uint256 tokenId) public whenNotPaused {
         require(_config[nftAddress].startTime > 0, "Invalid stake");
         require(_config[nftAddress].startTime <= block.timestamp, "Staking has not started");
@@ -292,6 +299,20 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         );
     }
 
+    function batchStartTraining(
+        address[] memory nftAddresses,
+        uint256[] memory tokenIds,
+        uint256[] memory treeIds,
+        uint256[] memory skillIds
+    ) public whenNotPaused {
+        require(nftAddresses.length == tokenIds.length, "address count must match token count");
+        require(nftAddresses.length == treeIds.length, "address count must match tree count");
+        require(nftAddresses.length == skillIds.length, "address count must match skill count");
+        for (uint256 i = 0; i < nftAddresses.length; i++) {
+            startTraining(nftAddresses[i], tokenIds[i], treeIds[i], skillIds[0]);
+        }
+    }
+
     function finishTraining(address nftAddress, uint256 tokenId) public {
         TrainingStatus storage trainingStatus = _training_status[_msgSender()][nftAddress][tokenId];
         require(trainingStatus.startedAt > 0, "Not training");
@@ -309,6 +330,13 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         );
 
         delete _training_status[_msgSender()][nftAddress][tokenId];
+    }
+
+    function batchFinishTraining(address[] memory nftAddresses, uint256[] memory tokenIds) public {
+        require(nftAddresses.length == tokenIds.length, "address count must match token count");
+        for (uint256 i = 0; i < nftAddresses.length; i++) {
+            finishTraining(nftAddresses[i], tokenIds[i]);
+        }
     }
 
     function cancelTraining(address nftAddress, uint256 tokenId) public {
@@ -329,6 +357,12 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         delete _training_status[_msgSender()][nftAddress][tokenId];
     }
 
+    function batchCancelTraining(address[] memory nftAddresses, uint256[] memory tokenIds) public {
+        require(nftAddresses.length == tokenIds.length, "address count must match token count");
+        for (uint256 i = 0; i < nftAddresses.length; i++) {
+            cancelTraining(nftAddresses[i], tokenIds[i]);
+        }
+    }
     /// UPDATER_ROLE functions
 
     function setTrainingCost(uint256 level, uint256 cost, uint256 time) public onlyRole(UPDATER_ROLE) {
