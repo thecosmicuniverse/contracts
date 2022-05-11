@@ -81,6 +81,7 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
     // NFT collection to game storage definition for staking enabled
     mapping (address => StakingEnabledPointer) private _game_storage_staking_skill_pointer;
 
+    mapping (address => uint256) private _rewards;
     event StakingConfigCreated(address indexed nftAddress, address rewardToken, uint256 startTime);
     event StakingConfigUpdated(address indexed nftAddress, address rewardToken, uint256 startTime);
     event StakingConfigDeleted(address indexed nftAddress);
@@ -200,7 +201,7 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         for (uint256 i = 0; i < nfts.length; i++) {
             data.nfts.push(nfts[i]);
         }
-        if ((data.nfts.length == 0) && (data.rewards.length == 0)) {
+        if ((data.nfts.length == 0) && (data.rewards.length == 0) && (_rewards[_msgSender()] == 0)) {
             _dataKeys.remove(_msgSender());
         }
         delete _training_status[_msgSender()][nftAddress][tokenId];
@@ -218,25 +219,30 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
 
     function claim() public {
         _disburse_rewards(_msgSender());
-        ParticipantData storage data = _data[_msgSender()];
-        require(data.rewards.length > 0, "Nothing to claim");
-        uint256 amountToClaim = 0;
+        require(_data[_msgSender()].rewards.length > 0 || _rewards[_msgSender()] > 0, "Nothing to claim");
+        _claim(_msgSender());
+    }
+
+    function _claim(address _address) internal {
+        ParticipantData storage data = _data[_address];
+        uint256 amountToClaim = _rewards[_address];
         for (uint256 i = 0; i < data.rewards.length; i++) {
             amountToClaim += data.rewards[i].amount;
         }
         delete data.rewards;
+        _rewards[_address] = 0;
+
         IERC20Upgradeable token = IERC20Upgradeable(0x892D81221484F690C0a97d3DD18B9144A3ECDFB7);
 
         require(token.balanceOf(address(this)) >= amountToClaim, "Insufficient rewards in contract");
-        token.transfer(_msgSender(), amountToClaim);
+        token.transfer(_address, amountToClaim);
 
-        emit Claimed(_msgSender(), address(token), amountToClaim);
+        emit Claimed(_address, address(token), amountToClaim);
 
-        if ((data.nfts.length == 0) && (data.rewards.length == 0)) {
-            _dataKeys.remove(_msgSender());
+        if ((data.nfts.length == 0) && (data.rewards.length == 0) && (_rewards[_address] == 0)) {
+            _dataKeys.remove(_address);
         }
     }
-
     // training functions
     function startTraining(address nftAddress, uint256 tokenId, uint256 treeId, uint256 skillId) public whenNotPaused {
         StakingConfig storage stakingConfig = _config[nftAddress];
@@ -423,14 +429,13 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
     // view
 
     function pendingRewards() public view returns(uint256) {
-        uint256 total = 0;
+        uint256 total = _rewards[_msgSender()];
         for (uint256 i = 0; i < _data[_msgSender()].rewards.length; i++) {
             total += _data[_msgSender()].rewards[i].amount;
         }
         ParticipantData storage data = _data[_msgSender()];
         for (uint256 i = 0; i < data.nfts.length; i++) {
             uint256 elapsed = block.timestamp - data.nfts[i].rewardFrom;
-            StakingConfig storage config = _config[data.nfts[i]._address];
             uint256 totalSkill = getTotalProfessionSkillPoints(data.nfts[i]._address, data.nfts[i].tokenId);
             total += ((totalSkill + 1) * 1e18 / 1 days) * elapsed;
         }
@@ -530,13 +535,9 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         ParticipantData storage data = _data[_address];
         for (uint256 i = 0; i < data.nfts.length; i++) {
             uint256 elapsed = block.timestamp - data.nfts[i].rewardFrom;
-            StakingConfig storage config = _config[data.nfts[i]._address];
             uint256 totalSkill = getTotalProfessionSkillPoints(data.nfts[i]._address, data.nfts[i].tokenId);
             data.nfts[i].rewardFrom = block.timestamp;
-            data.rewards.push(Token({
-              _address: config.rewardToken,
-              amount: ((totalSkill + 1) * 1e18 / 1 days) * elapsed
-            }));
+            _rewards[_address] += ((totalSkill + 1) * 1e18 / 1 days) * elapsed;
         }
     }
 
