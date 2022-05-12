@@ -250,6 +250,44 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
             _dataKeys.remove(_address);
         }
     }
+
+    function _claimOldRewards(address _address, uint256 count) internal {
+        ParticipantData storage data = _data[_address];
+        require(data.rewards.length >= count, "Invalid count");
+        uint256 amountToClaim = 0;
+        uint256 min = data.rewards.length - count;
+
+        for (uint256 i = min; i < data.rewards.length; i++) {
+            amountToClaim += data.rewards[i].amount;
+        }
+        for (uint256 i = min; i < data.rewards.length; i++) {
+            data.rewards.pop();
+        }
+        IERC20Upgradeable token = IERC20Upgradeable(0x892D81221484F690C0a97d3DD18B9144A3ECDFB7);
+
+        require(token.balanceOf(address(this)) >= amountToClaim, "Insufficient rewards in contract");
+        token.transfer(_address, amountToClaim);
+
+        emit Claimed(_address, address(token), amountToClaim);
+
+        if ((data.nfts.length == 0) && (data.rewards.length == 0) && (_rewards[_address] == 0)) {
+            _dataKeys.remove(_address);
+        }
+    }
+
+    function claimOldRewards(uint256 count) public {
+        require(_data[_msgSender()].rewards.length > 0, "Invalid count");
+        _claimOldRewards(_msgSender(), count);
+    }
+
+    function forceClaimOldRewardsForAddress(address _address, uint256 count) public onlyRole(UPDATER_ROLE) {
+        require(_data[_address].rewards.length > 0, "Invalid count");
+        _claimOldRewards(_address, count);
+    }
+
+    function getOldRewards(address _address) public view returns(Token[] memory) {
+        return _data[_address].rewards;
+    }
     // training functions
     function startTraining(address nftAddress, uint256 tokenId, uint256 treeId, uint256 skillId) public whenNotPaused {
         StakingConfig storage stakingConfig = _config[nftAddress];
