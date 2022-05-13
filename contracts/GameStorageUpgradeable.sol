@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity 0.8.9;
 
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 /**
-* @title Cosmic Universe Game Storage v1.0.0
+* @title Cosmic Universe Game Storage v1.1.0
 * @author @DirtyCajunRice
+* @dev Central storage contract for Cosmic Universe NFTs 
 */
 contract GameStorageUpgradeable is Initializable, PausableUpgradeable, AccessControlUpgradeable {
 
@@ -17,10 +18,13 @@ contract GameStorageUpgradeable is Initializable, PausableUpgradeable, AccessCon
     // nftAddress > tokenId > treeId  > skillId > value
     mapping(address => mapping(uint256 => mapping(uint256 => mapping(uint256 => uint256)))) private _store;
 
+    // nftAddress > tokenId > customId  > stringValue
+    mapping(address => mapping(uint256 => mapping(uint256 => string))) private _textStore;
+
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
 
-    function initialize() initializer public {
+    function initialize() public initializer {
         __Pausable_init();
         __AccessControl_init();
 
@@ -48,6 +52,15 @@ contract GameStorageUpgradeable is Initializable, PausableUpgradeable, AccessCon
         _store[nftAddress][tokenId][treeId][skillId] = value;
     }
 
+    function updateTokenString(
+        address nftAddress,
+        uint256 tokenId,
+        uint256 customId,
+        string memory value
+    ) public whenNotPaused onlyRole(UPDATER_ROLE) {
+        _textStore[nftAddress][tokenId][customId] = value;
+    }
+
     /**
     * @dev Get a single skill value
     *
@@ -65,6 +78,39 @@ contract GameStorageUpgradeable is Initializable, PausableUpgradeable, AccessCon
         uint256 skillId
     ) public view returns (uint256 value) {
         return _store[nftAddress][tokenId][treeId][skillId];
+    }
+
+    function getSkillsByTree(
+        address nftAddress,
+        uint256 tokenId,
+        uint256 treeId,
+        uint256[] memory skillIds
+    ) public view returns (uint256[] memory) {
+        uint256[] memory values = new uint256[](skillIds.length);
+        for (uint256 i = 0; i < skillIds.length; i++) {
+            values[i] = _store[nftAddress][tokenId][treeId][skillIds[i]];
+        }
+        return values;
+    }
+
+    function getTokenString(
+        address nftAddress,
+        uint256 tokenId,
+        uint256 customId
+    ) public view returns (string memory value) {
+        return _textStore[nftAddress][tokenId][customId];
+    }
+
+    function getTokenStrings(
+        address nftAddress,
+        uint256 tokenId,
+        uint256[] memory customIds
+    ) public view returns (string[] memory) {
+        string[] memory values = new string[](customIds.length);
+        for (uint256 i = 0; i < customIds.length; i++) {
+            values[i] = _textStore[nftAddress][tokenId][customIds[i]];
+        }
+        return values;
     }
 
     /**

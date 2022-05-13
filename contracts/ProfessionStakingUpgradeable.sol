@@ -347,7 +347,7 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         require(nftAddresses.length == treeIds.length, "address count must match tree count");
         require(nftAddresses.length == skillIds.length, "address count must match skill count");
         for (uint256 i = 0; i < nftAddresses.length; i++) {
-            startTraining(nftAddresses[i], tokenIds[i], treeIds[i], skillIds[0]);
+            startTraining(nftAddresses[i], tokenIds[i], treeIds[i], skillIds[i]);
         }
     }
 

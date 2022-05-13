@@ -14,18 +14,19 @@
     "deploy:wizards3D:harmony": "npx hardhat run --network harmony scripts/deployWizards3D.js",
     "deploy:wizards3D:harmonyTest": "npx hardhat run --network harmonyTest scripts/deployWizards3D.js",
     "deploy:gameStorageUpgradeable:harmony": "npx hardhat run --network harmony scripts/deployGameStorageUpgradeable.js",
+    "upgrade:gameStorageUpgradeable:harmony": "npx hardhat run --network harmony scripts/upgradeGameStorageUpgradeable.js",
+    "script:gameStorage:test": "npx hardhat run --network harmony scripts/testGameStorage.js",
     "deploy:gameStorageUpgradeable:harmonyTest": "npx hardhat run --network harmonyTest scripts/deployGameStorageUpgradeable.js",
-    "upgrade:gameStorageUpgradeable:harmonyTest": "npx hardhat run --network harmonyTest scripts/upgradeGameStorageUpgradeable.js",
     "deploy:professionStakingUpgradeable:harmony": "npx hardhat run --network harmony scripts/deployProfessionStakingUpgradeable.js",
     "upgrade:professionStakingUpgradeable:harmony": "npx hardhat run --network harmony scripts/upgradeProfessionStakingUpgradeable.js",
-    "configure:professionStakingUpgradeable:harmony": "npx hardhat run --network harmony scripts/configureProfessionStakingUpgradeable.js",
-    "script:gameStorage:test": "npx hardhat run --network harmonyTest scripts/testGameStorage.js"
+    "configure:professionStakingUpgradeable:harmony": "npx hardhat run --network harmony scripts/configureProfessionStakingUpgradeable.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@nomiclabs/hardhat-etherscan": "^3.0.3",
     "@openzeppelin/contracts": "^4.5.0",
+    "@openzeppelin/upgrades-core": "^1.14.2",
     "dotenv": "^16.0.0",
     "hardhat": "^2.9.1"
   },
