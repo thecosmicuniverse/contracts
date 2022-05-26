@@ -22,7 +22,7 @@ This contract is for the MAGIC governance token.
 
 **COSMIC token contract**
 
-Source code: [Cosmic.sol](contracts/ERC20/Cosmic.sol)
+Source code: [Cosmic.sol](contracts/static/ERC20/Cosmic.sol)
 
 MainNet address: [0x114B697750CE6efd7D935F019d2460984Bc76942](https://explorer.harmony.one/address/0x114B697750CE6efd7D935F019d2460984Bc76942#code)
 

@@ -5,36 +5,29 @@
   "main": "index.js",
   "scripts": {
     "compile": "npx hardhat compile",
-    "deploy:cosmic:harmony": "npx hardhat run --network harmony scripts/deployCosmic.js",
-    "deploy:cosmic:harmonyTest": "npx hardhat run --network harmonyTest scripts/deployCosmic.js",
-    "deploy:testWizards2D:harmony": "npx hardhat run --network harmony scripts/deployTestWizards2D.js",
-    "deploy:testWizards2D:harmonyTest": "npx hardhat run --network harmonyTest scripts/deployTestWizards2D.js",
-    "deploy:framedWizards2D:harmony": "npx hardhat run --network harmony scripts/deployFramedWizards2D.js",
-    "deploy:framedWizards2D:harmonyTest": "npx hardhat run --network harmonyTest scripts/deployFramedWizards2D.js",
-    "deploy:wizards3D:harmony": "npx hardhat run --network harmony scripts/deployWizards3D.js",
-    "deploy:wizards3D:harmonyTest": "npx hardhat run --network harmonyTest scripts/deployWizards3D.js",
-    "deploy:gameStorageUpgradeable:harmony": "npx hardhat run --network harmony scripts/deployGameStorageUpgradeable.js",
-    "upgrade:gameStorageUpgradeable:harmony": "npx hardhat run --network harmony scripts/upgradeGameStorageUpgradeable.js",
-    "script:gameStorage:test": "npx hardhat run --network harmony scripts/testGameStorage.js",
-    "deploy:gameStorageUpgradeable:harmonyTest": "npx hardhat run --network harmonyTest scripts/deployGameStorageUpgradeable.js",
-    "deploy:professionStakingUpgradeable:harmony": "npx hardhat run --network harmony scripts/deployProfessionStakingUpgradeable.js",
-    "upgrade:professionStakingUpgradeable:harmony": "npx hardhat run --network harmony scripts/upgradeProfessionStakingUpgradeable.js",
-    "configure:professionStakingUpgradeable:harmony": "npx hardhat run --network harmony scripts/configureProfessionStakingUpgradeable.js"
+    "deploy": "npx hardhat --network harmony deployUpgradeable",
+    "upgrade": "npx hardhat --network harmony upgrade",
+    "deploy:cosmicElvesTicket": "npm run deploy -- --name CosmicElvesTicketUpgradeable",
+    "upgrade:cosmicElvesTicket": "npm run upgrade -- --name CosmicElvesTicketUpgradeable --address 0x32E6dD4e190888228e84f95D007B4B774705770d",
+    "upgrade:professionStaking": "npm run upgrade -- --name ProfessionStakingUpgradeable --address 0x8Dfc57c1c1032e08f3DF6C71A6d8b8EF88a7aC21",
+    "upgrade:gameStorage": "npm run upgrade -- --name GameStorageUpgradeable --address 0xdc0B143afD1c806d142617f99c5eE037Df4bA28f"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@nomiclabs/hardhat-etherscan": "^3.0.3",
-    "@openzeppelin/contracts": "^4.5.0",
-    "@openzeppelin/upgrades-core": "^1.14.2",
-    "dotenv": "^16.0.0",
-    "hardhat": "^2.9.1"
+    "@nomiclabs/hardhat-etherscan": "3.0.3",
+    "@openzeppelin/contracts": "4.6.0",
+    "@openzeppelin/upgrades-core": "1.14.2",
+    "dotenv": "16.0.1",
+    "hardhat": "2.9.5",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
   },
   "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.5",
-    "@nomiclabs/hardhat-waffle": "^2.0.3",
-    "@openzeppelin/contracts-upgradeable": "^4.5.2",
-    "@openzeppelin/hardhat-upgrades": "^1.16.1",
-    "ethers": "^5.6.1"
+    "@nomiclabs/hardhat-ethers": "2.0.6",
+    "@nomiclabs/hardhat-waffle": "2.0.3",
+    "@openzeppelin/contracts-upgradeable": "4.5.2",
+    "@openzeppelin/hardhat-upgrades": "1.17.0",
+    "ethers": "5.6.1"
   }
 }
