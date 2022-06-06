@@ -17,9 +17,11 @@ import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 * @title Cosmic Elves Ticket v1.0.0
 * @author @DirtyCajunRice
 */
-contract CosmicElvesTicketUpgradeable is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeable, PausableUpgradeable, AccessControlUpgradeable, ERC721BurnableUpgradeable {
+contract CosmicElvesTicketUpgradeable is Initializable, ERC721Upgradeable,
+ERC721EnumerableUpgradeable, PausableUpgradeable, AccessControlUpgradeable, ERC721BurnableUpgradeable {
     using CountersUpgradeable for CountersUpgradeable.Counter;
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.UintSet;
+    using EnumerableSetUpgradeable for EnumerableSetUpgradeable.AddressSet;
     using StringsUpgradeable for uint256;
 
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
@@ -32,16 +34,22 @@ contract CosmicElvesTicketUpgradeable is Initializable, ERC721Upgradeable, ERC72
     EnumerableSetUpgradeable.UintSet private percent15;
     EnumerableSetUpgradeable.UintSet private percent20;
 
-    IERC20Upgradeable public mintPaymentToken;
+    IERC20Upgradeable public usdc;
 
     address public treasuryAddress;
 
-    uint256 public ticketPrice;
+    uint256 public price;
     uint256 public startTime;
-    uint256 public totalTickets;
+    uint256 public cap;
 
     string public imageBaseURI;
 
+    EnumerableSetUpgradeable.AddressSet private blacklist;
+
+    modifier notBlacklisted(address _address) {
+        require(!blacklist.contains(_address), "Blacklisted address");
+        _;
+    }
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {}
 
@@ -56,11 +64,11 @@ contract CosmicElvesTicketUpgradeable is Initializable, ERC721Upgradeable, ERC72
         _grantRole(PAUSER_ROLE, msg.sender);
         _grantRole(UPDATER_ROLE, msg.sender);
 
-        mintPaymentToken = IERC20Upgradeable(0x985458E523dB3d53125813eD68c274899e9DfAb4);
-        treasuryAddress = address(0x62EFB2cAf1F3ee645Ff23B004b6e88a9A929B563);
+        usdc = IERC20Upgradeable(0x985458E523dB3d53125813eD68c274899e9DfAb4);
+        treasuryAddress = 0x62EFB2cAf1F3ee645Ff23B004b6e88a9A929B563;
         startTime = 1653310800;
-        ticketPrice = 10 ether;
-        totalTickets = 5000;
+        price = 10 ether;
+        cap = 5000;
         imageBaseURI = "https://images.cosmicuniverse.one/cosmic-elves-tickets/";
 
         if (_tokenIdCounter.current() == 0) {
@@ -71,7 +79,7 @@ contract CosmicElvesTicketUpgradeable is Initializable, ERC721Upgradeable, ERC72
     function safeMint(address to) internal {
         uint256 tokenId = _tokenIdCounter.current();
         require(startTime >= block.timestamp, "Mint has not started yet");
-        require(tokenId < totalTickets, "Sold out");
+        require(tokenId < cap, "Sold out");
 
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
@@ -79,10 +87,10 @@ contract CosmicElvesTicketUpgradeable is Initializable, ERC721Upgradeable, ERC72
         processMinted(tokenId);
     }
 
-    function mint(address to) public {
-        require(mintPaymentToken.allowance(_msgSender(), address(this)) >= ticketPrice, "Insufficient 1USDC allowance");
-        require(mintPaymentToken.balanceOf(_msgSender()) >= ticketPrice, "Insufficient 1USDC balance");
-        mintPaymentToken.transferFrom(_msgSender(), treasuryAddress, ticketPrice);
+    function mint(address to) public whenNotPaused {
+        require(usdc.allowance(_msgSender(), address(this)) >= price, "Insufficient 1USDC allowance");
+        require(usdc.balanceOf(_msgSender()) >= price, "Insufficient 1USDC balance");
+        usdc.transferFrom(_msgSender(), treasuryAddress, price);
         safeMint(to);
     }
 
@@ -133,7 +141,7 @@ contract CosmicElvesTicketUpgradeable is Initializable, ERC721Upgradeable, ERC72
 
     function discountOf(uint256 tokenId) public view returns(uint256 discount) {
         require(super._exists(tokenId), "Discount query for nonexistent token");
-        require(_tokenIdCounter.current() == totalTickets, "Minting is still live");
+        require(_tokenIdCounter.current() == cap, "Minting is still live");
         if (percent5.contains(tokenId)) {
             return 5;
         } else if (percent10.contains(tokenId)) {
@@ -165,32 +173,26 @@ contract CosmicElvesTicketUpgradeable is Initializable, ERC721Upgradeable, ERC72
 
     function tokensAndDiscountsOfOwner(address _address) public view
     returns(uint256[] memory tokens, uint256[] memory discounts) {
-        uint256 total = super.balanceOf(_address);
-        tokens = new uint256[](total);
-        discounts = new uint256[](total);
-        for (uint256 i = 0; i < total; i++) {
-            tokens[i] = super.tokenOfOwnerByIndex(_address, i);
-            discounts[i] = discountOf(tokens[i]);
-        }
-        return (tokens, discounts);
+        tokens = tokensOfOwner(_address);
+        discounts = batchDiscountOf(tokens);
     }
 
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
         uint256 discount = discountOf(tokenId);
-        string memory discountStr = _tokenIdCounter.current() == totalTickets
+        string memory discountStr = _tokenIdCounter.current() == cap
         ? string(abi.encodePacked(discount.toString(), '%'))
         : "pending";
-        string memory imageURI = string(abi.encodePacked(imageBaseURI, discount.toString()));
+        string memory imageURI = string(abi.encodePacked(imageBaseURI, discount.toString(), ".mp4"));
         bytes memory dataURI = abi.encodePacked(
             '{',
-            '"name": "Cosmic Elves Discount Ticket #', tokenId.toString(), '",',
-            '"image": "', imageURI, '",',
-            '"attributes": [',
-            '{',
-            '"trait_type": "discount",',
-            '"value": "',  discountStr, '"',
-            '}',
-            ']'
+                '"name": "Cosmic Elves Discount Ticket #', tokenId.toString(), '",',
+                '"image": "', imageURI, '",',
+                '"attributes": [',
+                    '{',
+                        '"trait_type": "discount",',
+                        '"value": "',  discountStr, '"',
+                    '}',
+                ']'
             '}'
         );
         return string(
@@ -207,12 +209,20 @@ contract CosmicElvesTicketUpgradeable is Initializable, ERC721Upgradeable, ERC72
         startTime = time;
     }
 
-    function setTicketPrice(uint256 price) public onlyRole(UPDATER_ROLE) {
-        ticketPrice = price;
+    function setTicketPrice(uint256 _price) public onlyRole(UPDATER_ROLE) {
+        price = _price;
     }
 
-    function setTotalTickets(uint256 total) public onlyRole(UPDATER_ROLE) {
-        totalTickets = total;
+    function setCap(uint256 _cap) public onlyRole(UPDATER_ROLE) {
+        cap = _cap;
+    }
+
+    function addBlacklist(address _address) public onlyRole(UPDATER_ROLE) {
+        blacklist.add(_address);
+    }
+
+    function removeBlacklist(address _address) public onlyRole(UPDATER_ROLE) {
+        blacklist.remove(_address);
     }
 
     function vrf() internal view returns (bytes32 result) {
@@ -249,15 +259,23 @@ contract CosmicElvesTicketUpgradeable is Initializable, ERC721Upgradeable, ERC72
 
     // Overrides
 
+    function approve(address to, uint256 tokenId) public virtual override notBlacklisted(to) {
+        super.approve(to, tokenId);
+    }
+
+    function setApprovalForAll(address operator, bool approved) public virtual override notBlacklisted(operator) {
+        super.setApprovalForAll(operator, approved);
+    }
+
     function _beforeTokenTransfer(address from, address to, uint256 tokenId)
     internal
     whenNotPaused
+    notBlacklisted(from)
+    notBlacklisted(to)
     override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
     {
         super._beforeTokenTransfer(from, to, tokenId);
     }
-
-    // The following functions are overrides required by Solidity.
 
     function supportsInterface(bytes4 interfaceId)
     public

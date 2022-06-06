@@ -246,7 +246,7 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
 
     function _claim(address _address) internal {
         uint256 amountToClaim = _rewards[_address];
-        if (amountToClaim >= 3000 ether) {
+        if (amountToClaim >= 20000 ether) {
             emit ClaimBlocked(_address, _data[_address].nfts.length, amountToClaim);
             return;
         }

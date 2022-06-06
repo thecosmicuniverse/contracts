@@ -8,7 +8,7 @@
     "deploy": "npx hardhat --network harmony deployUpgradeable",
     "upgrade": "npx hardhat --network harmony upgrade",
     "deploy:cosmicElvesTicket": "npm run deploy -- --name CosmicElvesTicketUpgradeable",
-    "upgrade:cosmicElvesTicket": "npm run upgrade -- --name CosmicElvesTicketUpgradeable --address 0x32E6dD4e190888228e84f95D007B4B774705770d",
+    "upgrade:cosmicElvesTicket": "npm run upgrade -- --name CosmicElvesTicketUpgradeable --address 0xdC48cECc5443cC1982926060a89392c7dF1d4892",
     "upgrade:professionStaking": "npm run upgrade -- --name ProfessionStakingUpgradeable --address 0x8Dfc57c1c1032e08f3DF6C71A6d8b8EF88a7aC21",
     "upgrade:gameStorage": "npm run upgrade -- --name GameStorageUpgradeable --address 0xdc0B143afD1c806d142617f99c5eE037Df4bA28f"
   },
@@ -26,8 +26,8 @@
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "2.0.6",
     "@nomiclabs/hardhat-waffle": "2.0.3",
-    "@openzeppelin/contracts-upgradeable": "4.5.2",
-    "@openzeppelin/hardhat-upgrades": "1.17.0",
+    "@openzeppelin/contracts-upgradeable": "4.6.0",
+    "@openzeppelin/hardhat-upgrades": "1.18.1",
     "ethers": "5.6.1"
   }
 }
