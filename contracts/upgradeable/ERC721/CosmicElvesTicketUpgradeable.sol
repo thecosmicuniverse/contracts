@@ -66,10 +66,10 @@ ERC721EnumerableUpgradeable, PausableUpgradeable, AccessControlUpgradeable, ERC7
 
         usdc = IERC20Upgradeable(0x985458E523dB3d53125813eD68c274899e9DfAb4);
         treasuryAddress = 0x62EFB2cAf1F3ee645Ff23B004b6e88a9A929B563;
-        startTime = 1653310800;
-        price = 10 ether;
+        startTime = 1654837200;
+        price = 10_000_000; // 1USDC is 6 decimals
         cap = 5000;
-        imageBaseURI = "https://images.cosmicuniverse.one/cosmic-elves-tickets/";
+        imageBaseURI = "https://images-direct.cosmicuniverse.one/elves-tickets/";
 
         if (_tokenIdCounter.current() == 0) {
             _tokenIdCounter.increment();
@@ -78,7 +78,7 @@ ERC721EnumerableUpgradeable, PausableUpgradeable, AccessControlUpgradeable, ERC7
 
     function safeMint(address to) internal {
         uint256 tokenId = _tokenIdCounter.current();
-        require(startTime >= block.timestamp, "Mint has not started yet");
+        require(startTime >= block.timestamp || hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "Mint has not started yet");
         require(tokenId < cap, "Sold out");
 
         _tokenIdCounter.increment();
@@ -105,43 +105,21 @@ ERC721EnumerableUpgradeable, PausableUpgradeable, AccessControlUpgradeable, ERC7
         uint256 rand = uint256(keccak256(abi.encodePacked(randBase, tokenId, block.number, block.timestamp)));
         uint256 outcome = rand % 1000;
         if (outcome >= 990) {
-            if (percent20.length() < 50) {
-                percent20.add(tokenId);
-                return;
-            }
-            outcome = 989;
-        }
-        if (outcome >= 950 && outcome < 990) {
-            if (percent15.length() < 200) {
-                percent15.add(tokenId);
-                return;
-            }
-            outcome = 949;
-        }
-        if (outcome >= 750 && outcome < 950) {
-            if (percent10.length() < 1000) {
-                percent10.add(tokenId);
-                return;
-            }
-        }
-        if (percent5.length() < 3750) {
-            percent5.add(tokenId);
+            percent20.add(tokenId);
             return;
-        }
-        if (percent10.length() < 1000) {
-            percent10.add(tokenId);
-            return;
-        }
-        if (percent15.length() < 200) {
+        } else if (outcome >= 950) {
             percent15.add(tokenId);
             return;
+        } else if (outcome >= 750) {
+            percent10.add(tokenId);
+            return;
+        } else {
+            percent5.add(tokenId);
         }
-        percent20.add(tokenId);
     }
 
     function discountOf(uint256 tokenId) public view returns(uint256 discount) {
         require(super._exists(tokenId), "Discount query for nonexistent token");
-        require(_tokenIdCounter.current() == cap, "Minting is still live");
         if (percent5.contains(tokenId)) {
             return 5;
         } else if (percent10.contains(tokenId)) {
@@ -179,9 +157,7 @@ ERC721EnumerableUpgradeable, PausableUpgradeable, AccessControlUpgradeable, ERC7
 
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
         uint256 discount = discountOf(tokenId);
-        string memory discountStr = _tokenIdCounter.current() == cap
-        ? string(abi.encodePacked(discount.toString(), '%'))
-        : "pending";
+        string memory discountStr = string(abi.encodePacked(discount.toString(), '%'));
         string memory imageURI = string(abi.encodePacked(imageBaseURI, discount.toString(), ".mp4"));
         bytes memory dataURI = abi.encodePacked(
             '{',
