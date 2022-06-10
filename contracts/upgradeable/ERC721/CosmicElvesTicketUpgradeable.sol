@@ -151,8 +151,9 @@ ERC721EnumerableUpgradeable, PausableUpgradeable, AccessControlUpgradeable, ERC7
 
     function tokensAndDiscountsOfOwner(address _address) public view
     returns(uint256[] memory tokens, uint256[] memory discounts) {
-        tokens = tokensOfOwner(_address);
-        discounts = batchDiscountOf(tokens);
+        uint256[] memory _tokens = tokensOfOwner(_address);
+        uint256[] memory _discounts = batchDiscountOf(_tokens);
+        return(_tokens, _discounts);
     }
 
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
