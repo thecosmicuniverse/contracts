@@ -69,7 +69,7 @@ ERC721EnumerableUpgradeable, PausableUpgradeable, AccessControlUpgradeable, ERC7
         startTime = 1654837200;
         price = 10_000_000; // 1USDC is 6 decimals
         cap = 5000;
-        imageBaseURI = "https://images-direct.cosmicuniverse.one/elves-tickets/";
+        imageBaseURI = "https://images.cosmicuniverse.one/elves-tickets/";
 
         if (_tokenIdCounter.current() == 0) {
             _tokenIdCounter.increment();
@@ -78,7 +78,7 @@ ERC721EnumerableUpgradeable, PausableUpgradeable, AccessControlUpgradeable, ERC7
 
     function safeMint(address to) internal {
         uint256 tokenId = _tokenIdCounter.current();
-        require(startTime >= block.timestamp || hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "Mint has not started yet");
+        require(startTime <= block.timestamp, "Mint has not started yet");
         require(tokenId < cap, "Sold out");
 
         _tokenIdCounter.increment();
@@ -159,7 +159,7 @@ ERC721EnumerableUpgradeable, PausableUpgradeable, AccessControlUpgradeable, ERC7
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
         uint256 discount = discountOf(tokenId);
         string memory discountStr = string(abi.encodePacked(discount.toString(), '%'));
-        string memory imageURI = string(abi.encodePacked(imageBaseURI, discount.toString(), ".mp4"));
+        string memory imageURI = string(abi.encodePacked(imageBaseURI, discount.toString()));
         bytes memory dataURI = abi.encodePacked(
             '{',
                 '"name": "Cosmic Elves Discount Ticket #', tokenId.toString(), '",',
@@ -200,6 +200,10 @@ ERC721EnumerableUpgradeable, PausableUpgradeable, AccessControlUpgradeable, ERC7
 
     function removeBlacklist(address _address) public onlyRole(UPDATER_ROLE) {
         blacklist.remove(_address);
+    }
+
+    function setImageBaseURI(string memory _imageBaseURI) public onlyRole(UPDATER_ROLE) {
+        imageBaseURI = _imageBaseURI;
     }
 
     function vrf() internal view returns (bytes32 result) {
