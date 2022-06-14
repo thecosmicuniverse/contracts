@@ -12,11 +12,11 @@ Security contact: DirtyCajunRice#0001 (Discord)
 
 #### MAGIC
 `0x892d81221484f690c0a97d3dd18b9144a3ecdfb7`  
-[Explorer][MAGIC-explorer] | [Contract.sol](original_contracts/magictoken.sol)
+[Explorer][MAGIC-explorer] | [Contract](original_contracts/magictoken.sol)
 
 #### COSMIC
 `0x114B697750CE6efd7D935F019d2460984Bc76942`  
-[Explorer][COSMIC-explorer] | [Contract.sol](contracts/static/ERC20/Cosmic.sol)
+[Explorer][COSMIC-explorer] | [Contract](contracts/static/ERC20/Cosmic.sol)
 
 #### Cosmic Wizards (2D)
 `0x37f47c343bfaf27a52bc1bd468b49d8e5ef89d67`  
