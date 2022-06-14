@@ -577,6 +577,7 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         for (uint256 i = 0; i < levels.length; i++) {
             if ((maxedSkillIdCount == 1) && (leveledSkillIdCount == 1) && (levels[i] == 0)) {
                 all[added] = stakingConfig.skillIds[i];
+                added++;
             }
             if ((levels[i] > 0) && (levels[i] < stakingConfig.maxPointsPerSkill)) {
                 uint256[] memory next = new uint256[](1);
@@ -589,6 +590,15 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
 
     function forceCancelTraining(address _address, address nftAddress, uint256 tokenId) public onlyRole(DEFAULT_ADMIN_ROLE) {
         delete _training_status[_address][nftAddress][tokenId];
+    }
+
+    function modifyActiveTrainingSkill(
+        address _address,
+        address nftAddress,
+        uint256 tokenId,
+        uint256 skillId
+    ) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        _training_status[_address][nftAddress][tokenId].skillId = skillId;
     }
 
     function adminUpdateNftData(
@@ -615,7 +625,7 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
             adminUpdateNftData(addresses[i], indexes[i], nftAddresses[i], tokenIds[i], rewardFrom[i]);
         }
     }
-    function getTotalProfessionSkillPoints(address ntfAddress, uint256 tokenId) public view returns(uint256){
+    function getTotalProfessionSkillPoints(address ntfAddress, uint256 tokenId) public view returns(uint256) {
         uint256 totalSkillPoints = 0;
         for (uint256 i = 0; i < 12; i++) {
             uint256 points = GAME_STORAGE.getSkill(ntfAddress, tokenId, 1, i);

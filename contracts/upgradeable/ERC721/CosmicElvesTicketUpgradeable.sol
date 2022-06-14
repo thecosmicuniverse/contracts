@@ -95,8 +95,12 @@ ERC721EnumerableUpgradeable, PausableUpgradeable, AccessControlUpgradeable, ERC7
     }
 
     function batchMint(address to, uint256 amount) public {
+        uint256 totalPrice = price * amount;
+        require(usdc.allowance(_msgSender(), address(this)) >= totalPrice, "Insufficient 1USDC allowance");
+        require(usdc.balanceOf(_msgSender()) >= totalPrice, "Insufficient 1USDC balance");
+        usdc.transferFrom(_msgSender(), treasuryAddress, totalPrice);
         for (uint256 i = 0; i < amount; i++) {
-            mint(to);
+            safeMint(to);
         }
     }
 
