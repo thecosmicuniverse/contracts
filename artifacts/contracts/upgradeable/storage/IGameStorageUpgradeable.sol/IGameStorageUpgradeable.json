@@ -89,12 +89,41 @@
           "type": "uint256"
         }
       ],
-      "name": "getTokenString",
+      "name": "getString",
       "outputs": [
         {
           "internalType": "string",
           "name": "value",
           "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "nftAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "tokenIds",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256",
+          "name": "customIds",
+          "type": "uint256"
+        }
+      ],
+      "name": "getStringOfTokens",
+      "outputs": [
+        {
+          "internalType": "string[]",
+          "name": "",
+          "type": "string[]"
         }
       ],
       "stateMutability": "view",
@@ -118,7 +147,7 @@
           "type": "uint256[]"
         }
       ],
-      "name": "getTokenStrings",
+      "name": "getStrings",
       "outputs": [
         {
           "internalType": "string[]",
@@ -185,7 +214,7 @@
           "type": "string"
         }
       ],
-      "name": "updateTokenString",
+      "name": "updateString",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

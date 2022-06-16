@@ -21,6 +21,8 @@ contract GameStorageUpgradeable is Initializable, PausableUpgradeable, AccessCon
     // nftAddress > tokenId > customId  > stringValue
     mapping(address => mapping(uint256 => mapping(uint256 => string))) private _textStore;
 
+    event ValueUpdated(address indexed nftAddress, uint256 indexed tokenId, uint256 treeId, uint256 skillId, uint256 value);
+    event TextUpdated(address indexed nftAddress, uint256 indexed tokenId, uint256 customId, string value);
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
 
@@ -50,15 +52,17 @@ contract GameStorageUpgradeable is Initializable, PausableUpgradeable, AccessCon
         uint256 value
     ) public whenNotPaused onlyRole(UPDATER_ROLE) {
         _store[nftAddress][tokenId][treeId][skillId] = value;
+        emit ValueUpdated(nftAddress, tokenId, treeId, skillId, value);
     }
 
-    function updateTokenString(
+    function updateString(
         address nftAddress,
         uint256 tokenId,
         uint256 customId,
         string memory value
     ) public whenNotPaused onlyRole(UPDATER_ROLE) {
         _textStore[nftAddress][tokenId][customId] = value;
+        emit TextUpdated(nftAddress, tokenId, customId, value);
     }
 
     /**
@@ -93,7 +97,7 @@ contract GameStorageUpgradeable is Initializable, PausableUpgradeable, AccessCon
         return values;
     }
 
-    function getTokenString(
+    function getString(
         address nftAddress,
         uint256 tokenId,
         uint256 customId
@@ -101,7 +105,7 @@ contract GameStorageUpgradeable is Initializable, PausableUpgradeable, AccessCon
         return _textStore[nftAddress][tokenId][customId];
     }
 
-    function getTokenStrings(
+    function getStrings(
         address nftAddress,
         uint256 tokenId,
         uint256[] memory customIds
@@ -109,6 +113,18 @@ contract GameStorageUpgradeable is Initializable, PausableUpgradeable, AccessCon
         string[] memory values = new string[](customIds.length);
         for (uint256 i = 0; i < customIds.length; i++) {
             values[i] = _textStore[nftAddress][tokenId][customIds[i]];
+        }
+        return values;
+    }
+
+    function getStringOfTokens(
+        address nftAddress,
+        uint256[] memory tokenIds,
+        uint256 customId
+    ) public view returns (string[] memory) {
+        string[] memory values = new string[](tokenIds.length);
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            values[i] = _textStore[nftAddress][tokenIds[i]][customId];
         }
         return values;
     }

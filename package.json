@@ -10,7 +10,9 @@
     "deploy:cosmicElvesTicket": "npm run deploy -- --name CosmicElvesTicketUpgradeable",
     "upgrade:cosmicElvesTicket": "npm run upgrade -- --name CosmicElvesTicketUpgradeable --address 0xdC48cECc5443cC1982926060a89392c7dF1d4892",
     "upgrade:professionStaking": "npm run upgrade -- --name ProfessionStakingUpgradeable --address 0x8Dfc57c1c1032e08f3DF6C71A6d8b8EF88a7aC21",
-    "upgrade:gameStorage": "npm run upgrade -- --name GameStorageUpgradeable --address 0xdc0B143afD1c806d142617f99c5eE037Df4bA28f"
+    "upgrade:gameStorage": "npm run upgrade -- --name GameStorageUpgradeable --address 0xdc0B143afD1c806d142617f99c5eE037Df4bA28f",
+    "deploy:assetCustomization": "npm run deploy -- --name AssetCustomizationUpgradeable",
+    "upgrade:assetCustomization": "npm run upgrade -- --name AssetCustomizationUpgradeable --address 0xdC48cECc5443cC1982926060a89392c7dF1d4892"
   },
   "author": "",
   "license": "ISC",
