@@ -76,7 +76,7 @@ ERC721EnumerableUpgradeable, PausableUpgradeable, AccessControlUpgradeable, ERC7
         }
     }
 
-    function safeMint(address to) internal {
+    function safeMint(address to) internal onlyRole(UPDATER_ROLE) {
         uint256 tokenId = _tokenIdCounter.current();
         require(startTime <= block.timestamp, "Mint has not started yet");
         require(tokenId < cap, "Sold out");
@@ -87,14 +87,14 @@ ERC721EnumerableUpgradeable, PausableUpgradeable, AccessControlUpgradeable, ERC7
         processMinted(tokenId);
     }
 
-    function mint(address to) public whenNotPaused {
+    function mint(address to) public whenNotPaused onlyRole(UPDATER_ROLE) {
         require(usdc.allowance(_msgSender(), address(this)) >= price, "Insufficient 1USDC allowance");
         require(usdc.balanceOf(_msgSender()) >= price, "Insufficient 1USDC balance");
         usdc.transferFrom(_msgSender(), treasuryAddress, price);
         safeMint(to);
     }
 
-    function batchMint(address to, uint256 amount) public {
+    function batchMint(address to, uint256 amount) public onlyRole(UPDATER_ROLE) {
         uint256 totalPrice = price * amount;
         require(usdc.allowance(_msgSender(), address(this)) >= totalPrice, "Insufficient 1USDC allowance");
         require(usdc.balanceOf(_msgSender()) >= totalPrice, "Insufficient 1USDC balance");
