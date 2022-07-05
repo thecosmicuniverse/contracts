@@ -1,19 +1,13 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.11;
+pragma solidity 0.8.9;
 
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-
+import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
-
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 import "./Constants.sol";
 
-abstract contract MarketRoyaltyUpgradeable is
-    Initializable,
-    OwnableUpgradeable,
-    Constants
-{
+abstract contract MarketRoyaltyUpgradeable is Initializable, AccessControlEnumerableUpgradeable, Constants {
     using SafeMathUpgradeable for uint256;
 
     struct RoyaltyInfo {
@@ -21,7 +15,7 @@ abstract contract MarketRoyaltyUpgradeable is
         uint256 amount;
     }
 
-    uint256 private _maxRoyaltiyBps;
+    uint256 private _maxRoyaltyBps;
     mapping(address => mapping(uint256 => RoyaltyInfo)) public royalties;
 
     event MarketRoyaltyUpdated(
@@ -30,25 +24,25 @@ abstract contract MarketRoyaltyUpgradeable is
 
     function __MarketRoyalty_int(uint256 maxRoyaltyBps) internal onlyInitializing {
         require(maxRoyaltyBps <= MAX_BPS, "MarketRoyaltyUpgradeable: Royalty > 10%");
-        _maxRoyaltiyBps = maxRoyaltyBps;
-        __Ownable_init();
+        _maxRoyaltyBps = maxRoyaltyBps;
+        __AccessControlEnumerable_init();
     }
 
     function getMarketRoyaltyConfig() external view returns (uint256) {
-        return _maxRoyaltiyBps;
+        return _maxRoyaltyBps;
     }
 
-    function setMarketRoyaltyConfig(uint256 maxRoyaltyBps) external onlyOwner {
+    function setMarketRoyaltyConfig(uint256 maxRoyaltyBps) external onlyRole(ADMIN_ROLE) {
         require(maxRoyaltyBps <= MAX_BPS, "MarketRoyaltyUpgradeable: Royalty > 10%");
 
-        _maxRoyaltiyBps = maxRoyaltyBps;
+        _maxRoyaltyBps = maxRoyaltyBps;
 
         emit MarketRoyaltyUpdated(maxRoyaltyBps);
     }
 
     function setRoyaltyFor(address from, address contractAddress, uint256 tokenId, uint256 royaltyBps) internal {
         require(royalties[contractAddress][tokenId].recipient == address(0), "MarketRoyaltyUpgradeable: Royalty already set");
-        require(royaltyBps > 0 && royaltyBps <= _maxRoyaltiyBps, "MarketRoyaltyUpgradeable: Invalid royalty");
+        require(royaltyBps > 0 && royaltyBps <= _maxRoyaltyBps, "MarketRoyaltyUpgradeable: Invalid royalty");
         royalties[contractAddress][tokenId] = RoyaltyInfo(
             from,
             royaltyBps

@@ -37,7 +37,7 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
 
     struct ParticipantData {
         NFT[] nfts;
-        Token[] rewards;
+        uint256 rewards;
     }
 
     struct StakingConfig {
@@ -144,14 +144,19 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
     }
 
     /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() initializer {}
+    constructor() {
+        _disableInitializers();
+    }
 
-    function initialize() initializer public {
+    function initialize() public initializer {
         __Pausable_init();
         __AccessControl_init();
+
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _grantRole(PAUSER_ROLE, _msgSender());
         _grantRole(UPDATER_ROLE, _msgSender());
+
+        GAME_STORAGE = IGameStorageUpgradeable(0x3a55FFC97D2183d94147c4D2d3b6991f0C09ABf4);
     }
 
     /// PUBLIC functions
@@ -245,19 +250,19 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
     }
 
     function _claim(address _address) internal {
-        uint256 amountToClaim = _rewards[_address];
+        uint256 amountToClaim = _data[_address].rewards;
         if (amountToClaim >= 20000 ether) {
             emit ClaimBlocked(_address, _data[_address].nfts.length, amountToClaim);
             return;
         }
-        _rewards[_address] = 0;
+        _data[_address].rewards = 0;
 
         IERC20Upgradeable token = IERC20Upgradeable(0x892D81221484F690C0a97d3DD18B9144A3ECDFB7);
 
         require(token.balanceOf(address(this)) >= amountToClaim, "Insufficient rewards in contract");
         token.transfer(_address, amountToClaim);
 
-        if (_data[_address].nfts.length == 0 && _rewards[_address] == 0) {
+        if (_data[_address].nfts.length == 0 && _data[_address].rewards == 0) {
             _dataKeys.remove(_msgSender());
         }
         emit Claimed(_address, address(token), amountToClaim);
@@ -485,10 +490,14 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
     }
 
     function pendingRewardsOf(address _address) public view returns(uint256) {
-        uint256 total = _rewards[_address];
+        uint256 total = _data[_address].rewards;
+        uint256 lastTime = 1656379935;
         ParticipantData storage data = _data[_address];
         for (uint256 i = 0; i < data.nfts.length; i++) {
-            uint256 elapsed = block.timestamp - data.nfts[i].rewardFrom;
+            if (data.nfts[i].rewardFrom >= lastTime) {
+                continue;
+            }
+            uint256 elapsed = lastTime - data.nfts[i].rewardFrom;
             uint256 totalSkill = getTotalProfessionSkillPoints(data.nfts[i]._address, data.nfts[i].tokenId);
             total += ((totalSkill + 1) * 1e18 / 1 days) * elapsed;
         }
@@ -641,7 +650,7 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         nfts = new NFT[][](count);
         for (uint256 i = 0; i < count; i++) {
             nfts[i] = _data[_dataKeys.at(i)].nfts;
-            rewards[i] = _rewards[_dataKeys.at(i)];
+            rewards[i] = _data[_dataKeys.at(i)].rewards;
         }
         return (_dataKeys.values(), nfts, rewards);
     }
@@ -649,7 +658,7 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
     /// internal
 
     function _clear_if_empty(address _address) internal {
-        if (_data[_address].nfts.length == 0 && _rewards[_address] == 0) {
+        if (_data[_address].nfts.length == 0 && _data[_address].rewards == 0) {
             _dataKeys.remove(_msgSender());
         }
     }
@@ -674,13 +683,13 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
     }
 
     function _disburse_nft_reward(address _address, address nftAddress, uint256 tokenId, uint256 rewardFrom) internal {
-        if (rewardFrom == 0 || rewardFrom >= block.timestamp) {
+        if (rewardFrom == 0 || rewardFrom >= 1656379935) {
             return;
         }
-        uint256 elapsed = block.timestamp - rewardFrom;
+        uint256 elapsed = 1656379935 - rewardFrom;
         uint256 totalSkill = getTotalProfessionSkillPoints(nftAddress, tokenId);
         totalSkill++; // add 1 for wizard base reward;
-        _rewards[_address] += (totalSkill * 1 ether / 1 days) * elapsed;
+        _data[_address].rewards += (totalSkill * 1 ether / 1 days) * elapsed;
     }
     /// Standard functions
 

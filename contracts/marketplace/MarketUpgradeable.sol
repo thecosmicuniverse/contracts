@@ -1,14 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.11;
+pragma solidity 0.8.9;
 
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 import "./mixins/MarketCoreUpgradeable.sol";
 
-contract MarketUpgradeable is 
-    Initializable,
-    MarketCoreUpgradeable
-{
+contract MarketUpgradeable is Initializable, MarketCoreUpgradeable {
     function initialize(uint256 maxRoyaltyBps, uint256 marketFeeBps, address treasury, uint256 nexBidPercentBps) external initializer {
         __MarketCore_init(maxRoyaltyBps, marketFeeBps, treasury, nexBidPercentBps);
     }

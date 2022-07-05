@@ -5,31 +5,78 @@
   "main": "index.js",
   "scripts": {
     "compile": "npx hardhat compile",
+
     "deploy": "npx hardhat --network harmony deployUpgradeable",
+    "deployA": "npx hardhat --network avalanche deployUpgradeable",
+
     "upgrade": "npx hardhat --network harmony upgrade",
+    "upgradeA": "npx hardhat --network avalanche upgrade",
+
     "deploy:cosmicElvesTicket": "npm run deploy -- --name CosmicElvesTicketUpgradeable",
     "upgrade:cosmicElvesTicket": "npm run upgrade -- --name CosmicElvesTicketUpgradeable --address 0xdC48cECc5443cC1982926060a89392c7dF1d4892",
+
     "upgrade:professionStaking": "npm run upgrade -- --name ProfessionStakingUpgradeable --address 0x8Dfc57c1c1032e08f3DF6C71A6d8b8EF88a7aC21",
+
     "upgrade:gameStorage": "npm run upgrade -- --name GameStorageUpgradeable --address 0xdc0B143afD1c806d142617f99c5eE037Df4bA28f",
+
     "deploy:assetCustomization": "npm run deploy -- --name AssetCustomizationUpgradeable",
-    "upgrade:assetCustomization": "npm run upgrade -- --name AssetCustomizationUpgradeable --address 0xdC48cECc5443cC1982926060a89392c7dF1d4892"
+    "upgrade:assetCustomization": "npm run upgrade -- --name AssetCustomizationUpgradeable --address 0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4",
+
+    "deploy:cosmic": "npm run deployA -- --name CosmicUpgradeable",
+    "upgrade:cosmic": "npm run upgradeA -- --name CosmicUpgradeable --address 0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4",
+
+    "deploy:magic": "npm run deployA -- --name MagicUpgradeable",
+    "upgrade:magic": "npm run upgradeA -- --name MagicUpgradeable --address 0x9A8E0217cD870783c3f2317985C57Bf570969153",
+
+    "deploy:xMagic": "npm run deployA -- --name xMagicUpgradeable",
+    "upgrade:xMagic": "npm run upgradeA -- --name xMagicUpgradeable --address 0x8a990BFE725c490CCaCFC94Ff99E835400dEEA6d",
+
+    "deploy:lMagic": "npm run deployA -- --name lMagicUpgradeable",
+    "upgrade:lMagic": "npm run upgradeA -- --name lMagicUpgradeable --address ",
+
+    "deploy:wizards": "npm run deployA -- --name CosmicWizardsUpgradeable",
+    "upgrade:wizards": "npm run upgradeA -- --name CosmicWizardsUpgradeable --address 0xBF20c23D25Fca8Aa4e7946496250D67872691Af2",
+
+    "deploy:cosmicIslandLand": "npm run deployA -- --name CosmicIslandLandUpgradeable",
+    "upgrade:cosmicIslandLand": "npm run upgradeA -- --name CosmicIslandLandUpgradeable --address 0x2fa83f2Fa89F275863B9491b1802dFeA5A130024",
+
+    "deploy:framedWizards": "npm run deployA -- --name FramedWizardsUpgradeable",
+    "upgrade:framedWizards": "npm run upgradeA -- --name FramedWizardsUpgradeable --address 0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C",
+
+    "deploy:marketplace": "npm run deployA -- --name MarketUpgradeable",
+    "upgrade:marketplace": "npm run upgradeA -- --name MarketUpgradeable --address 0x6bAbF453428227D38A4025fD0d5952cEFc350CAE",
+
+    "deploy:avalanche:gameStorage": "npm run deployA -- --name GameStorageUpgradeable",
+    "upgrade:avalanche:gameStorage": "npm run upgradeA -- --name GameStorageUpgradeable --address 0x3a55FFC97D2183d94147c4D2d3b6991f0C09ABf4",
+
+    "deploy:avalanche:professionStaking": "npm run deployA -- --name ProfessionStakingUpgradeable",
+    "upgrade:avalanche:professionStaking": "npm run upgradeA -- --name ProfessionStakingUpgradeable --address 0x437874Ddf0d0f721CE98ecdDE69E740bb357e8e0",
+
+    "deploy:avalanche:cosmicElvesTicket": "npm run deployA -- --name CosmicElvesTicketUpgradeable",
+    "upgrade:avalanche:cosmicElvesTicket": "npm run upgradeA -- --name CosmicElvesTicketUpgradeable --address 0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e",
+
+    "upgrade:simpleMasterInvestor": "npm run upgradeA -- --name SimpleMasterInvestor --address 0xc9d61e23E27A3b75B8fEf4b66a67bFC5737e6262",
+
+    "addMetadata": "npx hardhat --network avalanche run ./scripts/addMetadata.js"
+
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@nomiclabs/hardhat-etherscan": "3.0.3",
-    "@openzeppelin/contracts": "4.6.0",
-    "@openzeppelin/upgrades-core": "1.14.2",
+    "@nomiclabs/hardhat-etherscan": "3.1.0",
+    "@openzeppelin/contracts": "4.7.0",
+    "@openzeppelin/upgrades-core": "1.16.1",
     "dotenv": "16.0.1",
-    "hardhat": "2.9.5",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.4"
+    "hardhat": "2.9.9",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.4"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "2.0.6",
     "@nomiclabs/hardhat-waffle": "2.0.3",
-    "@openzeppelin/contracts-upgradeable": "4.6.0",
-    "@openzeppelin/hardhat-upgrades": "1.18.1",
-    "ethers": "5.6.1"
+    "@openzeppelin/contracts-upgradeable": "4.7.0",
+    "@openzeppelin/hardhat-upgrades": "1.19.0",
+    "@chainlink/contracts": "0.4.1",
+    "ethers": "5.6.9"
   }
 }

@@ -1,18 +1,13 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.11;
+pragma solidity 0.8.9;
 
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-
+import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 import "./Constants.sol";
 
-abstract contract AuctionConfigUpgradeable is
-    Initializable,
-    OwnableUpgradeable,
-    Constants
-{
+abstract contract AuctionConfigUpgradeable is Initializable, AccessControlEnumerableUpgradeable, Constants {
     using SafeMathUpgradeable for uint256;
 
     uint256 internal constant EXTENSION_DURATION = 15 minutes;
@@ -25,7 +20,7 @@ abstract contract AuctionConfigUpgradeable is
     );
 
     function __AuctionConfig_init(uint256 nexBidPercentBps) internal onlyInitializing {
-        __Ownable_init();
+        __AccessControlEnumerable_init();
         _nexBidPercentBps = nexBidPercentBps;
     }
 
@@ -33,7 +28,7 @@ abstract contract AuctionConfigUpgradeable is
         return (_nexBidPercentBps, EXTENSION_DURATION);
     }
 
-    function updateAuctionConfig(uint256 nexBidPercentBps) external onlyOwner {
+    function updateAuctionConfig(uint256 nexBidPercentBps) external onlyRole(ADMIN_ROLE) {
         require(0 <= nexBidPercentBps && nexBidPercentBps <= BASIS_POINTS, "AuctionCoreUpgradeable: Min increment must be >=0% and <= 100%");
         
         _nexBidPercentBps = nexBidPercentBps;

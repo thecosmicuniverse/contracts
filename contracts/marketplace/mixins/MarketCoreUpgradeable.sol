@@ -1,28 +1,27 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.11;
+pragma solidity 0.8.9;
 
-import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC721/IERC721Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC1155/IERC1155Upgradeable.sol";
-
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
-
-import "@openzeppelin/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC1155/IERC1155Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/IERC721Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 
-import "./MarketCounterUpgradable.sol";
 import "./MarketContractWhitelistUpgradeable.sol";
 import "./MarketFundDistributorUpgradeable.sol";
+import "../libraries/ArrayCheckUpgradeable.sol";
 import "./AuctionConfigUpgradeable.sol";
+import "./MarketCounterUpgradable.sol";
 
-import "../libraries/ArrayCkeckUpgradeable.sol";
 
 abstract contract MarketCoreUpgradeable is
     Initializable,
-    OwnableUpgradeable,
+    AccessControlEnumerableUpgradeable,
     ReentrancyGuardUpgradeable,
     MarketCounterUpgradable,
     MarketContractWhitelistUpgradeable,
@@ -30,9 +29,10 @@ abstract contract MarketCoreUpgradeable is
     AuctionConfigUpgradeable
 {
     using SafeMathUpgradeable for uint256;
-    using ArrayCkeckUpgradeable for uint256[];
+    using ArrayCheckUpgradeable for uint256[];
     using AddressUpgradeable for address;
     using SafeERC20Upgradeable for IERC20Upgradeable;
+    using EnumerableSetUpgradeable for EnumerableSetUpgradeable.UintSet;
 
     enum SaleType {
         AUCTION,
@@ -62,6 +62,8 @@ abstract contract MarketCoreUpgradeable is
     }
 
     mapping(uint256 => Sale) public saleIdToSale;
+
+    EnumerableSetUpgradeable.UintSet private _activeSaleIds;
 
     event SaleCreated(
         uint256 indexed saleId,
@@ -120,7 +122,7 @@ abstract contract MarketCoreUpgradeable is
     function __MarketCore_init(
         uint256 maxRoyaltyBps, uint256 marketFeeBps, address treasury, uint256 nexBidPercentBps
     ) internal onlyInitializing {
-        __Ownable_init();
+        __AccessControlEnumerable_init();
         __ReentrancyGuard_init();
         __MarketContractWhitelist_init();
         __MarketFundDistributor_int(maxRoyaltyBps, marketFeeBps, treasury);
@@ -178,6 +180,7 @@ abstract contract MarketCoreUpgradeable is
 
         uint256 saleId = _getSaleId();
         saleIdToSale[saleId] = sale;
+        _activeSaleIds.add(saleId);
 
         _transferAssets(sale.tokenType, sale.contractAddress, _msgSender(), address(this), sale.tokenIds, sale.values);
 
@@ -205,6 +208,7 @@ abstract contract MarketCoreUpgradeable is
         require(sale.seller == _msgSender(), "MarketCoreUpgradeable: Not your sale");
 
         delete saleIdToSale[saleId];
+        _activeSaleIds.remove(saleId);
 
         _transferAssets(sale.tokenType, sale.contractAddress, address(this), sale.seller, sale.tokenIds, sale.values);
         if (sale.bidder != address(0)) {
@@ -214,7 +218,7 @@ abstract contract MarketCoreUpgradeable is
         emit SaleCanceled(saleId, reason);
     }
 
-    function cancelSaleByAdmin(uint256 saleId, string memory reason) external nonReentrant onlyOwner {
+    function cancelSaleByAdmin(uint256 saleId, string memory reason) external nonReentrant onlyRole(ADMIN_ROLE) {
         require(bytes(reason).length > 0, "MarketCoreUpgradeable: Include a reason for this cancellation");
 
         Sale memory sale = saleIdToSale[saleId];
@@ -222,6 +226,7 @@ abstract contract MarketCoreUpgradeable is
         require(sale.endTime > 0, "MarketCoreUpgradeable: Sale not found");
 
         delete saleIdToSale[saleId];
+        _activeSaleIds.remove(saleId);
 
         _transferAssets(sale.tokenType, sale.contractAddress, address(this), sale.seller, sale.tokenIds, sale.values);
         if (sale.bidder != address(0)) {
@@ -280,6 +285,7 @@ abstract contract MarketCoreUpgradeable is
         require(sale.endTime < block.timestamp, "MarketCoreUpgradeable: Auction still in progress");
 
         delete saleIdToSale[saleId];
+        _activeSaleIds.remove(saleId);
 
         _transferAssets(sale.tokenType, sale.contractAddress, address(this), sale.bidder, sale.tokenIds, sale.values);
 
@@ -300,6 +306,7 @@ abstract contract MarketCoreUpgradeable is
         require(sale.seller != _msgSender(), "MarketCoreUpgradeable: Self buy");
 
         delete saleIdToSale[saleId];
+        _activeSaleIds.remove(saleId);
 
         address from = _msgSender(); 
 
@@ -382,6 +389,7 @@ abstract contract MarketCoreUpgradeable is
         require(sale.bidder == _msgSender(), "MarketCoreUpgradeable: Not your offer");
 
         delete saleIdToSale[saleId];
+        _activeSaleIds.remove(saleId);
 
         IERC20Upgradeable(sale.bidToken).safeTransfer(sale.bidder, sale.bidAmount);
 
@@ -395,6 +403,7 @@ abstract contract MarketCoreUpgradeable is
         require(sale.endTime <= block.timestamp, "MarketCoreUpgradeable: Offer is over");
         
         delete saleIdToSale[saleId];
+        _activeSaleIds.remove(saleId);
 
         _transferAssets(sale.tokenType, sale.contractAddress, _msgSender(), sale.bidder, sale.tokenIds, sale.values);
 
@@ -403,6 +412,10 @@ abstract contract MarketCoreUpgradeable is
         );
 
         emit OfferFinalized(saleId, sale.seller, sale.bidder, royalty, marketFee, sellerRev);
+    }
+
+    function activeSaleIds() public view returns (uint256[] memory) {
+        return _activeSaleIds.values();
     }
 
     uint256[1000] private ______gap;

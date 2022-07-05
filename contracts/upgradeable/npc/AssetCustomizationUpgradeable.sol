@@ -47,16 +47,18 @@ contract AssetCustomizationUpgradeable is Initializable, PausableUpgradeable, Ac
     event NameReset(address indexed from, address indexed nftAddress, uint256 tokenId);
 
     /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() initializer {}
+    constructor() {
+        _disableInitializers();
+    }
 
     function initialize() public initializer {
         __Pausable_init();
         __AccessControl_init();
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _grantRole(UPDATER_ROLE, _msgSender());
-        gameStorage = IGameStorageUpgradeable(0xdc0B143afD1c806d142617f99c5eE037Df4bA28f);
-        feeToken = IERC20Upgradeable(0x892D81221484F690C0a97d3DD18B9144A3ECDFB7);
-        treasury = 0x62EFB2cAf1F3ee645Ff23B004b6e88a9A929B563;
+        gameStorage = IGameStorageUpgradeable(0x3a55FFC97D2183d94147c4D2d3b6991f0C09ABf4);
+        feeToken = IERC20Upgradeable(0x9A8E0217cD870783c3f2317985C57Bf570969153);
+        treasury = 0xD2578A0b2631E591890f28499E9E8d73F21e5895;
         nameChangeCost = 125 ether; // 125 MAGIC
     }
 

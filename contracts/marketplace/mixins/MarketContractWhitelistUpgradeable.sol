@@ -1,16 +1,13 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.11;
+pragma solidity 0.8.9;
 
+import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-
 import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 
+import "./Constants.sol";
 
-abstract contract MarketContractWhitelistUpgradeable is
-    Initializable,
-    OwnableUpgradeable
-{
+abstract contract MarketContractWhitelistUpgradeable is Initializable, AccessControlEnumerableUpgradeable, Constants {
     using AddressUpgradeable for address;
 
     mapping(address => address) public contractAddressToBidToken;
@@ -21,10 +18,10 @@ abstract contract MarketContractWhitelistUpgradeable is
     );
 
     function __MarketContractWhitelist_init() internal onlyInitializing {
-        __Ownable_init();
+        __AccessControlEnumerable_init();
     }
 
-    function setContractBidToken(address contractAddress, address bidTokenAddress) external onlyOwner {
+    function setContractBidToken(address contractAddress, address bidTokenAddress) external onlyRole(AUTHORIZED_ROLE) {
         require(contractAddress.isContract(), "AuctionCoreUpgradeable: Not a contract");
         require(bidTokenAddress.isContract(), "AuctionCoreUpgradeable: Not a contract");
 
@@ -35,7 +32,7 @@ abstract contract MarketContractWhitelistUpgradeable is
         return contractAddressToBidToken[contractAddress];
     }
 
-    function removeContractBidToken(address contractAddress) external onlyOwner {
+    function removeContractBidToken(address contractAddress) external onlyRole(AUTHORIZED_ROLE) {
         delete contractAddressToBidToken[contractAddress];
     }
 

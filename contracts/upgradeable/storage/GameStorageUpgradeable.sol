@@ -12,8 +12,8 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 */
 contract GameStorageUpgradeable is Initializable, PausableUpgradeable, AccessControlUpgradeable {
 
+    bytes32 public constant CONTRACT_ROLE = keccak256("CONTRACT_ROLE");
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
-    bytes32 public constant UPDATER_ROLE = keccak256("UPDATER_ROLE");
 
     // nftAddress > tokenId > treeId  > skillId > value
     mapping(address => mapping(uint256 => mapping(uint256 => mapping(uint256 => uint256)))) private _store;
@@ -23,8 +23,11 @@ contract GameStorageUpgradeable is Initializable, PausableUpgradeable, AccessCon
 
     event ValueUpdated(address indexed nftAddress, uint256 indexed tokenId, uint256 treeId, uint256 skillId, uint256 value);
     event TextUpdated(address indexed nftAddress, uint256 indexed tokenId, uint256 customId, string value);
+
     /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() initializer {}
+    constructor() {
+        _disableInitializers();
+    }
 
     function initialize() public initializer {
         __Pausable_init();
@@ -32,7 +35,7 @@ contract GameStorageUpgradeable is Initializable, PausableUpgradeable, AccessCon
 
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _grantRole(PAUSER_ROLE, _msgSender());
-        _grantRole(UPDATER_ROLE, _msgSender());
+        _grantRole(CONTRACT_ROLE, _msgSender());
     }
 
     /**
@@ -50,7 +53,7 @@ contract GameStorageUpgradeable is Initializable, PausableUpgradeable, AccessCon
         uint256 treeId,
         uint256 skillId,
         uint256 value
-    ) public whenNotPaused onlyRole(UPDATER_ROLE) {
+    ) public whenNotPaused onlyRole(CONTRACT_ROLE) {
         _store[nftAddress][tokenId][treeId][skillId] = value;
         emit ValueUpdated(nftAddress, tokenId, treeId, skillId, value);
     }
@@ -60,7 +63,7 @@ contract GameStorageUpgradeable is Initializable, PausableUpgradeable, AccessCon
         uint256 tokenId,
         uint256 customId,
         string memory value
-    ) public whenNotPaused onlyRole(UPDATER_ROLE) {
+    ) public whenNotPaused onlyRole(CONTRACT_ROLE) {
         _textStore[nftAddress][tokenId][customId] = value;
         emit TextUpdated(nftAddress, tokenId, customId, value);
     }
