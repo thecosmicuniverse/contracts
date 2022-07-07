@@ -100,6 +100,19 @@ contract GameStorageUpgradeable is Initializable, PausableUpgradeable, AccessCon
         return values;
     }
 
+    function getSkillOfTokens(
+        address nftAddress,
+        uint256[] memory tokenIds,
+        uint256 treeId,
+        uint256 skillId
+    ) public view returns (uint256[] memory) {
+        uint256[] memory values = new uint256[](tokenIds.length);
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            values[i] = _store[nftAddress][tokenIds[i]][treeId][skillId];
+        }
+        return values;
+    }
+
     function getString(
         address nftAddress,
         uint256 tokenId,

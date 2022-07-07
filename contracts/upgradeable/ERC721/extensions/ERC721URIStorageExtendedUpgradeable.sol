@@ -33,6 +33,10 @@ abstract contract ERC721URIStorageExtendedUpgradeable is Initializable, ERC721Up
         );
     }
 
+    function _setImageBaseURI(string memory _imageBaseURI) internal virtual {
+        imageBaseURI = _imageBaseURI;
+    }
+
     function _setTokenURI(uint256 tokenId, bytes memory _tokenURI) internal virtual {
         require(_exists(tokenId), "ERC721URIStorage: URI set of nonexistent token");
         _tokenURIs[tokenId] = _tokenURI;

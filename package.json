@@ -50,13 +50,14 @@
     "upgrade:avalanche:gameStorage": "npm run upgradeA -- --name GameStorageUpgradeable --address 0x3a55FFC97D2183d94147c4D2d3b6991f0C09ABf4",
 
     "deploy:avalanche:professionStaking": "npm run deployA -- --name ProfessionStakingUpgradeable",
-    "upgrade:avalanche:professionStaking": "npm run upgradeA -- --name ProfessionStakingUpgradeable --address 0x437874Ddf0d0f721CE98ecdDE69E740bb357e8e0",
+    "upgrade:avalanche:professionStaking": "npm run upgradeA -- --name ProfessionStakingUpgradeable --address 0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1",
 
     "deploy:avalanche:cosmicElvesTicket": "npm run deployA -- --name CosmicElvesTicketUpgradeable",
     "upgrade:avalanche:cosmicElvesTicket": "npm run upgradeA -- --name CosmicElvesTicketUpgradeable --address 0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e",
 
     "upgrade:simpleMasterInvestor": "npm run upgradeA -- --name SimpleMasterInvestor --address 0xc9d61e23E27A3b75B8fEf4b66a67bFC5737e6262",
 
+    "addMetadata:hmy": "npx hardhat --network harmony run ./scripts/addMetadata.js",
     "addMetadata": "npx hardhat --network avalanche run ./scripts/addMetadata.js"
 
   },
