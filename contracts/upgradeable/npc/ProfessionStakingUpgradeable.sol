@@ -204,7 +204,7 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         NFT storage nft = pd.nfts[tokenId];
         nft._address = nftAddress;
         nft.tokenId = tokenId;
-        nft.rewardFrom == block.timestamp;
+        nft.rewardFrom = block.timestamp;
         pd.nftIds.add(tokenId);
 
         emit Staked(_msgSender(), nftAddress, tokenId);
