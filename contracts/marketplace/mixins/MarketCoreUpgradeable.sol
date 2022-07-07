@@ -127,6 +127,10 @@ abstract contract MarketCoreUpgradeable is
         __MarketContractWhitelist_init();
         __MarketFundDistributor_int(maxRoyaltyBps, marketFeeBps, treasury);
         __AuctionConfig_init(nexBidPercentBps);
+
+        _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        _grantRole(ADMIN_ROLE, _msgSender());
+        _grantRole(AUTHORIZED_ROLE, _msgSender());
     }
 
     function _transferAssets(

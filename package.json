@@ -44,7 +44,7 @@
     "upgrade:framedWizards": "npm run upgradeA -- --name FramedWizardsUpgradeable --address 0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C",
 
     "deploy:marketplace": "npm run deployA -- --name MarketUpgradeable",
-    "upgrade:marketplace": "npm run upgradeA -- --name MarketUpgradeable --address 0x6bAbF453428227D38A4025fD0d5952cEFc350CAE",
+    "upgrade:marketplace": "npm run upgradeA -- --name MarketUpgradeable --address 0x5202e45EbA7F58E350AA58B59dEB64a668654007",
 
     "deploy:avalanche:gameStorage": "npm run deployA -- --name GameStorageUpgradeable",
     "upgrade:avalanche:gameStorage": "npm run upgradeA -- --name GameStorageUpgradeable --address 0x3a55FFC97D2183d94147c4D2d3b6991f0C09ABf4",
