@@ -35,27 +35,28 @@ contract xMagicUpgradeable is Initializable, PausableUpgradeable, AccessControlU
     }
 
     function deposit(uint256 amount) public whenNotPaused {
-        uint256 balance = BASE_TOKEN.balanceOf(address(this));
+        uint256 totalGovernanceToken = BASE_TOKEN.balanceOf(address(this));
 
-        uint256 total = totalSupply();
+        uint256 totalShares = totalSupply();
+
+        if (totalShares == 0 || totalGovernanceToken == 0) {
+            _mint(_msgSender(), amount);
+        } else {
+            uint256 what = amount * totalShares / totalGovernanceToken;
+            _mint(_msgSender(), what);
+        }
 
         BASE_TOKEN.transferFrom(_msgSender(), address(this), amount);
-
-        uint256 due = (total == 0 || balance == 0) ? amount : amount * total / balance;
-
-        _mint(_msgSender(), due);
     }
 
     function withdraw(uint256 amount) public {
-        uint256 balance = BASE_TOKEN.balanceOf(address(this));
+        uint256 totalShares = totalSupply();
 
-        uint256 total = totalSupply();
+        uint256 what = amount * BASE_TOKEN.balanceOf(address(this)) / totalShares;
 
-        uint256 due = amount * balance / total;
+        _burn(_msgSender(), amount);
 
-        _burn(_msgSender(), due);
-
-        BASE_TOKEN.transfer(_msgSender(), due);
+        BASE_TOKEN.transfer(_msgSender(), what);
     }
 
     function pause() public onlyRole(PAUSER_ROLE) {

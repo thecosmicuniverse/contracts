@@ -84,6 +84,11 @@ contract SimpleMasterInvestor is Initializable, AccessControlUpgradeable, Reentr
     mapping(uint256 => mapping(address => UserInfo)) public userInfo;
     mapping(IERC20ExtendedUpgradeable => bool) public poolExistence;
 
+    // added Back
+    uint256 public FINISH_BONUS_AT_TIME;
+    uint256[] public HALVING_AT_TIMES;
+    uint256[] public REWARD_MULTIPLIERS;
+    uint256[] public PERCENT_LOCK_BONUS_REWARD;
 
     event Deposit(address indexed user, uint256 indexed pid, uint256 amount);
     event Withdraw(address indexed user, uint256 indexed pid, uint256 amount);
@@ -126,6 +131,18 @@ contract SimpleMasterInvestor is Initializable, AccessControlUpgradeable, Reentr
         return poolInfo.length;
     }
 
+    function reconfigure() public onlyRole(ADMIN_ROLE) {
+        REWARD_MULTIPLIERS = [1, 1, 1, 1, 1, 1, 1, 1, 1];
+        PERCENT_LOCK_BONUS_REWARD = [17, 15, 13, 11, 9, 7, 5, 3, 1];
+        uint256 halvingAfterTime = 7 days;
+        for (uint256 i = 0; i < REWARD_MULTIPLIERS.length - 1; i++) {
+            uint256 halvingAtTime = (halvingAfterTime * (i+1)) + START_TIME + 1;
+            HALVING_AT_TIMES.push(halvingAtTime);
+        }
+        FINISH_BONUS_AT_TIME = (halvingAfterTime * (REWARD_MULTIPLIERS.length - 1)) + START_TIME;
+        HALVING_AT_TIMES.push(2**256 - 1);
+    }
+
     // Add a new lp to the pool. Can only be called by the owner.
     function add(uint256 _allocPoint, IERC20ExtendedUpgradeable _lpToken, bool _withUpdate) public onlyRole(ADMIN_ROLE) nonDuplicated(_lpToken) {
         require(poolId[address(_lpToken)] == 0, "MasterInvestor::add: lp is already in pool");
@@ -138,11 +155,11 @@ contract SimpleMasterInvestor is Initializable, AccessControlUpgradeable, Reentr
         poolExistence[_lpToken] = true;
         poolInfo.push(
             PoolInfo({
-                lpToken: _lpToken,
-                allocPoint: _allocPoint,
-                lastRewardTime: lastRewardTime,
-                accGovTokenPerShare: 0
-            })
+        lpToken: _lpToken,
+        allocPoint: _allocPoint,
+        lastRewardTime: lastRewardTime,
+        accGovTokenPerShare: 0
+        })
         );
     }
 
@@ -186,22 +203,58 @@ contract SimpleMasterInvestor is Initializable, AccessControlUpgradeable, Reentr
         GovTokenForCom,
         GovTokenForFounders
         ) = getPoolReward(pool.lastRewardTime, block.timestamp, pool.allocPoint);
-        // Mint some new tokens for the farmer and store them in MasterInvestor.
+        // Mint some new EVO tokens for the farmer and store them in MasterInvestor.
         GOV_TOKEN.mint(address(this), GovTokenForFarmer);
         pool.accGovTokenPerShare += (GovTokenForFarmer * 1e12) / lpSupply;
         pool.lastRewardTime = block.timestamp;
 
         if (GovTokenForDev > 0) {
-            GOV_TOKEN.mint(address(DEV_FUND_ADDRESS), GovTokenForDev);
+            uint256 cEVOForDev = (block.timestamp <= FINISH_BONUS_AT_TIME)
+            ? ((GovTokenForDev * 75) / 100)
+            : 0;
+            uint256 govTokenForDev = block.timestamp <= FINISH_BONUS_AT_TIME
+            ? ((GovTokenForDev * 25) / 100)
+            : GovTokenForDev;
+            GOV_TOKEN.mint(address(DEV_FUND_ADDRESS), govTokenForDev);
+            if (cEVOForDev > 0) {
+                GOV_TOKEN.mint(address(DEV_FUND_ADDRESS), cEVOForDev);
+            }
         }
         if (GovTokenForLP > 0) {
-            GOV_TOKEN.mint(address(FEE_SHARE_FUND_ADDRESS), GovTokenForLP);
+            uint256 cEVOForLP = (block.timestamp <= FINISH_BONUS_AT_TIME)
+            ? ((GovTokenForLP * 45) / 100)
+            : 0;
+            uint256 govTokenForLP = block.timestamp <= FINISH_BONUS_AT_TIME
+            ? ((GovTokenForLP * 55) / 100)
+            : GovTokenForLP;
+            GOV_TOKEN.mint(address(FEE_SHARE_FUND_ADDRESS), govTokenForLP);
+            if (cEVOForLP > 0) {
+                GOV_TOKEN.mint(address(FEE_SHARE_FUND_ADDRESS), cEVOForLP);
+            }
         }
         if (GovTokenForCom > 0) {
-            GOV_TOKEN.mint(address(MARKETING_FUND_ADDRESS), GovTokenForCom);
+            uint256 cEVOForCom = (block.timestamp <= FINISH_BONUS_AT_TIME)
+            ? ((GovTokenForCom * 85) / 100)
+            : 0;
+            uint256 govTokenForCom = block.timestamp <= FINISH_BONUS_AT_TIME
+            ? ((GovTokenForCom * 15) / 100)
+            : GovTokenForCom;
+            GOV_TOKEN.mint(address(MARKETING_FUND_ADDRESS), govTokenForCom);
+            if (cEVOForCom > 0) {
+                GOV_TOKEN.mint(address(MARKETING_FUND_ADDRESS), cEVOForCom);
+            }
         }
         if (GovTokenForFounders > 0) {
-            GOV_TOKEN.mint(address(FOUNDERS_FUND_ADDRESS), GovTokenForFounders);
+            uint256 cEVOForFounders = (block.timestamp <= FINISH_BONUS_AT_TIME)
+            ? ((GovTokenForFounders * 95) / 100)
+            : 0;
+            uint256 govTokenForFounders = block.timestamp <= FINISH_BONUS_AT_TIME
+            ? ((GovTokenForFounders * 5) / 100)
+            : GovTokenForFounders;
+            GOV_TOKEN.mint(address(FOUNDERS_FUND_ADDRESS), govTokenForFounders);
+            if (cEVOForFounders > 0) {
+                GOV_TOKEN.mint(address(FOUNDERS_FUND_ADDRESS), cEVOForFounders);
+            }
         }
     }
 
@@ -209,18 +262,48 @@ contract SimpleMasterInvestor is Initializable, AccessControlUpgradeable, Reentr
     // [20, 30, 40, 50, 60, 70, 80, 99999999]
     // Return reward multiplier over the given _from to _to time.
     function getMultiplier(uint256 _from, uint256 _to) public view returns (uint256) {
-        _to;
-        return _from < START_TIME ? 0 : 1;
+        uint256 result = 0;
+        if (_from < START_TIME) return 0;
+
+        for (uint256 i = 0; i < HALVING_AT_TIMES.length; i++) {
+            uint256 endTime = HALVING_AT_TIMES[i];
+            if (i > REWARD_MULTIPLIERS.length - 1) return 0;
+
+            if (_to <= endTime) {
+                uint256 m = ((_to - _from) * REWARD_MULTIPLIERS[i]);
+                return result + m;
+            }
+
+            if (_from < endTime) {
+                uint256 m = ((endTime - _from) * REWARD_MULTIPLIERS[i]);
+                _from = endTime;
+                result += m;
+            }
+        }
+
+        return result;
     }
 
     function getLockPercentage(uint256 _from, uint256 _to) public view returns (uint256) {
-        _to;
-        return _from < START_TIME ? 100 : 0;
+        uint256 result = 0;
+        if (_from < START_TIME) return 100;
+
+        for (uint256 i = 0; i < HALVING_AT_TIMES.length; i++) {
+            uint256 endTime = HALVING_AT_TIMES[i];
+            if (i > PERCENT_LOCK_BONUS_REWARD.length - 1) return 0;
+
+            if (_to <= endTime) {
+                return PERCENT_LOCK_BONUS_REWARD[i];
+            }
+        }
+
+        return result;
     }
 
     function getPoolReward(uint256 _from, uint256 _to, uint256 _allocPoint) public view
     returns (uint256 forDev, uint256 forFarmer, uint256 forLP, uint256 forCom, uint256 forFounders) {
-        uint256 amount = (REWARD_PER_SECOND * _allocPoint) / TOTAL_ALLOCATION_POINTS;
+        uint256 multiplier = getMultiplier(_from, _to);
+        uint256 amount = (((multiplier * REWARD_PER_SECOND) * _allocPoint) / TOTAL_ALLOCATION_POINTS);
         uint256 GovernanceTokenCanMint = GOV_TOKEN.cap() - GOV_TOKEN.totalSupply();
 
         if (GovernanceTokenCanMint < amount) {
@@ -267,11 +350,12 @@ contract SimpleMasterInvestor is Initializable, AccessControlUpgradeable, Reentr
         _harvest(_pid);
     }
 
-
+    // lock a % of reward if it comes from bonus time.
     function _harvest(uint256 _pid) internal {
         _harvestFor(_pid, _msgSender());
     }
 
+    // lock a % of reward if it comes from bonus time.
     function _harvestFor(uint256 _pid, address _address) internal {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][_address];
@@ -290,12 +374,22 @@ contract SimpleMasterInvestor is Initializable, AccessControlUpgradeable, Reentr
             }
 
             if (pending > 0) {
-                GOV_TOKEN.transfer(_address, pending);
 
+
+                uint256 lockAmount = 0;
+                if (user.rewardDebtAtTime <= FINISH_BONUS_AT_TIME) {
+                    uint256 lockPercentage = getLockPercentage(block.timestamp - 1, block.timestamp);
+                    lockAmount = ((pending * lockPercentage) / 100);
+
+                }
+                GOV_TOKEN.transfer(_address, pending - lockAmount);
+                if (lockAmount > 0) {
+                    GOV_TOKEN.mint(_address, lockAmount);
+                }
                 // Reset the rewardDebtAtTime to the current time for the user.
                 user.rewardDebtAtTime = block.timestamp;
 
-                emit SendGovernanceTokenReward(_address, _pid, pending, 0);
+                emit SendGovernanceTokenReward(_address, _pid, pending, lockAmount);
             }
             // Recalculate the rewardDebt for the user.
             user.rewardDebt = (user.amount * pool.accGovTokenPerShare) / 1e12;
@@ -313,7 +407,7 @@ contract SimpleMasterInvestor is Initializable, AccessControlUpgradeable, Reentr
         // When a user deposits, we need to update the pool and harvest beforehand,
         // since the rates will change.
         updatePool(_pid);
-        (_pid);
+        _harvest(_pid);
         pool.lpToken.safeTransferFrom(_msgSender(), address(this), _amount);
         if (user.amount == 0) {
             user.rewardDebtAtTime = block.timestamp;
@@ -344,7 +438,7 @@ contract SimpleMasterInvestor is Initializable, AccessControlUpgradeable, Reentr
             } else {
                 user.timeDelta = block.timestamp - user.firstDepositTime;
             }
-            uint256 userAmount = 0;
+            uint256 userAmount = _amount;
             uint256 devAmount = 0;
             if (block.timestamp == user.lastDepositTime) {
                 // 25% fee for withdrawals of LP tokens in the same second. This is to prevent abuse from flash loans
@@ -372,11 +466,11 @@ contract SimpleMasterInvestor is Initializable, AccessControlUpgradeable, Reentr
                 devAmount = (_amount * DEV_FEE_STAGES[5]) / 1000;
             } else if (user.timeDelta >= 2 weeks && user.timeDelta < 4 weeks) {
                 //0.25% fee if a user deposits and withdraws after 2 weeks.
-                userAmount = (_amount * USER_FEE_STAGES[6]) / 10000;
+                // userAmount = (_amount * USER_FEE_STAGES[6]) / 10000;
                 devAmount = (_amount * DEV_FEE_STAGES[6]) / 10000;
             } else if (user.timeDelta >= 4 weeks) {
                 //0.1% fee if a user deposits and withdraws after 4 weeks
-                userAmount = (_amount * USER_FEE_STAGES[7]) / 10000;
+                // userAmount = (_amount * USER_FEE_STAGES[7]) / 10000;
                 devAmount = (_amount * DEV_FEE_STAGES[7]) / 10000;
             } else {
                 revert("Something is very broken");
@@ -440,9 +534,29 @@ contract SimpleMasterInvestor is Initializable, AccessControlUpgradeable, Reentr
         return block.timestamp - user.firstDepositTime;
     }
 
+    // Update Finish Bonus Time
+    function updateLastRewardTime(uint256 time) public onlyRole(ADMIN_ROLE) {
+        FINISH_BONUS_AT_TIME = time;
+    }
+
+    // Update Halving At Time
+    function updateHalvingAtTimes(uint256[] memory times) public onlyRole(ADMIN_ROLE) {
+        HALVING_AT_TIMES = times;
+    }
+
     // Update Reward Per Second
     function updateRewardPerSecond(uint256 reward) public onlyRole(ADMIN_ROLE) {
         REWARD_PER_SECOND = reward;
+    }
+
+    // Update Rewards Multiplier Array
+    function updateRewardMultipliers(uint256[] memory multipliers) public onlyRole(ADMIN_ROLE) {
+        REWARD_MULTIPLIERS = multipliers;
+    }
+
+    // Update % lock for general users
+    function updateUserLockPercents(uint256[] memory lockPercents) public onlyRole(ADMIN_ROLE) {
+        PERCENT_LOCK_BONUS_REWARD = lockPercents;
     }
 
     // Update START_TIME

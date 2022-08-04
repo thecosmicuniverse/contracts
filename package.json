@@ -6,56 +6,73 @@
   "scripts": {
     "compile": "npx hardhat compile",
 
-    "deploy": "npx hardhat --network harmony deployUpgradeable",
-    "deployA": "npx hardhat --network avalanche deployUpgradeable",
+    "deploy:harmony": "npx hardhat --network harmony deployUpgradeable",
+    "deploy:avalanche": "npx hardhat --network avalanche deployUpgradeable",
 
-    "upgrade": "npx hardhat --network harmony upgrade",
-    "upgradeA": "npx hardhat --network avalanche upgrade",
+    "upgrade:harmony": "npx hardhat --network harmony upgrade",
+    "upgrade:avalanche": "npx hardhat --network avalanche upgrade",
+
+    "verify:avalanche": "npx hardhat --network avalanche verify",
 
     "deploy:cosmicElvesTicket": "npm run deploy -- --name CosmicElvesTicketUpgradeable",
     "upgrade:cosmicElvesTicket": "npm run upgrade -- --name CosmicElvesTicketUpgradeable --address 0xdC48cECc5443cC1982926060a89392c7dF1d4892",
 
-    "upgrade:professionStaking": "npm run upgrade -- --name ProfessionStakingUpgradeable --address 0x8Dfc57c1c1032e08f3DF6C71A6d8b8EF88a7aC21",
+    "upgrade:professionStaking": "npm run upgrade:harmony -- --name ProfessionStakingHarmonyUpgradeable --address 0x8Dfc57c1c1032e08f3DF6C71A6d8b8EF88a7aC21",
 
     "upgrade:gameStorage": "npm run upgrade -- --name GameStorageUpgradeable --address 0xdc0B143afD1c806d142617f99c5eE037Df4bA28f",
 
     "deploy:assetCustomization": "npm run deploy -- --name AssetCustomizationUpgradeable",
     "upgrade:assetCustomization": "npm run upgrade -- --name AssetCustomizationUpgradeable --address 0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4",
 
-    "deploy:cosmic": "npm run deployA -- --name CosmicUpgradeable",
-    "upgrade:cosmic": "npm run upgradeA -- --name CosmicUpgradeable --address 0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4",
+    "erc721QueryHelper:harmony:deploy": "npm run deploy:harmony -- --name ERC721QueryHelper",
+    "erc721QueryHelper:harmony:upgrade": "npm run upgrade:harmony -- --name ERC721QueryHelper --address 0xd26599F823494a1De265e94cf9DC0Af49fA08DA1",
+    "erc721QueryHelper:harmony:verify": "npm run verify:harmony -- 0xd26599F823494a1De265e94cf9DC0Af49fA08DA1",
 
-    "deploy:magic": "npm run deployA -- --name MagicUpgradeable",
-    "upgrade:magic": "npm run upgradeA -- --name MagicUpgradeable --address 0x9A8E0217cD870783c3f2317985C57Bf570969153",
+    "cosmic:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicUpgradeable",
+    "cosmic:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicUpgradeable --address 0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4",
+    "cosmic:avalanche:verify": "npm run verify:avalanche -- 0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4",
 
-    "deploy:xMagic": "npm run deployA -- --name xMagicUpgradeable",
-    "upgrade:xMagic": "npm run upgradeA -- --name xMagicUpgradeable --address 0x8a990BFE725c490CCaCFC94Ff99E835400dEEA6d",
+    "magic:avalanche:deploy": "npm run deploy:avalanche -- --name MagicUpgradeable",
+    "magic:avalanche:upgrade": "npm run upgrade:avalanche -- --name MagicUpgradeable --address 0x9A8E0217cD870783c3f2317985C57Bf570969153",
+    "magic:avalanche:verify": "npm run verify:avalanche -- 0x9A8E0217cD870783c3f2317985C57Bf570969153",
 
-    "deploy:lMagic": "npm run deployA -- --name lMagicUpgradeable",
-    "upgrade:lMagic": "npm run upgradeA -- --name lMagicUpgradeable --address ",
+    "xMagic:avalanche:deploy": "npm run deploy:avalanche -- --name xMagicUpgradeable",
+    "xMagic:avalanche:upgrade": "npm run upgrade:avalanche -- --name xMagicUpgradeable --address 0x8a990BFE725c490CCaCFC94Ff99E835400dEEA6d",
+    "xMagic:avalanche:verify": "npm run verify:avalanche -- 0x8a990BFE725c490CCaCFC94Ff99E835400dEEA6d",
 
-    "deploy:wizards": "npm run deployA -- --name CosmicWizardsUpgradeable",
-    "upgrade:wizards": "npm run upgradeA -- --name CosmicWizardsUpgradeable --address 0xBF20c23D25Fca8Aa4e7946496250D67872691Af2",
+    "lMagic:avalanche:deploy": "npm run deploy:avalanche -- --name lMagicUpgradeable",
+    "lMagic:avalanche:upgrade": "npm run upgrade:avalanche -- --name lMagicUpgradeable --address 0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D",
+    "lMagic:avalanche:verify": "npm run verify:avalanche -- 0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D",
 
-    "deploy:cosmicIslandLand": "npm run deployA -- --name CosmicIslandLandUpgradeable",
-    "upgrade:cosmicIslandLand": "npm run upgradeA -- --name CosmicIslandLandUpgradeable --address 0x2fa83f2Fa89F275863B9491b1802dFeA5A130024",
+    "wizards:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicWizardsUpgradeable",
+    "wizards:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicWizardsUpgradeable --address 0xBF20c23D25Fca8Aa4e7946496250D67872691Af2",
+    "wizards:avalanche:verify": "npm run verify:avalanche -- 0xBF20c23D25Fca8Aa4e7946496250D67872691Af2",
 
-    "deploy:framedWizards": "npm run deployA -- --name FramedWizardsUpgradeable",
-    "upgrade:framedWizards": "npm run upgradeA -- --name FramedWizardsUpgradeable --address 0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C",
+    "cosmicIslandLand:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicIslandLandUpgradeable",
+    "cosmicIslandLand:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicIslandLandUpgradeable --address 0x2fa83f2Fa89F275863B9491b1802dFeA5A130024",
+    "cosmicIslandLand:avalanche:verify": "npm run verify:avalanche -- 0x2fa83f2Fa89F275863B9491b1802dFeA5A130024",
 
-    "deploy:marketplace": "npm run deployA -- --name MarketUpgradeable",
-    "upgrade:marketplace": "npm run upgradeA -- --name MarketUpgradeable --address 0x5202e45EbA7F58E350AA58B59dEB64a668654007",
+    "framedWizards:avalanche:deploy": "npm run deploy:avalanche -- --name FramedWizardsUpgradeable",
+    "framedWizards:avalanche:upgrade": "npm run upgrade:avalanche -- --name FramedWizardsUpgradeable --address 0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C",
+    "framedWizards:avalanche:verify": "npm run verify:avalanche -- 0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C",
 
-    "deploy:avalanche:gameStorage": "npm run deployA -- --name GameStorageUpgradeable",
-    "upgrade:avalanche:gameStorage": "npm run upgradeA -- --name GameStorageUpgradeable --address 0x3a55FFC97D2183d94147c4D2d3b6991f0C09ABf4",
+    "cosmicElvesTicket:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicElvesTicketUpgradeable",
+    "cosmicElvesTicket:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicElvesTicketUpgradeable --address 0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e",
+    "cosmicElvesTicket:avalanche:verify": "npm run verify:avalanche -- 0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e",
 
-    "deploy:avalanche:professionStaking": "npm run deployA -- --name ProfessionStakingUpgradeable",
-    "upgrade:avalanche:professionStaking": "npm run upgradeA -- --name ProfessionStakingUpgradeable --address 0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1",
+    "marketplace:avalanche:deploy": "npm run deploy:avalanche -- --name MarketUpgradeable",
+    "marketplace:avalanche:upgrade": "npm run upgrade:avalanche -- --name MarketUpgradeable --address 0x5202e45EbA7F58E350AA58B59dEB64a668654007",
+    "marketplace:avalanche:verify": "npm run verify:avalanche -- 0x5202e45EbA7F58E350AA58B59dEB64a668654007",
 
-    "deploy:avalanche:cosmicElvesTicket": "npm run deployA -- --name CosmicElvesTicketUpgradeable",
-    "upgrade:avalanche:cosmicElvesTicket": "npm run upgradeA -- --name CosmicElvesTicketUpgradeable --address 0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e",
+    "gameStorage:avalanche:deploy": "npm run deploy:avalanche -- --name GameStorageUpgradeable",
+    "gameStorage:avalanche:upgrade": "npm run upgrade:avalanche -- --name GameStorageUpgradeable --address 0x3a55FFC97D2183d94147c4D2d3b6991f0C09ABf4",
+    "gameStorage:avalanche:verify": "npm run verify:avalanche -- 0x3a55FFC97D2183d94147c4D2d3b6991f0C09ABf4",
 
-    "upgrade:simpleMasterInvestor": "npm run upgradeA -- --name SimpleMasterInvestor --address 0xc9d61e23E27A3b75B8fEf4b66a67bFC5737e6262",
+    "professionStaking:avalanche:deploy": "npm run deploy:avalanche -- --name ProfessionStakingUpgradeable",
+    "professionStaking:avalanche:upgrade": "npm run upgrade:avalanche -- --name ProfessionStakingUpgradeable --address 0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1",
+    "professionStaking:avalanche:verify": "npm run verify:avalanche -- 0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1",
+
+    "upgrade:simpleMasterInvestor": "npm run upgrade:avalanche -- --name SimpleMasterInvestor --address 0xc9d61e23E27A3b75B8fEf4b66a67bFC5737e6262",
 
     "addMetadata:hmy": "npx hardhat --network harmony run ./scripts/addMetadata.js",
     "addMetadata": "npx hardhat --network avalanche run ./scripts/addMetadata.js"
