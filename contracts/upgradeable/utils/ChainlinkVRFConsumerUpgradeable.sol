@@ -40,7 +40,7 @@ AccessControlEnumerableUpgradeable, TokenConstants {
         _confirmations = confirmations;
     }
 
-    function requestRandomWords(uint32 count) internal onlyRole(ADMIN_ROLE) returns(uint256 requestId) {
+    function requestRandomWords(uint32 count) internal returns(uint256 requestId) {
         uint32 gasLimit = (count * 20_000) + 100_000;
         return _coordinator.requestRandomWords(_keyHash, _subscriptionId, _confirmations, gasLimit, count);
     }

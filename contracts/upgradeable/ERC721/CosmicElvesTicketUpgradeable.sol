@@ -95,7 +95,7 @@ ChainlinkVRFConsumerUpgradeable {
     function mint(uint256 count) public whenNotPaused {
         PendingMint storage pending = _pending[_msgSender()];
         require(pending.requestId == 0, "Existing mint in progress");
-        require(count <= 500, "Maximum 500 per mint");
+        require(count <= 10, "Maximum 10 per mint");
 
         uint256 tokenId = _tokenIdCounter.current();
         require(tokenId < cap, "Sold out");
@@ -131,14 +131,11 @@ ChainlinkVRFConsumerUpgradeable {
             uint256 outcome = pending.words[i] % 1000;
             if (outcome >= 990) {
                 percent20.add(pending.ids[i]);
-                return;
-            } else if (outcome >= 950) {
+            } else if (outcome >= 950 && outcome < 990) {
                 percent15.add(pending.ids[i]);
-                return;
-            } else if (outcome >= 750) {
+            } else if (outcome >= 750 && outcome < 950) {
                 percent10.add(pending.ids[i]);
-                return;
-            } else {
+            } else if (outcome < 750) {
                 percent5.add(pending.ids[i]);
             }
             _safeMint(_msgSender(), pending.ids[i]);
@@ -208,6 +205,14 @@ ChainlinkVRFConsumerUpgradeable {
         );
     }
 
+    function batchTokenURI(uint256[] memory tokenIds) public view returns(string[] memory) {
+        string[] memory uris = new string[](tokenIds.length);
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            uris[i] = tokenURI(tokenIds[i]);
+        }
+        return uris;
+    }
+
     function oddsOf(uint256 chance) internal pure returns(string memory) {
         if (chance == 20) {
             return "1:100";
@@ -219,6 +224,18 @@ ChainlinkVRFConsumerUpgradeable {
             return "3:1";
         }
         return "0:0";
+    }
+
+    function lastTokenId() public view returns(uint256) {
+        return _tokenIdCounter.current();
+    }
+
+    function revealsPendingOf(address _address) public view returns(uint256[] memory, bool) {
+        return (_pending[_address].ids, _pending[_address].words.length > 0);
+    }
+
+    function adminCheckPendingMintDataOf(address _address) public view onlyRole(ADMIN_ROLE) returns(PendingMint memory) {
+        return _pending[_address];
     }
 
     // Admin

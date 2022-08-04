@@ -109,6 +109,10 @@ ERC20PermitUpgradeable, ERC20BurnableUpgradeable, TokenConstants {
         return 0;
     }
 
+    function totalOf(address _address) public view returns(uint256) {
+        return _totalOf[_address];
+    }
+
     function addGlobalWhitelist(address to) public onlyRole(DEFAULT_ADMIN_ROLE) {
         _globalWhitelist.add(to);
     }

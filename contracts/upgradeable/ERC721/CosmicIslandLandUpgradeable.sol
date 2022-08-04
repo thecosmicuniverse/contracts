@@ -187,6 +187,14 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
         );
     }
 
+    function batchTokenURI(uint256[] memory tokenIds) public view returns(string[] memory) {
+        string[] memory uris = new string[](tokenIds.length);
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            uris[i] = tokenURI(tokenIds[i]);
+        }
+        return uris;
+    }
+
     function setTokenURI(uint256 tokenId, uint256 attrId, uint256 value) public onlyRole(ADMIN_ROLE) {
         _numericAttributes[tokenId][attrId] = value;
     }

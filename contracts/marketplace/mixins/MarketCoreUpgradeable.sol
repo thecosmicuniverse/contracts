@@ -422,5 +422,14 @@ abstract contract MarketCoreUpgradeable is
         return _activeSaleIds.values();
     }
 
+    function activeSales() public view returns (Sale[] memory) {
+        uint256[] memory saleIds = _activeSaleIds.values();
+        Sale[] memory sales = new Sale[](saleIds.length);
+        for (uint256 i = 0; i < saleIds.length; i++) {
+            sales[i] = saleIdToSale[saleIds[i]];
+        }
+        return sales;
+    }
+
     uint256[1000] private ______gap;
 }

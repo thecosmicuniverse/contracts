@@ -32,6 +32,7 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
     mapping(uint256 => mapping(uint256 => mapping(uint256 => uint256))) private _store;
     // tokenId > customId  > stringValue
     mapping(uint256 => mapping(uint256 => string)) private _textStore;
+
     event ValueUpdated(uint256 indexed tokenId, uint256 treeId, uint256 skillId, uint256 value);
     event TextUpdated(uint256 indexed tokenId, uint256 customId, string value);
 
@@ -144,6 +145,24 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
         return values;
     }
 
+    function getAllTokenIds() public view returns (uint256[] memory) {
+        uint256 count = 0;
+        for (uint256 i = 1; i < 10_000; i++) {
+            if (_exists(i)) {
+                count++;
+            }
+        }
+        uint256[] memory tokenIds = new uint256[](count);
+        uint256 index = 0;
+        for (uint256 i = 1; i < 10_000; i++) {
+            if (_exists(i)) {
+                tokenIds[index] = i;
+                index++;
+            }
+        }
+        return tokenIds;
+    }
+
     // Overrides
     function tokenURI(uint256 tokenId) public view virtual
     override(ERC721Upgradeable, ERC721URIStorageExtendedUpgradeable) returns (string memory) {
@@ -166,6 +185,14 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
                 Base64Upgradeable.encode(dataURI)
             )
         );
+    }
+
+    function batchTokenURI(uint256[] memory tokenIds) public view returns(string[] memory) {
+        string[] memory uris = new string[](tokenIds.length);
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            uris[i] = tokenURI(tokenIds[i]);
+        }
+        return uris;
     }
 
     function getGeneralDataUri(uint256 tokenId) internal view returns(bytes memory) {
@@ -273,6 +300,12 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
             '}'
         );
         return abi.encodePacked('"attributes": [', string(first3), string(second3), string(third3), ']');
+    }
+
+    function batchTransferFrom(address from, address to, uint256[] memory tokenIds) public {
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            transferFrom(from, to, tokenIds[i]);
+        }
     }
 
     function setImageBaseURI(string memory _imageBaseURI) public onlyRole(ADMIN_ROLE) {

@@ -97,6 +97,14 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
         return super.tokenURI(tokenId);
     }
 
+    function batchTokenURI(uint256[] memory tokenIds) public view returns(string[] memory) {
+        string[] memory uris = new string[](tokenIds.length);
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            uris[i] = tokenURI(tokenIds[i]);
+        }
+        return uris;
+    }
+
     function _burn(uint256 tokenId) internal virtual override(ERC721Upgradeable, ERC721URIStorageExtendedUpgradeable) {
         super._burn(tokenId);
     }
