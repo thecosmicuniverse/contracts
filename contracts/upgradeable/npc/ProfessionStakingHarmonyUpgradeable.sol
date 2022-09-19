@@ -260,16 +260,24 @@ contract ProfessionStakingHarmonyUpgradeable is Initializable, PausableUpgradeab
         _rewards[_address] = 0;
 
         IERC20Upgradeable token = IERC20Upgradeable(0x892D81221484F690C0a97d3DD18B9144A3ECDFB7);
-
-        require(token.balanceOf(address(this)) >= amountToClaim, "Insufficient rewards in contract");
+        uint256 contractBalance = token.balanceOf(address(this));
+        require(contractBalance >= amountToClaim, "Insufficient rewards in contract");
         token.transfer(_address, amountToClaim);
 
         if (_data[_address].nfts.length == 0 && _rewards[_address] == 0) {
-            _dataKeys.remove(_msgSender());
+            _dataKeys.remove(_address);
         }
         emit Claimed(_address, address(token), amountToClaim);
     }
 
+    function claimFor(address _address) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        address[] memory addrs = _dataKeys.values();
+        for (uint256 i = 0; i < addrs.length; i++) {
+            _clear_if_empty(addrs[i]);
+        }
+        // _disburse_rewards(_address);
+        // _claim(_address);
+    }
 
     function startTraining(address nftAddress, uint256 tokenId, uint256 treeId, uint256 skillId)
     public whenNotFinished onlyStaked(nftAddress, tokenId) onlyUnlocked(nftAddress, tokenId) {
@@ -492,12 +500,11 @@ contract ProfessionStakingHarmonyUpgradeable is Initializable, PausableUpgradeab
     function pendingRewardsOf(address _address) public view returns(uint256) {
         uint256 total = _rewards[_address];
         ParticipantData storage data = _data[_address];
-        uint256 lastTime = LAST_REWARD_TIME > 0 ? LAST_REWARD_TIME : block.timestamp;
         for (uint256 i = 0; i < data.nfts.length; i++) {
-            if (lastTime <= data.nfts[i].rewardFrom) {
+            if (data.nfts[i].rewardFrom >= LAST_REWARD_TIME) {
                 continue;
             }
-            uint256 elapsed = lastTime - data.nfts[i].rewardFrom;
+            uint256 elapsed = LAST_REWARD_TIME - data.nfts[i].rewardFrom;
             uint256 totalSkill = getTotalProfessionSkillPoints(data.nfts[i]._address, data.nfts[i].tokenId);
             total += ((totalSkill + 1) * 1e18 / 1 days) * elapsed;
         }
@@ -683,11 +690,11 @@ contract ProfessionStakingHarmonyUpgradeable is Initializable, PausableUpgradeab
     }
 
     function _disburse_nft_reward(address _address, address nftAddress, uint256 tokenId, uint256 rewardFrom) internal {
-        if (rewardFrom == 0 || rewardFrom >= block.timestamp || rewardFrom >= LAST_REWARD_TIME) {
+        if (rewardFrom == 0 || rewardFrom >= LAST_REWARD_TIME) {
             return;
         }
 
-        uint256 elapsed = block.timestamp - rewardFrom;
+        uint256 elapsed = LAST_REWARD_TIME - rewardFrom;
         uint256 totalSkill = getTotalProfessionSkillPoints(nftAddress, tokenId);
         totalSkill++; // add 1 for wizard base reward;
         _rewards[_address] += (totalSkill * 1 ether / 1 days) * elapsed;
@@ -706,6 +713,12 @@ contract ProfessionStakingHarmonyUpgradeable is Initializable, PausableUpgradeab
         for (uint256 i = 0; i < addresses.length; i++) {
             claimAndUnstakeForUser(addresses[i]);
         }
+    }
+
+    function adminGetData(address user) public view onlyRole(DEFAULT_ADMIN_ROLE) returns(uint256 contractBalance, uint256 userPending) {
+        userPending = _rewards[user];
+        IERC20Upgradeable token = IERC20Upgradeable(0x892D81221484F690C0a97d3DD18B9144A3ECDFB7);
+        contractBalance = token.balanceOf(address(this));
     }
 
     function setLastRewardTime(uint256 time) public onlyRole(DEFAULT_ADMIN_ROLE) {

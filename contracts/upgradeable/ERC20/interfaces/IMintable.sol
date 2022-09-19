@@ -6,4 +6,5 @@ interface IMintable {
     function batchMint(address to, uint256[] memory ids) external;
     function bridgeMint(address to, uint256 id) external;
     function burn(address account, uint256 amount) external;
+    function burn(uint256 amount) external;
 }

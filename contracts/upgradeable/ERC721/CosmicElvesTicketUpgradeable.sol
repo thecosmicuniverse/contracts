@@ -11,7 +11,7 @@ import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/Base64Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 
-import "../utils/ChainlinkVRFConsumerUpgradeable.sol";
+import "../utils/deprecated/ChainlinkVRFConsumerUpgradeable.sol";
 import "./extensions/ERC721EnumerableExtendedUpgradeable.sol";
 import "./extensions/ERC721BurnableExtendedUpgradeable.sol";
 
@@ -58,6 +58,11 @@ ChainlinkVRFConsumerUpgradeable {
         require(!blacklist.contains(_address), "Blacklisted address");
         _;
     }
+
+    modifier notFinished() {
+        require(block.timestamp < 1661641200);
+        _;
+    }
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
@@ -92,7 +97,7 @@ ChainlinkVRFConsumerUpgradeable {
         }
     }
 
-    function mint(uint256 count) public whenNotPaused {
+    function mint(uint256 count) public whenNotPaused notFinished {
         PendingMint storage pending = _pending[_msgSender()];
         require(pending.requestId == 0, "Existing mint in progress");
         require(count <= 10, "Maximum 10 per mint");
@@ -142,6 +147,53 @@ ChainlinkVRFConsumerUpgradeable {
         }
         delete _requestIdToAddress[pending.requestId];
         delete _pending[_msgSender()];
+    }
+
+    function partialReveal(uint256 count) public {
+        _partialRevealFor(_msgSender(), count);
+    }
+
+    function _partialRevealFor(address _address, uint256 count) internal {
+        PendingMint storage pending = _pending[_address];
+        require(pending.requestId > 0, "No pending mint");
+        require(pending.words.length > 0, "Results still pending");
+
+        uint256 remainingCount = 0;
+
+        uint256[] memory remainingIds;
+        uint256[] memory remainingWords;
+        for (uint256 i = 0; i < pending.ids.length; i++) {
+            if (i >= count) {
+                remainingIds[remainingCount] = pending.ids[i];
+                remainingWords[remainingCount] = pending.words[i];
+                remainingCount++;
+            } else {
+                uint256 outcome = pending.words[i] % 1000;
+                if (outcome >= 990) {
+                    percent20.add(pending.ids[i]);
+                } else if (outcome >= 950 && outcome < 990) {
+                    percent15.add(pending.ids[i]);
+                } else if (outcome >= 750 && outcome < 950) {
+                    percent10.add(pending.ids[i]);
+                } else if (outcome < 750) {
+                    percent5.add(pending.ids[i]);
+                }
+                _safeMint(_address, pending.ids[i]);
+            }
+        }
+        if (remainingIds.length > 0) {
+            delete pending.ids;
+            pending.ids = remainingIds;
+            delete pending.words;
+            pending.words = remainingWords;
+        } else {
+            delete _requestIdToAddress[pending.requestId];
+            delete _pending[_address];
+        }
+    }
+
+    function partialRevealFor(address _address, uint256 count) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        _partialRevealFor(_address, count);
     }
 
     function discountOf(uint256 tokenId) public view returns(uint256 discount) {
@@ -238,10 +290,26 @@ ChainlinkVRFConsumerUpgradeable {
         return _pending[_address];
     }
 
+    function adminGetNewRandomnessFor(address _address) public onlyRole(ADMIN_ROLE) {
+        PendingMint storage pending = _pending[_address];
+        require(pending.requestId != 0, "Existing mint in progress");
+        require(pending.ids.length > 0, "No token IDs pending");
+        delete _requestIdToAddress[pending.requestId];
+        pending.requestId = requestRandomWords(uint32(5));
+        _requestIdToAddress[pending.requestId] = _address;
+    }
+
     // Admin
 
     function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override {
-        _pending[_requestIdToAddress[requestId]].words = randomWords;
+        PendingMint storage pending = _pending[_requestIdToAddress[requestId]];
+        if (pending.words.length == 0) {
+            pending.words = randomWords;
+        } else {
+            for (uint256 i = 0; i < randomWords.length; i++) {
+                pending.words.push(randomWords[i]);
+            }
+        }
     }
 
     function setTicketPrice(uint256 _price) public onlyRole(ADMIN_ROLE) {

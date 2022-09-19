@@ -80,12 +80,12 @@ ERC20PermitUpgradeable, ERC20BurnableUpgradeable, TokenConstants {
 
     function burn(uint256 amount) public virtual override(ERC20BurnableUpgradeable) {
         super.burn(amount);
-        IMintable(MAGIC).burn(address(this), amount);
+        IMintable(MAGIC).burn(amount);
     }
 
     function burnFrom(address account, uint256 amount) public virtual override(ERC20BurnableUpgradeable) {
         super.burnFrom(account, amount);
-        IMintable(MAGIC).burn(address(this), amount);
+        IMintable(MAGIC).burn(amount);
     }
 
     function claimPending() public whenNotPaused {

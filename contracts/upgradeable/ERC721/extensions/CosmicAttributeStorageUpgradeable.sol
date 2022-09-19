@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.9;
 
-import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 /**
@@ -12,9 +12,11 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 */
 abstract contract CosmicAttributeStorageUpgradeable is Initializable, AccessControlEnumerableUpgradeable {
     bytes32 public constant CONTRACT_ROLE = keccak256("CONTRACT_ROLE");
+
     // tokenId > treeId  > skillId > value
     mapping(uint256 => mapping(uint256 => mapping(uint256 => uint256))) private _store;
-
+    // treeId > skillId > value
+    mapping(uint256 => mapping(uint256 => string)) private _storeNames;
     // tokenId > customId  > stringValue
     mapping(uint256 => mapping(uint256 => string)) private _textStore;
 
@@ -27,6 +29,7 @@ abstract contract CosmicAttributeStorageUpgradeable is Initializable, AccessCont
 
     function __CosmicAttributeStorage_init_unchained() internal onlyInitializing {
         __AccessControlEnumerable_init();
+        _grantRole(CONTRACT_ROLE, _msgSender());
     }
 
     /**
@@ -42,9 +45,33 @@ abstract contract CosmicAttributeStorageUpgradeable is Initializable, AccessCont
         emit ValueUpdated(tokenId, treeId, skillId, value);
     }
 
+    function batchUpdateSkills(
+        uint256[] memory tokenIds,
+        uint256[] memory treeIds,
+        uint256[] memory skillIds,
+        uint256[] memory values) public onlyRole(CONTRACT_ROLE) {
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            _store[tokenIds[i]][treeIds[i]][skillIds[i]] = values[i];
+        }
+    }
+
+    function batchUpdateSkillsOfToken(
+        uint256 tokenId,
+        uint256 treeId,
+        uint256[] memory skillIds,
+        uint256[] memory values) public onlyRole(CONTRACT_ROLE) {
+        for (uint256 i = 0; i < skillIds.length; i++) {
+            _store[tokenId][treeId][skillIds[i]] = values[i];
+        }
+    }
+
     function updateString(uint256 tokenId, uint256 customId, string memory value) public onlyRole(CONTRACT_ROLE) {
         _textStore[tokenId][customId] = value;
         emit TextUpdated(tokenId, customId, value);
+    }
+
+    function setSkillName(uint256 treeId, uint256 skillId, string memory name) public onlyRole(CONTRACT_ROLE) {
+        _storeNames[treeId][skillId] = name;
     }
 
     /**
@@ -56,7 +83,7 @@ abstract contract CosmicAttributeStorageUpgradeable is Initializable, AccessCont
     *
     * @return value skill value
     */
-    function getSkill(uint256 tokenId, uint256 treeId, uint256 skillId) public view returns (uint256 value) {
+    function getSkill(uint256 tokenId, uint256 treeId, uint256 skillId) public view returns (uint256) {
         return _store[tokenId][treeId][skillId];
     }
 
@@ -69,7 +96,7 @@ abstract contract CosmicAttributeStorageUpgradeable is Initializable, AccessCont
         return values;
     }
 
-    function getString(uint256 tokenId, uint256 customId) public view returns (string memory value) {
+    function getString(uint256 tokenId, uint256 customId) public view returns (string memory) {
         return _textStore[tokenId][customId];
     }
 
@@ -88,4 +115,10 @@ abstract contract CosmicAttributeStorageUpgradeable is Initializable, AccessCont
         }
         return values;
     }
+
+    function getSkillName(uint256 treeId, uint256 skillId) public view returns (string memory) {
+        return _storeNames[treeId][skillId];
+    }
+
+    uint256[46] private __gap;
 }

@@ -84,7 +84,7 @@ module.exports = {
       accounts: [process.env.PRIVATE_KEY]
     },
     avalanche: {
-      url: 'https://ava-mainnet.public.blastapi.io/ext/bc/C/rpc',
+      url: process.env.AVALANCHE_RPC || 'https://ava-mainnet.public.blastapi.io/ext/bc/C/rpc',
       chainId: 43114,
       accounts: [process.env.PRIVATE_KEY]
     },
@@ -93,6 +93,11 @@ module.exports = {
       chainId: 25,
       accounts: [process.env.PRIVATE_KEY]
     },
+    boba: {
+      url: 'https://avax.boba.network',
+      chainId: 43288,
+      accounts: [process.env.PRIVATE_KEY]
+    }
   },
   etherscan: {
     apiKey: {
@@ -103,7 +108,8 @@ module.exports = {
       arbitrumOne: process.env.ARBISCAN_API_KEY,
       opera: process.env.FTMSCAN_API_KEY,
       avalanche: process.env.SNOWTRACE_API_KEY,
-      cronos: process.env.CRONOSCAN_API_KEY
+      cronos: process.env.CRONOSCAN_API_KEY,
+      boba: 'not needed'
     },
     customChains: [
       {
@@ -112,6 +118,14 @@ module.exports = {
         urls: {
           apiURL: "https://api.cronoscan.com/api",
           browserURL: "https://cronoscan.com/",
+        },
+      },
+      {
+        network: "boba",
+        chainId: 43288,
+        urls: {
+          apiURL: "https://blockexplorer.avax.boba.network/api",
+          browserURL: "https://blockexplorer.avax.boba.network",
         },
       }
     ]

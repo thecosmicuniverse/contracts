@@ -20,6 +20,12 @@ abstract contract ERC721EnumerableExtendedUpgradeable is Initializable, ERC721Up
     function __ERC721EnumerableExtended_init_unchained() internal onlyInitializing {
     }
 
+    function batchTransferFrom(address from, address to, uint256[] memory tokenIds) public virtual {
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            ERC721Upgradeable.transferFrom(from, to, tokenIds[i]);
+        }
+    }
+
     function tokensOfOwner(address owner) public view virtual returns(uint256[] memory) {
         uint256 total = ERC721Upgradeable.balanceOf(owner);
         uint256[] memory tokens = new uint256[](total);
@@ -27,6 +33,24 @@ abstract contract ERC721EnumerableExtendedUpgradeable is Initializable, ERC721Up
             tokens[i] = ERC721EnumerableUpgradeable.tokenOfOwnerByIndex(owner, i);
         }
         return tokens;
+    }
+
+    function getAllTokenIds() public view returns (uint256[] memory) {
+        uint256 count = 0;
+        for (uint256 i = 1; i < 10_000; i++) {
+            if (_exists(i)) {
+                count++;
+            }
+        }
+        uint256[] memory tokenIds = new uint256[](count);
+        uint256 index = 0;
+        for (uint256 i = 1; i < 10_000; i++) {
+            if (_exists(i)) {
+                tokenIds[index] = i;
+                index++;
+            }
+        }
+        return tokenIds;
     }
 
     function supportsInterface(bytes4 interfaceId)

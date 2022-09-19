@@ -106,3 +106,12 @@ dist
 .idea/
 
 *.dbg.json
+
+yarn.lock
+cache/
+artifacts/@openzeppelin/
+artifacts/build-info/
+reference
+/artifacts/@chainlink/
+/scripts/metadata
+/scripts/data

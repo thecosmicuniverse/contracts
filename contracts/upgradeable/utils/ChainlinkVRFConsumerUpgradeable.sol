@@ -2,15 +2,12 @@
 pragma solidity 0.8.9;
 
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
-
-import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 import "./VRFConsumerBaseV2.sol";
 import "./TokenConstants.sol";
 
-abstract contract ChainlinkVRFConsumerUpgradeable is Initializable, VRFConsumerBaseV2Upgradeable,
-AccessControlEnumerableUpgradeable, TokenConstants {
+abstract contract ChainlinkVRFConsumerUpgradeable is Initializable, VRFConsumerBaseV2Upgradeable {
     VRFCoordinatorV2Interface private _coordinator;
 
     bytes32 private _keyHash;
@@ -23,7 +20,6 @@ AccessControlEnumerableUpgradeable, TokenConstants {
         uint64 subscriptionId,
         uint16 confirmations
     ) internal onlyInitializing {
-        __AccessControlEnumerable_init();
         __VRFConsumerBaseV2_init(coordinator);
         __ChainlinkVRFConsumer_init_unchained(coordinator, keyHash, subscriptionId, confirmations);
     }
@@ -46,6 +42,17 @@ AccessControlEnumerableUpgradeable, TokenConstants {
     }
 
     function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal virtual override;
+
+    function chunkWord(uint256 word, uint256 modulus, uint256 chunkCount) internal pure returns(uint256[] memory) {
+        uint256[] memory chunks = new uint256[](chunkCount);
+        uint256 number = word;
+        for (uint256 i = 0; i < chunkCount; i++) {
+            uint256 chunk = uint256(number % modulus);
+            number = number / modulus;
+            chunks[i] = chunk;
+        }
+        return chunks;
+    }
 
     uint256[46] private __gap;
 }
