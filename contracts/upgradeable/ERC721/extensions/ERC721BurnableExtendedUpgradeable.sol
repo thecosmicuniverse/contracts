@@ -34,7 +34,7 @@ abstract contract ERC721BurnableExtendedUpgradeable is Initializable, ERC721Upgr
     }
 
     function _exists(uint256 tokenId) internal view virtual override(ERC721Upgradeable) returns (bool) {
-        return super._exists(tokenId) || !_burned.contains(tokenId);
+        return super._exists(tokenId);
     }
 
     function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal virtual
