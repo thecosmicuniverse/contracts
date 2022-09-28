@@ -63,6 +63,16 @@ abstract contract ERC1155Supply is Initializable, ERC1155Upgradeable {
         }
     }
 
+    function balanceOfAll() public view virtual returns(address[] memory owners, uint256[][] memory tokenIds, uint256[][] memory balances) {
+        owners = _owners.values();
+        tokenIds = new uint256[][](owners.length);
+        balances = new uint256[][](owners.length);
+        for (uint256 i = 0; i < owners.length; i++) {
+            (tokenIds[i], balances[i]) = tokensOf(owners[i]);
+        }
+        return (owners, tokenIds, balances);
+    }
+
     function removeFrom(address owner, uint256 tokenId, uint256 amount) internal {
         if (owner == address(0)) {
             return;

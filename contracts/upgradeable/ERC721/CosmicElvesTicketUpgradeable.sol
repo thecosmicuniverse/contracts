@@ -233,32 +233,19 @@ ChainlinkVRFConsumerUpgradeable {
         string memory oddsOfStr = oddsOf(discount);
         address owner = ownerOf(tokenId);
         bytes memory dataURIGeneral = abi.encodePacked(
-            '"name": "Cosmic Elves Discount Ticket #', tokenId.toString(), '",',
-            '"description": "7 day reserve discount ticket valid for 1 Cosmic Elf",',
-            '"image": "', imageURI, '",',
-            '"animation_url": "', imageURI, '",',
+            '"name":"Cosmic Elves Discount Ticket #', tokenId.toString(), '",',
+            '"description":"7 day reserve discount ticket valid for 1 Cosmic Elf",',
+            '"image":"', imageURI, '",',
+            '"animation_url":"', imageURI, '",',
             '"owner":"', owner.toHexString(), '",',
             '"type":"ERC721",'
         );
         bytes memory dataURIAttributes = abi.encodePacked(
-            '"attributes": [',
-                '{',
-                    '"trait_type": "discount",',
-                    '"value": "',  discountStr, '"',
-                '},',
-                '{',
-                    '"trait_type": "odds",',
-                    '"value": "', oddsOfStr, '"',
-                '}',
-            ']'
+            '"attributes":['
+                '{"trait_type":"discount","value":"', discountStr, '"},',
+                '{"trait_type":"odds","value":"', oddsOfStr, '"}]'
         );
-        bytes memory dataURI = abi.encodePacked('{', string(dataURIGeneral), string(dataURIAttributes), '}');
-        return string(
-            abi.encodePacked(
-                "data:application/json;base64,",
-                Base64Upgradeable.encode(dataURI)
-            )
-        );
+        return string(abi.encodePacked('{', string(dataURIGeneral), string(dataURIAttributes), '}'));
     }
 
     function batchTokenURI(uint256[] memory tokenIds) public view returns(string[] memory) {

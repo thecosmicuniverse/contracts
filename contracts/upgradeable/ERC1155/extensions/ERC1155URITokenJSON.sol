@@ -59,10 +59,11 @@ abstract contract ERC1155URITokenJSON is Initializable, CosmicStructs {
     ) internal view returns(string memory) {
         string memory imageURI = string(abi.encodePacked(imageBaseURI, tokenId.toString()));
         return string(abi.encodePacked(
-            '"name":"', name, '", ',
-            '"tokenId":"', tokenId.toString(), '", ',
-            '"description": "', description, '", ',
-            '"image": "', imageURI, '", '
+            '"name":"', name, '",',
+            '"tokenId":', tokenId.toString(), ',',
+            '"description":"', description, '",',
+            '"image":"', imageURI, '",',
+            '"type":"ERC1155",'
         ));
     }
 

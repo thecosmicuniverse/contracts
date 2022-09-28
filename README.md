@@ -28,6 +28,7 @@ Security contact: DirtyCajunRice#0001 (Discord)
 |      Cosmic Marketplace      | `0x5202e45EbA7F58E350AA58B59dEB64a668654007` | [Snowtrace](https://snowtrace.io/address/0x5202e45EbA7F58E350AA58B59dEB64a668654007) |
 |         Cosmic Farm          | `0xc9d61e23E27A3b75B8fEf4b66a67bFC5737e6262` | [Snowtrace](https://snowtrace.io/address/0xc9d61e23E27A3b75B8fEf4b66a67bFC5737e6262) |
 |  Unreal Engine Query Helper  | `0xa803303fAaC31046ef572DF26E7de5338237000c` | [Snowtrace](https://snowtrace.io/address/0xa803303fAaC31046ef572DF26E7de5338237000c) |
+
 ### Harmony Contracts (Deprecated)
 
 |           Contract           | Address                                      |                                        Explorer Link                                        |
