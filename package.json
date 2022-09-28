@@ -8,7 +8,7 @@
 
     "deploy:harmony": "npx hardhat --network harmony deployUpgradeable",
     "deploy:avalanche": "npx hardhat --network avalanche deployUpgradeable",
-    "deploy:boba": "npx hardhat --network boba deployUpgradeable",
+
 
     "upgrade:harmony": "npx hardhat --network harmony upgrade",
     "upgrade:avalanche": "npx hardhat --network avalanche upgrade",

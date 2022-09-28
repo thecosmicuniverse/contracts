@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.16;
 
+import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/Base64Upgradeable.sol";
@@ -8,8 +9,9 @@ import "@openzeppelin/contracts-upgradeable/utils/Base64Upgradeable.sol";
 /**
  * @dev ERC721 token with storage based token URI management.
  */
-abstract contract ERC721URITokenJSON is Initializable {
+abstract contract ERC721URITokenJSON is Initializable, ERC721Upgradeable {
     using StringsUpgradeable for uint256;
+    using StringsUpgradeable for address;
 
     struct Attribute {
         string name;
@@ -27,7 +29,9 @@ abstract contract ERC721URITokenJSON is Initializable {
     function __ERC721URITokenJSON_init_unchained() internal onlyInitializing {
     }
 
-    function tokenURI(uint256 tokenId) public view virtual returns(string memory);
+    function tokenURI(uint256 tokenId) public view virtual override(ERC721Upgradeable) returns(string memory) {
+        return tokenId.toString();
+    }
 
     function batchTokenURI(uint256[] memory tokenIds) public view virtual returns(string[] memory) {
         string[] memory uris = new string[](tokenIds.length);
@@ -60,11 +64,14 @@ abstract contract ERC721URITokenJSON is Initializable {
         string memory description
     ) internal view returns(string memory) {
         string memory imageURI = string(abi.encodePacked(imageBaseURI, tokenId.toString()));
+        address owner = ownerOf(tokenId);
         return string(abi.encodePacked(
-            '"name":"', name, ' #', tokenId.toString(), '", ',
-            '"customName":"', customName, '", ',
-            '"description": "', description, '", ',
-            '"image": "', imageURI, '", '
+            '"name":"', name, ' #', tokenId.toString(), '",',
+            '"customName":"', customName, '",',
+            '"description": "', description, '",',
+            '"image": "', imageURI, '",',
+            '"owner": "', owner.toHexString(), '",',
+            '"type": "ERC721",'
         ));
     }
 

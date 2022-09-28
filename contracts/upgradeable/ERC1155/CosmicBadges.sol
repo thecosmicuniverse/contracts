@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity ^0.8.16;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC1155/extensions/ERC1155BurnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
@@ -62,6 +62,10 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
         for (uint256 i = 0; i < to.length; i++) {
             _mint(to[i], id, amounts[i], '');
         }
+    }
+
+    function burnBatch(address from, uint256[] memory ids, uint256[] memory amounts) override(ERC1155BurnableUpgradeable) public onlyRole(ADMIN_ROLE) {
+        _burnBatch(from, ids, amounts);
     }
 
     function uri(uint256 tokenId) public view virtual override(ERC1155Upgradeable, ERC1155URITokenJSON) returns(string memory) {

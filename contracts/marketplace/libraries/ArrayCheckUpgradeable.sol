@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity ^0.8.16;
 
 library ArrayCheckUpgradeable {
     function checkgte(uint256[] memory array, uint256 num) internal pure returns (bool) {

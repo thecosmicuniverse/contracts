@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity ^0.8.16;
 
 import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
@@ -22,6 +22,7 @@ contract CosmicWizardsUpgradeable is Initializable, ERC721Upgradeable, ERC721Enu
 ERC721URIStorageExtendedUpgradeable, PausableUpgradeable, AccessControlEnumerableUpgradeable,
 ERC721BurnableExtendedUpgradeable, TokenConstants {
     using StringsUpgradeable for uint256;
+    using StringsUpgradeable for address;
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.AddressSet;
 
     EnumerableSetUpgradeable.AddressSet private _blacklist;
@@ -181,11 +182,14 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
         string memory customName = _textStore[tokenId][0];
         string memory gender = _store[tokenId][0][0] == 0 ? 'Male' : 'Female';
         string memory imageURI = string(abi.encodePacked(imageBaseURI, tokenId.toString()));
+        address owner = ownerOf(tokenId);
         return abi.encodePacked(
-            '"name": "Cosmic ', gender, ' Wizard #', tokenId.toString(), '", ',
-            '"customName": "', customName, '", ',
-            '"description": "A Cosmic Wizard", ',
-            '"image": "', imageURI, '", '
+            '"name":"Cosmic ', gender, ' Wizard #', tokenId.toString(), '",',
+            '"customName":"', customName, '",',
+            '"description":"A Cosmic Wizard",',
+            '"image":"', imageURI, '",',
+            '"owner":"', owner.toHexString(), '",',
+            '"type":"ERC721",'
         );
     }
 

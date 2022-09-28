@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity ^0.8.16;
 
 import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol";
@@ -26,6 +26,7 @@ ChainlinkVRFConsumerUpgradeable {
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.UintSet;
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.AddressSet;
     using StringsUpgradeable for uint256;
+    using StringsUpgradeable for address;
 
     struct PendingMint {
         uint256[] ids;
@@ -230,11 +231,14 @@ ChainlinkVRFConsumerUpgradeable {
         string memory discountStr = string(abi.encodePacked(discount.toString(), '%'));
         string memory imageURI = string(abi.encodePacked(imageBaseURI, discount.toString()));
         string memory oddsOfStr = oddsOf(discount);
+        address owner = ownerOf(tokenId);
         bytes memory dataURIGeneral = abi.encodePacked(
             '"name": "Cosmic Elves Discount Ticket #', tokenId.toString(), '",',
             '"description": "7 day reserve discount ticket valid for 1 Cosmic Elf",',
             '"image": "', imageURI, '",',
-            '"animation_url": "', imageURI, '",'
+            '"animation_url": "', imageURI, '",',
+            '"owner":"', owner.toHexString(), '",',
+            '"type":"ERC721",'
         );
         bytes memory dataURIAttributes = abi.encodePacked(
             '"attributes": [',
@@ -375,11 +379,11 @@ ChainlinkVRFConsumerUpgradeable {
         return super._exists(tokenId);
     }
 
-    function approve(address to, uint256 tokenId) public virtual override notBlacklisted(to) {
+    function approve(address to, uint256 tokenId) public virtual override(ERC721Upgradeable, IERC721Upgradeable) notBlacklisted(to) {
         super.approve(to, tokenId);
     }
 
-    function setApprovalForAll(address operator, bool approved) public virtual override notBlacklisted(operator) {
+    function setApprovalForAll(address operator, bool approved) public virtual override(ERC721Upgradeable, IERC721Upgradeable) notBlacklisted(operator) {
         super.setApprovalForAll(operator, approved);
     }
 

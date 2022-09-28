@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity ^0.8.16;
 
 import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
@@ -20,6 +20,7 @@ ERC721URIStorageExtendedUpgradeable, PausableUpgradeable, AccessControlEnumerabl
 ERC721BurnableExtendedUpgradeable, TokenConstants {
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.AddressSet;
     using StringsUpgradeable for uint256;
+    using StringsUpgradeable for address;
 
     EnumerableSetUpgradeable.AddressSet private _blacklist;
 
@@ -154,11 +155,13 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
         uint256 region = _numericAttributes[tokenId][2];
 
         string memory imageURI = string(abi.encodePacked(imageBaseURI, tokenId.toString()));
-
+        address owner = ownerOf(tokenId);
         bytes memory dataURIGeneral = abi.encodePacked(
-            '"name": "Cosmic Island Land Plot #', tokenId.toString(), '", ',
-            '"description": "Land plot on Cosmic Island", ',
-            '"image": "', imageURI, '", '
+            '"name":"Cosmic Island Land Plot #', tokenId.toString(), '",',
+            '"description":"Land plot on Cosmic Island",',
+            '"image":"', imageURI, '",',
+            '"owner":"', owner.toHexString(), '",',
+            '"type":"ERC721",'
         );
 
         bytes memory dataURIAttributes = abi.encodePacked(

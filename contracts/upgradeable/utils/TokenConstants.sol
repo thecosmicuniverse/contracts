@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity ^0.8.16;
 
 abstract contract TokenConstants {
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
