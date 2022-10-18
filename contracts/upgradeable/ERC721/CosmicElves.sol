@@ -47,12 +47,16 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConst
     }
 
     function batchMint(address to, uint256[] memory tokenIds) public onlyRole(MINTER_ROLE) {
-        for (uint256 i = 0; i < tokenIds.length; i++) {
+    for (uint256 i = 0; i < tokenIds.length; i++) {
             _safeMint(to, tokenIds[i]);
         }
     }
 
     function tokenURI(uint256 tokenId) public view virtual override(ERC721URITokenJSON, ERC721Upgradeable) returns(string memory) {
+        return _makeBase64(tokenURIJSON(tokenId));
+    }
+
+    function tokenURIJSON(uint256 tokenId) public view virtual returns(string memory) {
         string memory gender = getSkill(tokenId, 0, 0) == 0 ? 'Male' : 'Female';
         string memory name = string(abi.encodePacked('Cosmic ', gender, ' Elf'));
         Attribute[] memory attributes = new Attribute[](11);
@@ -61,6 +65,14 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConst
             attributes[i] = Attribute(getSkillName(0, i), '', getSkill(tokenId, 0, i).toString(), false);
         }
         return _makeJSON(tokenId, name, getString(tokenId, 0), 'A Cosmic Elf', attributes);
+    }
+
+    function batchTokenURIJSON(uint256[] memory tokenIds) public view virtual returns(string[] memory) {
+        string[] memory uris = new string[](tokenIds.length);
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            uris[i] = tokenURIJSON(tokenIds[i]);
+        }
+        return uris;
     }
 
     // PAUSER_ROLE Functions

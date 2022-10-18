@@ -5,32 +5,17 @@
   "main": "index.js",
   "scripts": {
     "compile": "npx hardhat compile",
-
+    "-------------------": "",
     "deploy:harmony": "npx hardhat --network harmony deployUpgradeable",
     "deploy:avalanche": "npx hardhat --network avalanche deployUpgradeable",
-
-
+    "-------------------": "",
     "upgrade:harmony": "npx hardhat --network harmony upgrade",
     "upgrade:avalanche": "npx hardhat --network avalanche upgrade",
     "upgrade:boba": "npx hardhat --network boba upgrade",
-
+    "-------------------": "",
     "verify:avalanche": "npx hardhat --network avalanche verify",
     "verify:boba": "npx hardhat --network boba verify",
-
-    "deploy:cosmicElvesTicket": "npm run deploy -- --name CosmicElvesTicketUpgradeable",
-    "upgrade:cosmicElvesTicket": "npm run upgrade -- --name CosmicElvesTicketUpgradeable --address 0xdC48cECc5443cC1982926060a89392c7dF1d4892",
-
-    "upgrade:professionStaking": "npm run upgrade:harmony -- --name ProfessionStakingHarmonyUpgradeable --address 0x8Dfc57c1c1032e08f3DF6C71A6d8b8EF88a7aC21",
-
-    "upgrade:gameStorage": "npm run upgrade -- --name GameStorageUpgradeable --address 0xdc0B143afD1c806d142617f99c5eE037Df4bA28f",
-
-    "deploy:assetCustomization": "npm run deploy -- --name AssetCustomizationUpgradeable",
-    "upgrade:assetCustomization": "npm run upgrade -- --name AssetCustomizationUpgradeable --address 0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4",
-
-    "erc721QueryHelper:harmony:deploy": "npm run deploy:harmony -- --name ERC721QueryHelper",
-    "erc721QueryHelper:harmony:upgrade": "npm run upgrade:harmony -- --name ERC721QueryHelper --address 0xd26599F823494a1De265e94cf9DC0Af49fA08DA1",
-    "erc721QueryHelper:harmony:verify": "npm run verify:harmony -- 0xd26599F823494a1De265e94cf9DC0Af49fA08DA1",
-
+    "-------------------": "",
     "cosmic:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicUpgradeable",
     "cosmic:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicUpgradeable --address 0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4",
     "cosmic:avalanche:verify": "npm run verify:avalanche -- 0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4",
@@ -75,8 +60,8 @@
     "gameStorage:avalanche:upgrade": "npm run upgrade:avalanche -- --name GameStorageUpgradeable --address 0x3a55FFC97D2183d94147c4D2d3b6991f0C09ABf4",
     "gameStorage:avalanche:verify": "npm run verify:avalanche -- 0x3a55FFC97D2183d94147c4D2d3b6991f0C09ABf4",
 
-    "professionStaking:avalanche:deploy": "npm run deploy:avalanche -- --name ProfessionStakingUpgradeable",
-    "professionStaking:avalanche:upgrade": "npm run upgrade:avalanche -- --name ProfessionStakingUpgradeable --address 0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1",
+    "professionStaking:avalanche:deploy": "npm run deploy:avalanche -- --name ProfessionStakingAvalanche",
+    "professionStaking:avalanche:upgrade": "npm run upgrade:avalanche -- --name ProfessionStakingAvalanche --address 0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1",
     "professionStaking:avalanche:verify": "npm run verify:avalanche -- 0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1",
 
     "cosmicElvesMinter:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicElvesMinter",
@@ -89,13 +74,39 @@
 
     "upgrade:simpleMasterInvestor": "npm run upgrade:avalanche -- --name SimpleMasterInvestor --address 0xc9d61e23E27A3b75B8fEf4b66a67bFC5737e6262",
 
+    "cosmicBadges:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicBadges",
+    "cosmicBadges:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicBadges --address 0x03A37A09be3E90bE403e263238c1aCb14a341DEf",
+    "cosmicBadges:avalanche:verify": "npm run verify:avalanche -- 0x03A37A09be3E90bE403e263238c1aCb14a341DEf",
+
+    "cosmicBundles:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicBundles",
+    "cosmicBundles:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicBundles --address 0x04AB0F76De2D5ba63082193C66E8ce571A32454E",
+    "cosmicBundles:avalanche:verify": "npm run verify:avalanche -- 0x04AB0F76De2D5ba63082193C66E8ce571A32454E",
+
+    "stakingRewardsClaim:avalanche:deploy": "npm run deploy:avalanche -- --name StakingRewardsClaimAvalanche",
+    "stakingRewardsClaim:avalanche:upgrade": "npm run upgrade:avalanche -- --name StakingRewardsClaimAvalanche --address 0x21C5eB2Fee538D641Ea76B9620B1f80f24eb3791",
+    "stakingRewardsClaim:avalanche:verify": "npm run verify:avalanche -- 0x21C5eB2Fee538D641Ea76B9620B1f80f24eb3791",
+
+    "-------------------": "",
+
     "cosmicBadges:boba:deploy": "npm run deploy:boba -- --name CosmicBadges",
     "cosmicBadges:boba:upgrade": "npm run upgrade:boba -- --name CosmicBadges --address 0x9E2Aa514325e67D3bA78E575cAF6F90fBC628069",
     "cosmicBadges:boba:verify": "npm run verify:boba -- 0x9E2Aa514325e67D3bA78E575cAF6F90fBC628069",
 
-    "cosmicBadges:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicBadges",
-    "cosmicBadges:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicBadges --address 0x03A37A09be3E90bE403e263238c1aCb14a341DEf",
-    "cosmicBadges:avalanche:verify": "npm run verify:avalanche -- 0x03A37A09be3E90bE403e263238c1aCb14a341DEf",
+    "-------------------": "",
+
+    "deploy:cosmicElvesTicket": "npm run deploy -- --name CosmicElvesTicketUpgradeable",
+    "upgrade:cosmicElvesTicket": "npm run upgrade -- --name CosmicElvesTicketUpgradeable --address 0xdC48cECc5443cC1982926060a89392c7dF1d4892",
+
+    "upgrade:professionStaking": "npm run upgrade:harmony -- --name ProfessionStakingHarmonyUpgradeable --address 0x8Dfc57c1c1032e08f3DF6C71A6d8b8EF88a7aC21",
+
+    "upgrade:gameStorage": "npm run upgrade -- --name GameStorageUpgradeable --address 0xdc0B143afD1c806d142617f99c5eE037Df4bA28f",
+
+    "deploy:assetCustomization": "npm run deploy -- --name AssetCustomizationUpgradeable",
+    "upgrade:assetCustomization": "npm run upgrade -- --name AssetCustomizationUpgradeable --address 0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4",
+
+    "erc721QueryHelper:harmony:deploy": "npm run deploy:harmony -- --name ERC721QueryHelper",
+    "erc721QueryHelper:harmony:upgrade": "npm run upgrade:harmony -- --name ERC721QueryHelper --address 0xd26599F823494a1De265e94cf9DC0Af49fA08DA1",
+    "erc721QueryHelper:harmony:verify": "npm run verify:harmony -- 0xd26599F823494a1De265e94cf9DC0Af49fA08DA1",
 
     "addMetadata:hmy": "npx hardhat --network harmony run ./scripts/addMetadata.js",
     "addMetadata": "npx hardhat --network avalanche run ./scripts/addMetadata.js"

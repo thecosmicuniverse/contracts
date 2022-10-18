@@ -49,6 +49,9 @@ abstract contract ERC1155Soulbound is Initializable, AccessControlEnumerableUpgr
         _soulbound.unset(tokenId);
     }
 
+    function isSoulbound(uint256 tokenId) public view returns (bool) {
+        return _soulbound.get(tokenId);
+    }
 
     uint256[46] private __gap;
 }

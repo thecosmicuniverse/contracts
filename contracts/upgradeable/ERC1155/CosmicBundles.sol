@@ -17,10 +17,10 @@ import "../utils/TokenConstants.sol";
 import "../utils/Blacklistable.sol";
 
 /**
-* @title Cosmic Badges v1.0.0
+* @title Cosmic Bundles v1.0.0
 * @author @DirtyCajunRice
 */
-contract CosmicBadges is Initializable, ERC1155Upgradeable, AccessControlEnumerableUpgradeable, PausableUpgradeable,
+contract CosmicBundles is Initializable, ERC1155Upgradeable, AccessControlEnumerableUpgradeable, PausableUpgradeable,
 ERC1155BurnableUpgradeable, ERC1155Supply, Blacklistable, TokenConstants, CosmicStructs, ERC1155AttributeStorage,
 ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
 
@@ -38,9 +38,9 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
 
         __Blacklistable_init();
         __ERC1155Soulbound_init();
-        __ERC1155URITokenJSON_init("https://images.cosmicuniverse.io/cosmic-badges/");
+        __ERC1155URITokenJSON_init("https://images.cosmicuniverse.io/cosmic-bundles/");
         __ERC1155AttributeStorage_init();
-        __ERC1155Metadata_init("Cosmic Badges", "BADGES");
+        __ERC1155Metadata_init("Cosmic Bundles", "BUNDLES");
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _grantRole(ADMIN_ROLE, _msgSender());
         _grantRole(MINTER_ROLE, _msgSender());

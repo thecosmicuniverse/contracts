@@ -15,7 +15,7 @@ import "../ERC721/interfaces/ICosmicAttributeStorageUpgradeable.sol";
 * @title Cosmic Universe NFT Staking v2.0.0
 * @author @DirtyCajunRice
 */
-contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, AccessControlUpgradeable, IERC721ReceiverUpgradeable {
+contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, AccessControlUpgradeable, IERC721ReceiverUpgradeable {
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.AddressSet;
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.UintSet;
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
@@ -248,6 +248,13 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         _claim(_msgSender());
     }
 
+    function adminClaim(address[] memory addresses) public onlyRole(ADMIN_ROLE) {
+        for (uint256 i = 0; i < addresses.length; i++) {
+            _disburse_rewards(addresses[i]);
+            _claim(addresses[i]);
+        }
+    }
+
     function _claim(address _address) internal {
         address nftAddress = 0xBF20c23D25Fca8Aa4e7946496250D67872691Af2;
         StakingConfig storage config = _config[nftAddress];
@@ -259,7 +266,7 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
         config.rewardToken.transfer(_address, amountToClaim);
 
         if (pd.nftIds.length() == 0) {
-            _dataKeys.remove(_msgSender());
+            _dataKeys.remove(_address);
         }
         emit Claimed(_address, address(config.rewardToken), amountToClaim);
     }
@@ -482,20 +489,24 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
 
     // view
 
-    function pendingRewards() public view returns(uint256) {
-        return pendingRewardsOf(_msgSender());
+    function pendingRewards() public pure returns(uint256) {
+        return 0;
+        //return pendingRewardsOf(_msgSender());
     }
 
-    function pendingRewardsOf(address _address) public view returns(uint256) {
-        ParticipantData storage pd = _data[_address];
-        uint256 total = pd.rewards;
-        uint256[] memory nftIds = pd.nftIds.values();
-        for (uint256 i = 0; i < nftIds.length; i++) {
-            uint256 elapsed = block.timestamp - pd.nfts[nftIds[i]].rewardFrom;
-            uint256 totalSkill = getTotalProfessionSkillPoints(pd.nfts[nftIds[i]]._address, pd.nfts[nftIds[i]].tokenId);
-            total += ((totalSkill + 1) * 1e18 / 1 days) * elapsed;
-        }
-        return total;
+    function pendingRewardsOf(address) public pure returns(uint256) {
+        return 0;
+        //ParticipantData storage pd = _data[_address];
+        //uint256 total = pd.rewards;
+        //uint256[] memory nftIds = pd.nftIds.values();
+        //for (uint256 i = 0; i < nftIds.length; i++) {
+        //    NFT memory nft = pd.nfts[nftIds[i]];
+        //    uint256 timestamp = block.timestamp >= 1665964799 ? 1665964799 : block.timestamp;
+        //    uint256 elapsed = timestamp - nft.rewardFrom;
+        //    uint256 totalSkill = getTotalProfessionSkillPoints(nft._address, nft.tokenId);
+        //    total += ((totalSkill + 1) * 1e18 / 1 days) * elapsed;
+        //}
+        //return total;
     }
 
     function getStaked() public view returns(NFT[] memory) {
@@ -544,6 +555,17 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
             }
         }
         return training;
+    }
+
+    function isOwner(uint256 tokenId, address owner) public view returns (bool) {
+        ParticipantData storage pd = _data[owner];
+        uint256[] memory nftIds = pd.nftIds.values();
+        for (uint256 i = 0; i < nftIds.length; i++) {
+            if (pd.nfts[nftIds[i]].tokenId == tokenId) {
+                return true;
+            }
+        }
+        return false;
     }
 
     function getTrainingStatus(
@@ -660,7 +682,6 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
 
     /// internal
 
-
     function _disburse_all_rewards() internal {
         for (uint256 i = 0; i < _dataKeys.length(); i++) {
             _disburse_rewards(_dataKeys.at(i));
@@ -676,13 +697,13 @@ contract ProfessionStakingUpgradeable is Initializable, PausableUpgradeable, Acc
     }
 
     function _disburse_reward(address _address, NFT storage nft) internal {
-        uint256 rewardFrom = nft.rewardFrom;
-        nft.rewardFrom = block.timestamp;
+        uint256 rewardFrom = nft.rewardFrom >= 1665964799 ? 1665964799 : nft.rewardFrom;
+        nft.rewardFrom = block.timestamp >= 1665964799 ? 1665964799 : block.timestamp;
         _disburse_nft_reward(_address, nft._address, nft.tokenId, rewardFrom);
     }
 
     function _disburse_nft_reward(address _address, address nftAddress, uint256 tokenId, uint256 rewardFrom) internal {
-        if (rewardFrom == 0 || rewardFrom >= block.timestamp) {
+        if (rewardFrom == 0 || rewardFrom >= block.timestamp || rewardFrom >= 1665964799) {
             return;
         }
         uint256 elapsed = block.timestamp - rewardFrom;

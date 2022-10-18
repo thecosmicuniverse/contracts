@@ -115,3 +115,4 @@ reference
 /artifacts/@chainlink/
 /scripts/metadata
 /scripts/data
+/scripts/adhoc.js

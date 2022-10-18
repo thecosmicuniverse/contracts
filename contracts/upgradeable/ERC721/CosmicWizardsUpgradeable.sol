@@ -33,7 +33,8 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
     mapping(uint256 => mapping(uint256 => mapping(uint256 => uint256))) private _store;
     // tokenId > customId  > stringValue
     mapping(uint256 => mapping(uint256 => string)) private _textStore;
-
+    // treeId > skillId  > value > stringValue
+    mapping(uint256 => mapping(uint256 => mapping(uint256 => string))) private _attributeNameStore;
     event ValueUpdated(uint256 indexed tokenId, uint256 treeId, uint256 skillId, uint256 value);
     event TextUpdated(uint256 indexed tokenId, uint256 customId, string value);
 
@@ -113,6 +114,17 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
         emit TextUpdated(tokenId, customId, value);
     }
 
+    function updateAttributeStrings(
+        uint256 treeId,
+        uint256 skillId,
+        uint256[] memory values,
+        string[] memory stringValues
+    ) public onlyRole(ADMIN_ROLE) {
+        for (uint256 i = 0; i < values.length; i++) {
+            _attributeNameStore[treeId][skillId][values[i]] = stringValues[i];
+        }
+    }
+
     function getSkill(uint256 tokenId, uint256 treeId, uint256 skillId) public view returns (uint256 value) {
         return _store[tokenId][treeId][skillId];
     }
@@ -150,18 +162,9 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
     function tokenURI(uint256 tokenId) public view virtual
     override(ERC721Upgradeable, ERC721URIStorageExtendedUpgradeable) returns (string memory) {
         bytes memory dataURIGeneral = getGeneralDataUri(tokenId);
-        bytes memory dataURIProfessions = getProfessionDataUri(tokenId);
-        bytes memory dataURIStaking = getStakingDataUri(tokenId);
         bytes memory dataURIAttributes = getAttributesDataUri(tokenId);
 
-        bytes memory dataURI = abi.encodePacked(
-            '{',
-                string(dataURIGeneral),
-                string(dataURIProfessions),
-                string(dataURIStaking),
-                string(dataURIAttributes),
-            '}'
-        );
+        bytes memory dataURI = abi.encodePacked('{', string(dataURIGeneral), string(dataURIAttributes), '}');
         return string(
             abi.encodePacked(
                 "data:application/json;base64,",
@@ -193,99 +196,87 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
         );
     }
 
-    function getProfessionDataUriFirst6(uint256 tokenId) internal view returns(bytes memory) {
-        string memory alchemy = _store[tokenId][1][0].toString();
-        string memory architecture = _store[tokenId][1][1].toString();
-        string memory carpentry = _store[tokenId][1][2].toString();
-        string memory cooking = _store[tokenId][1][3].toString();
-        string memory crystalExtraction = _store[tokenId][1][4].toString();
-        string memory farming = _store[tokenId][1][5].toString();
-        return abi.encodePacked(
-            '"alchemy": ', alchemy, ', ',
-            '"architecture": ', architecture, ', ',
-            '"carpentry": ', carpentry, ', ',
-            '"cooking": ', cooking, ', ',
-            '"crystalExtraction": ', crystalExtraction, ', ',
-            '"farming": ', farming, ', '
+    function getProfessionAttributesA(uint256 tokenId) internal view returns(bytes memory) {
+        bytes memory a = abi.encodePacked(
+            '{"trait_type":"Alchemy","value":', _store[tokenId][1][0].toString(), '},',
+            '{"trait_type":"Architecture","value":', _store[tokenId][1][1].toString(), '},',
+            '{"trait_type":"Carpentry","value":', _store[tokenId][1][2].toString(), '},'
         );
-
-    }
-    function getProfessionDataUriSecond6(uint256 tokenId) internal view returns(bytes memory) {
-        string memory fishing = _store[tokenId][1][6].toString();
-        string memory gemCutting = _store[tokenId][1][7].toString();
-        string memory herbalism = _store[tokenId][1][8].toString();
-        string memory mining = _store[tokenId][1][9].toString();
-        string memory tailoring = _store[tokenId][1][10].toString();
-        string memory woodcutting = _store[tokenId][1][11].toString();
-        return abi.encodePacked(
-            '"fishing": ', fishing, ', ',
-            '"gemCutting": ', gemCutting, ', ',
-            '"herbalism": ', herbalism, ', ',
-            '"mining": ', mining, ', ',
-            '"tailoring": ', tailoring, ', ',
-            '"woodcutting": ', woodcutting
+        bytes memory b = abi.encodePacked(
+            '{"trait_type":"Cooking","value":', _store[tokenId][1][3].toString(), '},',
+            '{"trait_type":"Crystal Extraction","value":', _store[tokenId][1][4].toString(), '},',
+            '{"trait_type":"Farming","value":', _store[tokenId][1][5].toString(), '},'
         );
+        return abi.encodePacked(string(a), string(b));
+
+    }
+    function getProfessionAttributesB(uint256 tokenId) internal view returns(bytes memory) {
+        bytes memory a = abi.encodePacked(
+            '{"trait_type":"Fishing","value":', _store[tokenId][1][6].toString(), '},',
+            '{"trait_type":"Gem Cutting","value":', _store[tokenId][1][7].toString(), '},',
+            '{"trait_type":"Herbalism","value":', _store[tokenId][1][8].toString(), '},'
+        );
+        bytes memory b = abi.encodePacked(
+            '{"trait_type":"Mining","value":', _store[tokenId][1][9].toString(), '},',
+            '{"trait_type":"Tailoring","value":', _store[tokenId][1][10].toString(), '},',
+            '{"trait_type":"Woodcutting","value":', _store[tokenId][1][11].toString(), '},'
+        );
+        return abi.encodePacked(string(a), string(b));
     }
 
-    function getProfessionDataUri(uint256 tokenId) internal view returns(bytes memory) {
-        bytes memory first6 = getProfessionDataUriFirst6(tokenId);
-        bytes memory second6 = getProfessionDataUriSecond6(tokenId);
-        return abi.encodePacked('"professions": {', string(first6), string(second6), '}, ');
+    function getProfessionAttributes(uint256 tokenId) internal view returns(bytes memory) {
+        bytes memory first6 = getProfessionAttributesA(tokenId);
+        bytes memory second6 = getProfessionAttributesB(tokenId);
+        return abi.encodePacked(string(first6), string(second6));
     }
 
-    function getStakingDataUri(uint256 tokenId) internal view returns(bytes memory) {
+
+    function getStakingAttributes(uint256 tokenId) internal view returns(bytes memory) {
+        string memory unlocked = _store[tokenId][0][9] == 0 ? 'False' : 'True';
+        string memory staked = _store[tokenId][0][10] == 0 ? 'False' : 'True';
         return abi.encodePacked(
-            '"staking": {',
-                '"unlocked": ', _store[tokenId][0][9].toString(), ', ',
-                '"staked": ', _store[tokenId][0][10].toString(),
-            '}, '
+            '{"trait_type":"Staking Unlocked","value":"', unlocked, '"},'
+            '{"trait_type":"Staked","value":"', staked, '"},'
         );
     }
 
-    function getAttributesDataUri(uint256 tokenId) internal view returns(bytes memory) {
+    function getRewardsClaimedAttributes(uint256 tokenId) internal view returns(bytes memory) {
+        return abi.encodePacked(
+            '{"trait_type":"Chests Claimed","value":', _store[tokenId][2][0].toString(), '}'
+        );
+    }
+    function getBaseAttributes(uint256 tokenId) internal view returns(bytes memory) {
+        uint256 gender = _store[tokenId][0][0];
         bytes memory first3 = abi.encodePacked(
-            '{',
-                '"trait_type": "gender", ',
-                '"value": ', _store[tokenId][0][0].toString(),
-            '}, ',
-            '{',
-                '"trait_type": "background", ',
-                '"value": ', _store[tokenId][0][1].toString(),
-            '}, ',
-            '{',
-                '"trait_type": "hair", ',
-                '"value": ', _store[tokenId][0][2].toString(),
-            '}, '
+            '{"trait_type":"Gender","value":"', _attributeNameStore[0][0][gender], '"},',
+            '{"trait_type":"Background","value":"', _attributeNameStore[0][gender == 0 ? 1 : 11][_store[tokenId][0][1]], '"},',
+            '{"trait_type":"Hair","value":"', _attributeNameStore[0][gender == 0 ? 2 : 12][_store[tokenId][0][2]], '"},'
         );
         bytes memory second3 = abi.encodePacked(
-            '{',
-                '"trait_type": "hat", ',
-                '"value": ', _store[tokenId][0][3].toString(),
-            '}, ',
-            '{',
-                '"trait_type": "eyes", ',
-                '"value": ', _store[tokenId][0][4].toString(),
-            '}, ',
-            '{',
-                '"trait_type": "base", ',
-                '"value": ', _store[tokenId][0][5].toString(),
-            '}, '
+            '{"trait_type":"Hat","value":"', _attributeNameStore[0][gender == 0 ? 3 : 13][_store[tokenId][0][3]], '"},',
+            '{"trait_type":"Eyes","value":"', _attributeNameStore[0][gender == 0 ? 4 : 14][_store[tokenId][0][4]], '"},',
+            '{"trait_type":"Base","value":"', _attributeNameStore[0][gender == 0 ? 5 : 15][_store[tokenId][0][5]], '"},'
         );
         bytes memory third3 = abi.encodePacked(
-            '{',
-                '"trait_type": "staff", ',
-                '"value": ', _store[tokenId][0][6].toString(),
-            '}, ',
-            '{',
-                '"trait_type": "robe", ',
-                '"value": ', _store[tokenId][0][7].toString(),
-            '}, ',
-            '{',
-                '"trait_type": "mouth", ',
-                '"value": ', _store[tokenId][0][8].toString(),
-            '}'
+            '{"trait_type":"Staff","value":"', _attributeNameStore[0][gender == 0 ? 6 : 16][_store[tokenId][0][6]], '"},',
+            '{"trait_type":"Robe","value":"', _attributeNameStore[0][gender == 0 ? 7 : 17][_store[tokenId][0][7]], '"},',
+            '{"trait_type":"Mouth","value":"', _attributeNameStore[0][gender == 0 ? 8 : 18][_store[tokenId][0][8]], '"},'
         );
-        return abi.encodePacked('"attributes": [', string(first3), string(second3), string(third3), ']');
+        return abi.encodePacked(string(first3), string(second3), string(third3));
+    }
+    function getAttributesDataUri(uint256 tokenId) internal view returns(bytes memory) {
+        bytes memory base = getBaseAttributes(tokenId);
+        bytes memory staking = getStakingAttributes(tokenId);
+        bytes memory rewardsClaimed = getRewardsClaimedAttributes(tokenId);
+        bytes memory professions = getProfessionAttributes(tokenId);
+        return abi.encodePacked(
+            '"attributes":[',
+                string(base),
+                string(staking),
+                string(professions),
+                string(rewardsClaimed),
+            ']'
+        );
     }
 
     function setImageBaseURI(string memory _imageBaseURI) public onlyRole(ADMIN_ROLE) {

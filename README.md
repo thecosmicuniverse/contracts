@@ -22,12 +22,14 @@ Security contact: DirtyCajunRice#0001 (Discord)
 |         Cosmic Elves         | `0x9a337A6F883De95f49e05CD7D801d475a40a9C70` | [Snowtrace](https://snowtrace.io/address/0x9a337A6F883De95f49e05CD7D801d475a40a9C70) |
 |      Cosmic Island Land      | `0x2fa83f2Fa89F275863B9491b1802dFeA5A130024` | [Snowtrace](https://snowtrace.io/address/0x2fa83f2Fa89F275863B9491b1802dFeA5A130024) |
 |        Cosmic Badges         | `0x03A37A09be3E90bE403e263238c1aCb14a341DEf` | [Snowtrace](https://snowtrace.io/address/0x03A37A09be3E90bE403e263238c1aCb14a341DEf) |
+|        Cosmic Bundles        | `0x04AB0F76De2D5ba63082193C66E8ce571A32454E` | [Snowtrace](https://snowtrace.io/address/0x04AB0F76De2D5ba63082193C66E8ce571A32454E) |
 |     Cosmic Elves Minter      | `0x8D1dA51e910155d27015F370A4d3718996d47e11` | [Snowtrace](https://snowtrace.io/address/0x8D1dA51e910155d27015F370A4d3718996d47e11) |
 |      Cosmic Island Land      | `0x2fa83f2Fa89F275863B9491b1802dFeA5A130024` | [Snowtrace](https://snowtrace.io/address/0x2fa83f2Fa89F275863B9491b1802dFeA5A130024) |
 |  Wizard Profession Staking   | `0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1` | [Snowtrace](https://snowtrace.io/address/0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1) |
 |      Cosmic Marketplace      | `0x5202e45EbA7F58E350AA58B59dEB64a668654007` | [Snowtrace](https://snowtrace.io/address/0x5202e45EbA7F58E350AA58B59dEB64a668654007) |
 |         Cosmic Farm          | `0xc9d61e23E27A3b75B8fEf4b66a67bFC5737e6262` | [Snowtrace](https://snowtrace.io/address/0xc9d61e23E27A3b75B8fEf4b66a67bFC5737e6262) |
 |  Unreal Engine Query Helper  | `0xa803303fAaC31046ef572DF26E7de5338237000c` | [Snowtrace](https://snowtrace.io/address/0xa803303fAaC31046ef572DF26E7de5338237000c) |
+|    Staking Rewards Claim     | `0x21C5eB2Fee538D641Ea76B9620B1f80f24eb3791` | [Snowtrace](https://snowtrace.io/address/0x21C5eB2Fee538D641Ea76B9620B1f80f24eb3791) |
 
 ### Harmony Contracts (Deprecated)
 

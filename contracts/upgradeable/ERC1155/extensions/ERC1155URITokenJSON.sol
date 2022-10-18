@@ -24,13 +24,9 @@ abstract contract ERC1155URITokenJSON is Initializable, CosmicStructs {
     function batchUri(uint256[] memory tokenIds) public view virtual returns(string[] memory) {
         string[] memory uris = new string[](tokenIds.length);
         for (uint256 i = 0; i < tokenIds.length; i++) {
-            uris[i] = tokenURI(tokenIds[i]);
+            uris[i] = uri(tokenIds[i]);
         }
         return uris;
-    }
-
-    function tokenURI(uint256 tokenId) public view virtual returns(string memory) {
-        return uri(tokenId);
     }
 
     function batchTokenURI(uint256[] memory tokenIds) public view virtual returns(string[] memory) {

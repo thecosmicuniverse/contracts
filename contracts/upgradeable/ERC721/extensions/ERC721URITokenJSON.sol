@@ -68,10 +68,10 @@ abstract contract ERC721URITokenJSON is Initializable, ERC721Upgradeable {
         return string(abi.encodePacked(
             '"name":"', name, ' #', tokenId.toString(), '",',
             '"customName":"', customName, '",',
-            '"description": "', description, '",',
-            '"image": "', imageURI, '",',
-            '"owner": "', owner.toHexString(), '",',
-            '"type": "ERC721",'
+            '"description":"', description, '",',
+            '"image":"', imageURI, '",',
+            '"owner":"', owner.toHexString(), '",',
+            '"type":"ERC721",'
         ));
     }
 

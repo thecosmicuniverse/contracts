@@ -5,6 +5,7 @@ import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgrad
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 
 import "./extensions/ERC721EnumerableExtendedUpgradeable.sol";
 import "./extensions/ERC721URIStorageExtendedUpgradeable.sol";
@@ -18,6 +19,8 @@ import "../utils/TokenConstants.sol";
 contract FramedWizardsUpgradeable is Initializable, ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable,
 ERC721URIStorageExtendedUpgradeable, PausableUpgradeable, AccessControlEnumerableUpgradeable,
 ERC721BurnableExtendedUpgradeable, TokenConstants {
+    using StringsUpgradeable for uint256;
+    using StringsUpgradeable for address;
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.AddressSet;
 
     EnumerableSetUpgradeable.AddressSet private _blacklist;
@@ -92,9 +95,19 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
     }
 
     // Overrides
-    function tokenURI(uint256 tokenId) public view virtual
-    override(ERC721Upgradeable, ERC721URIStorageExtendedUpgradeable) returns (string memory) {
-        return super.tokenURI(tokenId);
+    function tokenURI(uint256 tokenId) public view virtual override(ERC721Upgradeable, ERC721URIStorageExtendedUpgradeable) returns (string memory) {
+        string memory imageURI = string(abi.encodePacked("https://images.cosmicuniverse.io/framed-wizards/", tokenId.toString()));
+        address owner = ownerOf(tokenId);
+        bytes memory dataURIGeneral = abi.encodePacked(
+            '"name":"Framed Wizard #', tokenId.toString(), '",',
+            '"description":"Framed picture of a 2D Cosmic Wizard",',
+            '"image":"', imageURI, '",',
+            '"owner":"', owner.toHexString(), '",',
+            '"type":"ERC721",',
+            '"attributes": []'
+        );
+        bytes memory dataURI = abi.encodePacked('{', string(dataURIGeneral), '}');
+        return string(abi.encodePacked("data:application/json;base64,", Base64Upgradeable.encode(dataURI)));
     }
 
     function batchTokenURI(uint256[] memory tokenIds) public view returns(string[] memory) {
