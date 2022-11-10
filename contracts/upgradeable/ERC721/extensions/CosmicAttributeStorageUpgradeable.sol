@@ -74,6 +74,16 @@ abstract contract CosmicAttributeStorageUpgradeable is Initializable, AccessCont
         _storeNames[treeId][skillId] = name;
     }
 
+    function batchSetSkillName(
+        uint256 treeId,
+        uint256[] memory skillIds,
+        string[] memory names
+    ) public onlyRole(CONTRACT_ROLE) {
+        for (uint256 i = 0; i < skillIds.length; i++) {
+            _storeNames[treeId][skillIds[i]] = names[i];
+        }
+    }
+
     /**
     * @dev Get a single skill value
     *

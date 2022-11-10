@@ -23,6 +23,7 @@ import "../utils/Blacklistable.sol";
 contract CosmicBadges is Initializable, ERC1155Upgradeable, AccessControlEnumerableUpgradeable, PausableUpgradeable,
 ERC1155BurnableUpgradeable, ERC1155Supply, Blacklistable, TokenConstants, CosmicStructs, ERC1155AttributeStorage,
 ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
+    using StringsUpgradeable for uint256;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -82,7 +83,7 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
         Attribute[] memory attributes = new Attribute[](attributeValues.length);
 
         for (uint256 i = 0; i < attributeValues.length; i++) {
-            attributes[i] = Attribute(attributeNames[i], '', attributeValues[i]);
+            attributes[i] = Attribute(attributeNames[i], '', attributeValues[i].toString());
         }
         return _makeBase64(_makeJSON(tokenId, name, description, attributes));
     }

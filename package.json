@@ -13,6 +13,7 @@
     "upgrade:avalanche": "npx hardhat --network avalanche upgrade",
     "upgrade:boba": "npx hardhat --network boba upgrade",
     "-------------------": "",
+    "verify:harmony": "npx hardhat --network harmony verify",
     "verify:avalanche": "npx hardhat --network avalanche verify",
     "verify:boba": "npx hardhat --network boba verify",
     "-------------------": "",
@@ -32,9 +33,9 @@
     "lMagic:avalanche:upgrade": "npm run upgrade:avalanche -- --name lMagicUpgradeable --address 0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D",
     "lMagic:avalanche:verify": "npm run verify:avalanche -- 0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D",
 
-    "wizards:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicWizardsUpgradeable",
-    "wizards:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicWizardsUpgradeable --address 0xBF20c23D25Fca8Aa4e7946496250D67872691Af2",
-    "wizards:avalanche:verify": "npm run verify:avalanche -- 0xBF20c23D25Fca8Aa4e7946496250D67872691Af2",
+    "cosmicWizards:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicWizards",
+    "cosmicWizards:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicWizards --address 0xBF20c23D25Fca8Aa4e7946496250D67872691Af2",
+    "cosmicWizards:avalanche:verify": "npm run verify:avalanche -- 0xBF20c23D25Fca8Aa4e7946496250D67872691Af2",
 
     "cosmicIslandLand:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicIslandLandUpgradeable",
     "cosmicIslandLand:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicIslandLandUpgradeable --address 0x2fa83f2Fa89F275863B9491b1802dFeA5A130024",
@@ -86,6 +87,30 @@
     "stakingRewardsClaim:avalanche:upgrade": "npm run upgrade:avalanche -- --name StakingRewardsClaimAvalanche --address 0x21C5eB2Fee538D641Ea76B9620B1f80f24eb3791",
     "stakingRewardsClaim:avalanche:verify": "npm run verify:avalanche -- 0x21C5eB2Fee538D641Ea76B9620B1f80f24eb3791",
 
+    "cosmicTools:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicTools",
+    "cosmicTools:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicTools --address 0x39Ad4AAfa177f59ed7356fFDBbF36A840075b7A6",
+    "cosmicTools:avalanche:verify": "npm run verify:avalanche -- 0x39Ad4AAfa177f59ed7356fFDBbF36A840075b7A6",
+
+    "cosmicComponents:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicComponents",
+    "cosmicComponents:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicComponents --address 0xCB9e8C619CF2C27781dAD8F6e5B27fEBB4f1D89C",
+    "cosmicComponents:avalanche:verify": "npm run verify:avalanche -- 0xCB9e8C619CF2C27781dAD8F6e5B27fEBB4f1D89C",
+
+    "cosmicPotions:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicPotions",
+    "cosmicPotions:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicPotions --address 0x54EC1799Cafa5685F0f1A16537b74c02589b7FCe",
+    "cosmicPotions:avalanche:verify": "npm run verify:avalanche -- 0x54EC1799Cafa5685F0f1A16537b74c02589b7FCe",
+
+    "cosmicRawResources:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicRawResources",
+    "cosmicRawResources:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicRawResources --address 0xF31dC5F3A6D0af979FC3D8ad7A216E2eA49a1Cb1",
+    "cosmicRawResources:avalanche:verify": "npm run verify:avalanche -- 0xF31dC5F3A6D0af979FC3D8ad7A216E2eA49a1Cb1",
+
+    "cosmicRefinedResources:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicRefinedResources",
+    "cosmicRefinedResources:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicRefinedResources --address 0xEacF75f43674a85eae7679E4A67C7FEF004CC7CB",
+    "cosmicRefinedResources:avalanche:verify": "npm run verify:avalanche -- 0xEacF75f43674a85eae7679E4A67C7FEF004CC7CB",
+
+    "cosmicSkins:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicSkins",
+    "cosmicSkins:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicSkins --address 0x1A356b2B223eB5eb4221a956C67634B7d5c72910",
+    "cosmicSkins:avalanche:verify": "npm run verify:avalanche -- 0x1A356b2B223eB5eb4221a956C67634B7d5c72910",
+
     "-------------------": "",
 
     "cosmicBadges:boba:deploy": "npm run deploy:boba -- --name CosmicBadges",
@@ -97,7 +122,8 @@
     "deploy:cosmicElvesTicket": "npm run deploy -- --name CosmicElvesTicketUpgradeable",
     "upgrade:cosmicElvesTicket": "npm run upgrade -- --name CosmicElvesTicketUpgradeable --address 0xdC48cECc5443cC1982926060a89392c7dF1d4892",
 
-    "upgrade:professionStaking": "npm run upgrade:harmony -- --name ProfessionStakingHarmonyUpgradeable --address 0x8Dfc57c1c1032e08f3DF6C71A6d8b8EF88a7aC21",
+    "professionStaking:harmony:upgrade": "npm run upgrade:harmony -- --name ProfessionStakingHarmony --address 0x8Dfc57c1c1032e08f3DF6C71A6d8b8EF88a7aC21",
+    "professionStaking:harmony:verify": "npm run verify:harmony -- 0x8Dfc57c1c1032e08f3DF6C71A6d8b8EF88a7aC21",
 
     "upgrade:gameStorage": "npm run upgrade -- --name GameStorageUpgradeable --address 0xdc0B143afD1c806d142617f99c5eE037Df4bA28f",
 
@@ -115,7 +141,6 @@
   "author": "dirtycajunrice",
   "license": "MIT",
   "dependencies": {
-    "@nomiclabs/hardhat-etherscan": "3.1.0",
     "@openzeppelin/contracts": "4.7.3",
     "@openzeppelin/upgrades-core": "1.19.1",
     "dotenv": "16.0.2",
@@ -124,11 +149,9 @@
     "typescript": "4.8.3"
   },
   "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "2.1.1",
-    "@nomiclabs/hardhat-waffle": "2.0.3",
+    "@nomicfoundation/hardhat-toolbox": "2.0.0",
     "@openzeppelin/contracts-upgradeable": "4.7.3",
-    "@openzeppelin/hardhat-upgrades": "1.20.0",
-    "@chainlink/contracts": "0.4.1",
-    "ethers": "5.7.1"
+    "@openzeppelin/hardhat-upgrades": "1.21.0",
+    "@chainlink/contracts": "0.4.1"
   }
 }

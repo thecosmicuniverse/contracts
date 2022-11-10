@@ -2,6 +2,7 @@ import "@nomiclabs/hardhat-ethers";
 import '@openzeppelin/hardhat-upgrades';
 import { task } from 'hardhat/config';
 import { setTimeout } from "timers/promises";
+import { saveContract } from './helpers';
 
 task("upgrade", "Upgrade a transparent proxy contract")
   .addParam("name")
@@ -14,6 +15,7 @@ task("upgrade", "Upgrade a transparent proxy contract")
     console.log(name, "upgraded!")
     const impl = await hre.upgrades.erc1967.getImplementationAddress(contract.address)
     const admin = await hre.upgrades.erc1967.getAdminAddress(contract.address)
+    saveContract(name, address, hre.network.config.chainId || 0, true, impl, admin);
     console.log("Proxy:", contract.address)
     console.log("Admin:", admin)
     console.log("Impl:", impl)

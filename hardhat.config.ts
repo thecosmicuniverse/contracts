@@ -1,14 +1,12 @@
-import "@nomiclabs/hardhat-waffle";
-import "@nomiclabs/hardhat-ethers";
+import "@nomicfoundation/hardhat-toolbox";
 import '@openzeppelin/hardhat-upgrades';
-import "@nomiclabs/hardhat-etherscan";
 
 import "dotenv/config";
 
 import "./tasks/deployUpgradeable";
 import "./tasks/upgrade";
 import "./tasks/getUpgradeDetails";
-
+import "./tasks/queries";
 module.exports = {
   solidity: {
     compilers: [
@@ -63,7 +61,7 @@ module.exports = {
   },
   networks: {
     harmony: {
-      url: process.env.RPC_URL,
+      url: 'https://api.harmony.one',
       chainId: 1666600000,
       accounts: [process.env.PRIVATE_KEY]
     },

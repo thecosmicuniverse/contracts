@@ -69,13 +69,13 @@ abstract contract ERC1155URITokenJSON is Initializable, CosmicStructs {
             string memory comma = i == (attributes.length - 1) ? '' : ',';
             string memory displayType = bytes(attributes[i].display).length == 0
                 ? ''
-                :  string(abi.encodePacked('{"display_type":"', attributes[i].display, '",'));
+                :  string(abi.encodePacked('"display_type":"', attributes[i].display, '",'));
             string memory a = string(
                 abi.encodePacked(
                     allAttributes,
                     '{"trait_type":"', attributes[i].name, '",',
                     displayType,
-                    '"value":', attributes[i].value.toString(), '}',
+                    '"value":"', attributes[i].value, '"}',
                     comma
                 )
             );

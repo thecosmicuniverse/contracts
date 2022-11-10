@@ -108,6 +108,7 @@ dist
 *.dbg.json
 
 yarn.lock
+package-lock.json
 cache/
 artifacts/@openzeppelin/
 artifacts/build-info/

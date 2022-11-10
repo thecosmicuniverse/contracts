@@ -5,6 +5,6 @@ interface CosmicStructs {
     struct Attribute {
         string name;
         string display;
-        uint256 value;
+        string value;
     }
 }

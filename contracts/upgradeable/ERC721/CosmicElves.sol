@@ -22,6 +22,7 @@ contract CosmicElves is Initializable, ERC721Upgradeable, PausableUpgradeable, A
 ERC721BurnableExtendedUpgradeable, ERC721EnumerableExtendedUpgradeable,
 ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConstants  {
     using StringsUpgradeable for uint256;
+    using TokenMetadata for string;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -52,27 +53,26 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConst
         }
     }
 
-    function tokenURI(uint256 tokenId) public view virtual override(ERC721URITokenJSON, ERC721Upgradeable) returns(string memory) {
-        return _makeBase64(tokenURIJSON(tokenId));
-    }
+    function tokenURIJSON(uint256 tokenId) public view virtual override returns(string memory) {
+        uint256 gender = getSkill(tokenId, 0, 0);
+        string memory name = string(abi.encodePacked('Cosmic ', gender == 0 ? 'Male' : 'Female', ' Elf #', tokenId.toString()));
+        TokenMetadata.Attribute[] memory attributes = new TokenMetadata.Attribute[](26);
 
-    function tokenURIJSON(uint256 tokenId) public view virtual returns(string memory) {
-        string memory gender = getSkill(tokenId, 0, 0) == 0 ? 'Male' : 'Female';
-        string memory name = string(abi.encodePacked('Cosmic ', gender, ' Elf'));
-        Attribute[] memory attributes = new Attribute[](11);
-
+        // base (11)
+        uint256 baseSkillNameId = gender == 0 ? 0 : 11;
         for (uint256 i = 0; i < 11; i++) {
-            attributes[i] = Attribute(getSkillName(0, i), '', getSkill(tokenId, 0, i).toString(), false);
+            attributes[i] = TokenMetadata.Attribute(getSkillName(0, i), '', getSkillName(1000 + i, baseSkillNameId + getSkill(tokenId, 0, i)), false);
         }
-        return _makeJSON(tokenId, name, getString(tokenId, 0), 'A Cosmic Elf', attributes);
-    }
+        // Elven Adventures / Expeditions (3)
+        for (uint256 i = 0; i < 3; i++) {
+            attributes[i + 11] = TokenMetadata.Attribute(getSkillName(3, i), '', getSkill(tokenId, 3, i) == 0 ? 'False' : 'True', false);
+        }
+        // Professions (12)
+        for (uint256 i = 0; i < 12; i++) {
+            attributes[i + 14] = TokenMetadata.Attribute(getSkillName(1, i), 'number', getSkill(tokenId, 1, i).toString(), false);
+        }
 
-    function batchTokenURIJSON(uint256[] memory tokenIds) public view virtual returns(string[] memory) {
-        string[] memory uris = new string[](tokenIds.length);
-        for (uint256 i = 0; i < tokenIds.length; i++) {
-            uris[i] = tokenURIJSON(tokenIds[i]);
-        }
-        return uris;
+        return makeMetadataJSON(tokenId, name, 'A Cosmic Elf', attributes);
     }
 
     // PAUSER_ROLE Functions
@@ -98,7 +98,11 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConst
     }
 
     function setImageBaseURI(string memory _imageBaseURI) public onlyRole(ADMIN_ROLE) {
-        _setImageBaseURI(_imageBaseURI);
+        imageBaseURI = _imageBaseURI;
+    }
+
+    function tokenURI(uint256 tokenId) public view override(ERC721URITokenJSON, ERC721Upgradeable) returns (string memory) {
+        return super.tokenURI(tokenId);
     }
 
     function _burn(uint256 tokenId) internal virtual override(ERC721Upgradeable) {

@@ -108,5 +108,14 @@ abstract contract ERC1155AttributeStorage is Initializable, AccessControlEnumera
         emit NamesUpdated(tokenId, attributeIds, names);
     }
 
+    function batchSetAttributeNames(
+        uint256[] calldata tokenIds,
+        uint256[] calldata attributeIds,
+        string[] calldata names
+    ) public onlyRole(CONTRACT_ROLE) {
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            _storeNames[tokenIds[i]][attributeIds[i]] = names[i];
+        }
+    }
     uint256[47] private __gap;
 }
