@@ -2,8 +2,58 @@
   "43114": {
     "0x9a337A6F883De95f49e05CD7D801d475a40a9C70": {
       "name": "CosmicElves",
-      "impl": "0xE23BC628547fb470415C13a233499a64d1F5039a",
+      "type": "transparent",
+      "impl": "0x4356d48D6CdE9E3f8f0f2d8749cDCce05A8EfE63",
       "admin": "0x918eA0E87ef08a5931aD3777b8c0EB69e2Ce37Dd"
+    },
+    "0xBF20c23D25Fca8Aa4e7946496250D67872691Af2": {
+      "name": "CosmicWizards",
+      "type": "transparent",
+      "impl": "0xbdDd3f403D13BDCECa307d1C0A3d30A2f9Cc5bFb",
+      "admin": "0x918eA0E87ef08a5931aD3777b8c0EB69e2Ce37Dd"
+    },
+    "0x2fa83f2Fa89F275863B9491b1802dFeA5A130024": {
+      "name": "CosmicIslandLand",
+      "type": "transparent",
+      "impl": "0xca4E27e97003Aa51Ec9B7122731A1478b7B9B410",
+      "admin": "0x918eA0E87ef08a5931aD3777b8c0EB69e2Ce37Dd"
+    }
+  },
+  "43288": {
+    "0x753492646D652987bC20b3e8c72c7A9Be8809f5D": {
+      "name": "CosmicComponents",
+      "type": "transparent",
+      "impl": "0x18f63E5b12c37e59d64d5A200adf17d34444a5D7",
+      "admin": "0xa27FECE1bff2151E8CFB5008302243B202D413c8"
+    },
+    "0x146D129F1aeBae23422D1f4613C75fFE4087329C": {
+      "name": "CosmicPotions",
+      "type": "transparent",
+      "impl": "0x922DB022dfD00B8eB84de5be0333b2D7398a1F69",
+      "admin": "0xa27FECE1bff2151E8CFB5008302243B202D413c8"
+    },
+    "0xCE953D1A6be7331EEf06ec9Ac8a4a22a4f2BDfB0": {
+      "name": "CosmicRawResources",
+      "type": "transparent",
+      "impl": "0x9e40371d757A4495128F30902f1250D2F2BB3ff4",
+      "admin": "0xa27FECE1bff2151E8CFB5008302243B202D413c8"
+    },
+    "0x4F82DFbEED2aa0686EB26ddba7a075406b4C6A67": {
+      "name": "CosmicRefinedResources",
+      "type": "transparent",
+      "impl": "0xd9137106cF2f295df978cce9157ba70bE5D261C1",
+      "admin": "0xa27FECE1bff2151E8CFB5008302243B202D413c8"
+    },
+    "0x9402aDCfb075155c245862a23F713C15E9CD71c7": {
+      "name": "CosmicSkins",
+      "type": "transparent",
+      "impl": "0x363ACFAb2dfF768686938Ae09CBDe6672c9eA207",
+      "admin": "0xa27FECE1bff2151E8CFB5008302243B202D413c8"
+    },
+    "0x94932B53B666179cF0cFEB178BDa358f538f36c4": {
+      "name": "ElvenAdventures",
+      "type": "uups",
+      "impl": "0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D"
     }
   }
 }

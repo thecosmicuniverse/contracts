@@ -9,6 +9,6 @@ import type * as interfaces from "./interfaces";
 export type { interfaces };
 export type { CosmicElves } from "./CosmicElves";
 export type { CosmicElvesTicketUpgradeable } from "./CosmicElvesTicketUpgradeable";
-export type { CosmicIslandLandUpgradeable } from "./CosmicIslandLandUpgradeable";
+export type { CosmicIslandLand } from "./CosmicIslandLand";
 export type { CosmicWizards } from "./CosmicWizards";
 export type { FramedWizardsUpgradeable } from "./FramedWizardsUpgradeable";

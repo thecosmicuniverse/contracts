@@ -42,6 +42,8 @@ export interface CosmicRawResourcesInterface extends utils.Interface {
     "batchSetAttributeNames(uint256[],uint256[],string[])": FunctionFragment;
     "batchTokenURI(uint256[])": FunctionFragment;
     "batchUri(uint256[])": FunctionFragment;
+    "bridgeContract()": FunctionFragment;
+    "bridgeExtraData(uint256,uint256)": FunctionFragment;
     "burn(address,uint256,uint256)": FunctionFragment;
     "burnBatch(address,uint256[],uint256[])": FunctionFragment;
     "exists(uint256)": FunctionFragment;
@@ -70,6 +72,7 @@ export interface CosmicRawResourcesInterface extends utils.Interface {
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setAttribute(uint256,uint256,uint256)": FunctionFragment;
     "setAttributeName(uint256,uint256,string)": FunctionFragment;
+    "setBridgeContract(address)": FunctionFragment;
     "setImageBaseURI(string)": FunctionFragment;
     "setSoulbound(uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -96,6 +99,8 @@ export interface CosmicRawResourcesInterface extends utils.Interface {
       | "batchSetAttributeNames"
       | "batchTokenURI"
       | "batchUri"
+      | "bridgeContract"
+      | "bridgeExtraData"
       | "burn"
       | "burnBatch"
       | "exists"
@@ -124,6 +129,7 @@ export interface CosmicRawResourcesInterface extends utils.Interface {
       | "setApprovalForAll"
       | "setAttribute"
       | "setAttributeName"
+      | "setBridgeContract"
       | "setImageBaseURI"
       | "setSoulbound"
       | "supportsInterface"
@@ -195,6 +201,14 @@ export interface CosmicRawResourcesInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "batchUri",
     values: [PromiseOrValue<BigNumberish>[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "bridgeContract",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "bridgeExtraData",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "burn",
@@ -342,6 +356,10 @@ export interface CosmicRawResourcesInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "setBridgeContract",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setImageBaseURI",
     values: [PromiseOrValue<string>]
   ): string;
@@ -415,6 +433,14 @@ export interface CosmicRawResourcesInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "batchUri", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "bridgeContract",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "bridgeExtraData",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burnBatch", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "exists", data: BytesLike): Result;
@@ -489,6 +515,10 @@ export interface CosmicRawResourcesInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setAttributeName",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setBridgeContract",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -797,10 +827,18 @@ export interface CosmicRawResources extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string[]]>;
 
+    bridgeContract(overrides?: CallOverrides): Promise<[string]>;
+
+    bridgeExtraData(
+      id: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     burn(
       account: PromiseOrValue<string>,
       id: PromiseOrValue<BigNumberish>,
-      value: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -955,6 +993,11 @@ export interface CosmicRawResources extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setBridgeContract(
+      _bridgeContract: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setImageBaseURI(
       _imageBaseURI: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1069,10 +1112,18 @@ export interface CosmicRawResources extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string[]>;
 
+  bridgeContract(overrides?: CallOverrides): Promise<string>;
+
+  bridgeExtraData(
+    id: PromiseOrValue<BigNumberish>,
+    amount: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   burn(
     account: PromiseOrValue<string>,
     id: PromiseOrValue<BigNumberish>,
-    value: PromiseOrValue<BigNumberish>,
+    amount: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1227,6 +1278,11 @@ export interface CosmicRawResources extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setBridgeContract(
+    _bridgeContract: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setImageBaseURI(
     _imageBaseURI: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1341,10 +1397,18 @@ export interface CosmicRawResources extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string[]>;
 
+    bridgeContract(overrides?: CallOverrides): Promise<string>;
+
+    bridgeExtraData(
+      id: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
     burn(
       account: PromiseOrValue<string>,
       id: PromiseOrValue<BigNumberish>,
-      value: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1492,6 +1556,11 @@ export interface CosmicRawResources extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       attributeId: PromiseOrValue<BigNumberish>,
       name: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setBridgeContract(
+      _bridgeContract: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1735,10 +1804,18 @@ export interface CosmicRawResources extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    bridgeContract(overrides?: CallOverrides): Promise<BigNumber>;
+
+    bridgeExtraData(
+      id: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     burn(
       account: PromiseOrValue<string>,
       id: PromiseOrValue<BigNumberish>,
-      value: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1893,6 +1970,11 @@ export interface CosmicRawResources extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setBridgeContract(
+      _bridgeContract: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setImageBaseURI(
       _imageBaseURI: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1999,10 +2081,18 @@ export interface CosmicRawResources extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    bridgeContract(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    bridgeExtraData(
+      id: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     burn(
       account: PromiseOrValue<string>,
       id: PromiseOrValue<BigNumberish>,
-      value: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -2154,6 +2244,11 @@ export interface CosmicRawResources extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       attributeId: PromiseOrValue<BigNumberish>,
       name: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setBridgeContract(
+      _bridgeContract: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

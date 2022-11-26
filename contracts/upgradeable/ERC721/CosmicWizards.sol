@@ -191,20 +191,20 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
         attributes[9] = TokenMetadata.Attribute("Staking Unlocked", '', _store[tokenId][0][9] == 0 ? 'False' : 'True', false);
         attributes[10] = TokenMetadata.Attribute("Staked", '', _store[tokenId][0][10] == 0 ? 'False' : 'True', false);
         // professions
-        attributes[11] = TokenMetadata.Attribute("Alchemy", 'number', _store[tokenId][1][0].toString(), false);
-        attributes[12] = TokenMetadata.Attribute("Architecture", 'number', _store[tokenId][1][1].toString(), false);
-        attributes[13] = TokenMetadata.Attribute("Carpentry", 'number', _store[tokenId][1][2].toString(), false);
-        attributes[14] = TokenMetadata.Attribute("Cooking", 'number', _store[tokenId][1][3].toString(), false);
-        attributes[15] = TokenMetadata.Attribute("Crystal Extraction", 'number', _store[tokenId][1][4].toString(), false);
-        attributes[16] = TokenMetadata.Attribute("Farming", 'number', _store[tokenId][1][5].toString(), false);
-        attributes[17] = TokenMetadata.Attribute("Fishing", 'number', _store[tokenId][1][6].toString(), false);
-        attributes[18] = TokenMetadata.Attribute("Gem Cutting", 'number', _store[tokenId][1][7].toString(), false);
-        attributes[19] = TokenMetadata.Attribute("Herbalism", 'number', _store[tokenId][1][8].toString(), false);
-        attributes[20] = TokenMetadata.Attribute("Mining", 'number', _store[tokenId][1][9].toString(), false);
-        attributes[21] = TokenMetadata.Attribute("Tailoring", 'number', _store[tokenId][1][10].toString(), false);
-        attributes[22] = TokenMetadata.Attribute("Woodcutting", 'number', _store[tokenId][1][11].toString(), false);
+        attributes[11] = TokenMetadata.Attribute("Alchemy", '', _store[tokenId][1][0].toString(), true);
+        attributes[12] = TokenMetadata.Attribute("Architecture", '', _store[tokenId][1][1].toString(), true);
+        attributes[13] = TokenMetadata.Attribute("Carpentry", '', _store[tokenId][1][2].toString(), true);
+        attributes[14] = TokenMetadata.Attribute("Cooking", '', _store[tokenId][1][3].toString(), true);
+        attributes[15] = TokenMetadata.Attribute("Crystal Extraction", '', _store[tokenId][1][4].toString(), true);
+        attributes[16] = TokenMetadata.Attribute("Farming", '', _store[tokenId][1][5].toString(), true);
+        attributes[17] = TokenMetadata.Attribute("Fishing", '', _store[tokenId][1][6].toString(), true);
+        attributes[18] = TokenMetadata.Attribute("Gem Cutting", '', _store[tokenId][1][7].toString(), true);
+        attributes[19] = TokenMetadata.Attribute("Herbalism", '', _store[tokenId][1][8].toString(), true);
+        attributes[20] = TokenMetadata.Attribute("Mining", '', _store[tokenId][1][9].toString(), true);
+        attributes[21] = TokenMetadata.Attribute("Tailoring", '', _store[tokenId][1][10].toString(), true);
+        attributes[22] = TokenMetadata.Attribute("Woodcutting", '', _store[tokenId][1][11].toString(), true);
         // rewards
-        attributes[23] = TokenMetadata.Attribute("Chests Claimed", 'boost_number', _store[tokenId][2][0].toString(), false);
+        attributes[23] = TokenMetadata.Attribute("Chests Claimed", 'boost_number', _store[tokenId][2][0].toString(), true);
         string memory imageURI = string(abi.encodePacked(imageBaseURI, tokenId.toString()));
         return TokenMetadata.makeMetadataJSON(
             tokenId,

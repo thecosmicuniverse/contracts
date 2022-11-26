@@ -3,61 +3,19 @@ import '@openzeppelin/hardhat-upgrades';
 
 import "dotenv/config";
 
-import "./tasks/deployUpgradeable";
-import "./tasks/upgrade";
-import "./tasks/getUpgradeDetails";
-import "./tasks/queries";
+import "./tasks";
+
 module.exports = {
   solidity: {
-    compilers: [
-      {
-        version: "0.8.16",
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 200
-          }
-        }
-      },
-      {
-        version: "0.8.9",
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 200
-          }
-        }
-      },
-      {
-        version: "0.8.2",
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 200
-          }
-        }
-      },
-      {
-        version: "0.6.0",
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 200
-          }
+    compilers: ["0.8.16", "0.8.9", "0.8.2", "0.6.0"].map(version => ({
+      version,
+      settings: {
+        optimizer: {
+          enabled: true,
+          runs: 200
         }
       }
-    ],
-    overrides: {
-      "contracts/proxy/AdminUpgradeabilityProxy.sol": {
-        version: "0.8.2",
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 200
-          }
-        }
-      }
-    }
+    })),
   },
   networks: {
     harmony: {

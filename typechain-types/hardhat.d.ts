@@ -37,9 +37,25 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OwnableUpgradeable__factory>;
     getContractFactory(
+      name: "IERC1822ProxiableUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC1822ProxiableUpgradeable__factory>;
+    getContractFactory(
+      name: "IBeaconUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IBeaconUpgradeable__factory>;
+    getContractFactory(
+      name: "ERC1967UpgradeUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC1967UpgradeUpgradeable__factory>;
+    getContractFactory(
       name: "Initializable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Initializable__factory>;
+    getContractFactory(
+      name: "UUPSUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.UUPSUpgradeable__factory>;
     getContractFactory(
       name: "PausableUpgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -345,13 +361,13 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC1155URITokenJSON__factory>;
     getContractFactory(
-      name: "IBridgeableERC1155",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IBridgeableERC1155__factory>;
-    getContractFactory(
       name: "ICosmicBundles",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ICosmicBundles__factory>;
+    getContractFactory(
+      name: "IStandardERC1155",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IStandardERC1155__factory>;
     getContractFactory(
       name: "CosmicUpgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -393,9 +409,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.CosmicElvesTicketUpgradeable__factory>;
     getContractFactory(
-      name: "CosmicIslandLandUpgradeable",
+      name: "CosmicIslandLand",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.CosmicIslandLandUpgradeable__factory>;
+    ): Promise<Contracts.CosmicIslandLand__factory>;
     getContractFactory(
       name: "CosmicTools",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -433,10 +449,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.FramedWizardsUpgradeable__factory>;
     getContractFactory(
-      name: "IBridgeableERC721",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IBridgeableERC721__factory>;
-    getContractFactory(
       name: "ICosmicAttributeStorage",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ICosmicAttributeStorage__factory>;
@@ -452,6 +464,10 @@ declare module "hardhat/types/runtime" {
       name: "ICosmicWizards",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ICosmicWizards__factory>;
+    getContractFactory(
+      name: "IStandardERC721",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IStandardERC721__factory>;
     getContractFactory(
       name: "AssetCustomizationUpgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -564,10 +580,30 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.OwnableUpgradeable>;
     getContractAt(
+      name: "IERC1822ProxiableUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC1822ProxiableUpgradeable>;
+    getContractAt(
+      name: "IBeaconUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IBeaconUpgradeable>;
+    getContractAt(
+      name: "ERC1967UpgradeUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC1967UpgradeUpgradeable>;
+    getContractAt(
       name: "Initializable",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Initializable>;
+    getContractAt(
+      name: "UUPSUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.UUPSUpgradeable>;
     getContractAt(
       name: "PausableUpgradeable",
       address: string,
@@ -949,15 +985,15 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ERC1155URITokenJSON>;
     getContractAt(
-      name: "IBridgeableERC1155",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IBridgeableERC1155>;
-    getContractAt(
       name: "ICosmicBundles",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ICosmicBundles>;
+    getContractAt(
+      name: "IStandardERC1155",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IStandardERC1155>;
     getContractAt(
       name: "CosmicUpgradeable",
       address: string,
@@ -1009,10 +1045,10 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.CosmicElvesTicketUpgradeable>;
     getContractAt(
-      name: "CosmicIslandLandUpgradeable",
+      name: "CosmicIslandLand",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.CosmicIslandLandUpgradeable>;
+    ): Promise<Contracts.CosmicIslandLand>;
     getContractAt(
       name: "CosmicTools",
       address: string,
@@ -1059,11 +1095,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.FramedWizardsUpgradeable>;
     getContractAt(
-      name: "IBridgeableERC721",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IBridgeableERC721>;
-    getContractAt(
       name: "ICosmicAttributeStorage",
       address: string,
       signer?: ethers.Signer
@@ -1083,6 +1114,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ICosmicWizards>;
+    getContractAt(
+      name: "IStandardERC721",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IStandardERC721>;
     getContractAt(
       name: "AssetCustomizationUpgradeable",
       address: string,

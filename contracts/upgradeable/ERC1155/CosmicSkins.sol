@@ -6,22 +6,22 @@ import "@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
-import "../../utils/access/StandardAccessControl.sol";
-import "../extensions/ERC1155AttributeStorage.sol";
-import "../extensions/ERC1155URITokenJSON.sol";
-import "../interfaces/IBridgeableERC1155.sol";
-import "../extensions/ERC1155Soulbound.sol";
-import "../extensions/ERC1155Metadata.sol";
-import "../interfaces/CosmicStructs.sol";
-import "../extensions/ERC1155Supply.sol";
-import "../../utils/TokenConstants.sol";
-import "../../utils/Blacklistable.sol";
+import "../utils/access/StandardAccessControl.sol";
+import "./extensions/ERC1155AttributeStorage.sol";
+import "./extensions/ERC1155URITokenJSON.sol";
+import "./interfaces/IStandardERC1155.sol";
+import "./extensions/ERC1155Soulbound.sol";
+import "./extensions/ERC1155Metadata.sol";
+import "./interfaces/CosmicStructs.sol";
+import "./extensions/ERC1155Supply.sol";
+import "../utils/TokenConstants.sol";
+import "../utils/Blacklistable.sol";
 
 /**
 * @title Cosmic Skins v1.0.0
 * @author @DirtyCajunRice
 */
-contract CosmicSkins is Initializable, ERC1155Upgradeable, IBridgeableERC1155, StandardAccessControl,
+contract CosmicSkins is Initializable, ERC1155Upgradeable, IStandardERC1155, StandardAccessControl,
 PausableUpgradeable, ERC1155BurnableUpgradeable, ERC1155Supply, Blacklistable, CosmicStructs, ERC1155AttributeStorage,
 ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
 
@@ -61,7 +61,7 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
         }
     }
 
-    function burn(address account, uint256 id, uint256 amount) public override(ERC1155BurnableUpgradeable, IBridgeableERC1155) {
+    function burn(address account, uint256 id, uint256 amount) public override(ERC1155BurnableUpgradeable, IStandardERC1155) {
         super.burn(account, id, amount);
     }
 

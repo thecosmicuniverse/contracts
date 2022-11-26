@@ -7,11 +7,12 @@ import "@openzeppelin/contracts-upgradeable/utils/structs/EnumerableMapUpgradeab
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 import "../../../ERC721/interfaces/ICosmicAttributeStorage.sol";
-import "../../../ERC1155/interfaces/IBridgeableERC1155.sol";
-import "../../../ERC721/interfaces/IBridgeableERC721.sol";
+import "../../../ERC1155/interfaces/IStandardERC1155.sol";
+import "../../../ERC721/interfaces/IStandardERC721.sol";
 import "../../../utils/access/StandardAccessControl.sol";
 import "../../../ERC721/CosmicTools/ICosmicTools.sol";
 import "./IElvenAdventures.sol";
@@ -20,7 +21,7 @@ import "./IElvenAdventures.sol";
 * @title Elven Adventures (Cosmic Universe NFT Staking) v3.0.0
 * @author @DirtyCajunRice
 */
-contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable, StandardAccessControl {
+contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable, StandardAccessControl, UUPSUpgradeable {
     /*************
      * Libraries *
      *************/
@@ -81,6 +82,7 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
     function initialize() public initializer {
         __Pausable_init();
         __StandardAccessControl_init();
+        __UUPSUpgradeable_init();
 
         _elves = address(0);
         _magic = address(0);
@@ -215,7 +217,7 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
             } else if (level == 20) {
                 rewardId = skillId;
             }
-            IBridgeableERC1155(reward._address).mint(msg.sender, rewardId, reward.amount, "");
+            IStandardERC1155(reward._address).mint(msg.sender, rewardId, reward.amount, "");
         }
     }
 
@@ -312,6 +314,7 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
         return all;
     }
 
+    function _authorizeUpgrade(address newImplementation) internal onlyDefaultAdmin override {}
     /*******************
      * Pause Functions *
      *******************/

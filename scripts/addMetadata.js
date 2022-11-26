@@ -1,6 +1,8 @@
 const hre = require("hardhat");
 const { ethers, upgrades } = require("hardhat")
 const fs = require('fs');
+const {getContract} = require('../tasks/helpers');
+const {CosmicElves__factory} = require('../typechain-types');
 require("dotenv").config()
 
 async function main(name, address) {
@@ -157,14 +159,117 @@ const updateLandPlotMetadata = async () => {
     finished += batchSize
   }
 }
-//mainHmy("GameStorageUpgradeable", "0xdc0B143afD1c806d142617f99c5eE037Df4bA28f")
-//  .then(() => process.exit(0))
-//  .catch((error) => {
-//    console.error(error)
-//    process.exit(1)
-//  })
-//main("CosmicWizardsUpgradeable", "0xbf20c23d25fca8aa4e7946496250d67872691af2")
-updateLandPlotMetadata()
+
+const setMetadata = async () => {
+  const accounts = await ethers.getSigners()
+  const contract1 = await ethers.getContractAt("CosmicRawResources", "0xF31dC5F3A6D0af979FC3D8ad7A216E2eA49a1Cb1", accounts[0])
+  const contract2 = await ethers.getContractAt("CosmicRefinedResources", "0xEacF75f43674a85eae7679E4A67C7FEF004CC7CB", accounts[0])
+  const professions = ["Alchemy", "Architecture", "Carpentry", "Cooking", "Crystal Extraction", "Farming", "Fishing", "Gem Cutting", "Herbalism", "Mining", "Tailoring", "Woodcutting"]
+  const names = ["Cauldron", "Drawing Set", "Woodworking Tools", "Cooking Utensils", "Extraction Wand", "Rope & Sickle", "Fishing Rod", "Grinding Stone", "Herbalism Kit", "Pickaxe", "Sewing Kit", "Axe"]
+  const componentNames = ["Empty Vial", "Parchment", "Nails", "Seasoning", "Te Kore Salt", "Compost", "Fish Bones", "Polish", "Bugs", "Flint", "Thread", "Sticks"]
+  const componentSources = ["Vendor", "Vendor", "Vendor", "Vendor", "Byproduct", "Byproduct", "Byproduct", "Vendor", "Byproduct", "Byproduct", "Vendor", "Byproduct"]
+  const resources = ["Hemp Paste", "Aloe Vera Paste", "Cosmic Poppy Paste", "Sandstone Bricks", "Copper Ingots", "Limestone Bricks", "Pine Planks", "Birch Planks", "Bamboo Planks", "Forest Fish Fillet", "Chopped Potatoes", "Sliced Onions", "Raw Citrine", "Raw Amethyst", "Raw Tourmaline", "Carrots", "Potatoes", "Onions", "Forest Fish", "Zebra Tang", "Hermit Lionfish", "Pure Citrine", "Pure Amethyst", "Pure Tourmaline", "Hemp Leaves", "Aloe Vera", "Cosmic Poppy", "Sandstone Chunk", "Copper Ore", "Limestone Chunk", "Hemp Fibre", "Coconut Husk", "Flax", "Pine Log", "Birch Log", "Bamboo Log"]
+  const types = ['Potion', 'Potion', 'Elixir', 'Elixir']
+  const modifiers = ['Aptitude', 'Swiftness', 'Luck', 'Focus']
+  const rarity = ['Common', 'Uncommon', 'Rare', 'Mythical']
+  const descriptions = [
+    'increases the success chance of a Profession Expedition by 10%',
+    'decreases the time taken for a Profession Expedition by 20%',
+    `increases the rewards found during a successful Profession Expedition by 50%`,
+    `guarantees a rare item or above during a successful Profession Expedition of medium+ length`
+  ]
+  const boostNames = ["Success Chance", "Completion Speed", "Rewards", "Minimum Rarity"]
+
+  const rawIds = [];
+  const refinedIds = [];
+  // set strings
+  const attributeIds = [1000, 1001, 0, 1, 2];
+  let allTokenIds = [];
+  let allAttributeIds = [];
+  let allAttributeNames = [];
+
+  for (let i = 0; i < resources.length; i++) {
+    const professionId = Math.floor(i / 3)
+    const type = [0, 1, 2, 3, 7, 10].includes(professionId) ? 'Refined' : 'Raw';
+    const contract = type === 'Refined' ? contract2 : contract1;
+    const startingId = i * 5;
+    for (let j = 0; j < 4; j++) {
+      const tokenId = startingId + j;
+
+      if (type === 'Raw') {
+        allTokenIds = allTokenIds.concat([tokenId, tokenId, tokenId, tokenId, tokenId]);
+        allAttributeIds = allAttributeIds.concat(attributeIds)
+        allAttributeNames = allAttributeNames.concat([`${rarity[j]} ${resources[i]}`, `Cosmic Universe ${type.toLowerCase()} resource used in ${professions[professionId]}`, professions[professionId], type, rarity[j]])
+      }
+      //const attributeNames = [`${rarity[j]} ${resources[i]}`, `Cosmic Universe ${type.toLowerCase()} resource used in ${professions[professionId]}`, professions[professionId], type]
+      //console.log(attributeIds, attributeNames);
+      //const tx = await contract.batchSetAttributeName(tokenId, attributeIds, attributeNames);
+      //await tx.wait();
+    }
+  }
+  //let finished = 0;
+  //const batch = 150;
+  //const batches = Math.ceil((allTokenIds.length - finished) / batch);
+  //for (let i = 0; i < batches; i++) {
+  //  const begin = finished + (i * batch);
+  //  const end = begin + batch;
+  //  console.log("Sending ", begin, "to", end );
+  //  console.log(allTokenIds.slice(begin, end).length, allAttributeIds.slice(begin, end).length, allAttributeNames.slice(begin, end).length)
+  //  const tx = await contract2.batchSetAttributeNames(allTokenIds.slice(begin, end), allAttributeIds.slice(begin, end), allAttributeNames.slice(begin, end));
+  //  await tx.wait();
+  //}
+
+
+  //const boosts = [10, 20, 50, 2]
+  //// set attributes
+  //for (let i = 0; i < professions.length; i++) {
+  //  const attributeIds = [2]
+  //  const attributeValues = [boosts[i]]
+  //  console.log(attributeIds, attributeValues);
+  //  const tx = await contract.setAttribute(i, 2, boosts[i])
+  //  //const tx = await contract.batchSetAttribute(i, attributeIds, attributeValues)
+  //  await tx.wait();
+  //}
+
+  // mint
+  //const tokenIds = Array.from(Array(professions.length).fill(0)).map((v, i) => v + i);
+  const amounts = Array.from(Array(allTokenIds.slice(180, 400).length).fill(1))
+  //console.log("Minting", tokenIds, amounts);
+  const mintTx = await contract1.mintBatch(accounts[0].address, allTokenIds.slice(180, 400), amounts, []);
+  await mintTx.wait();
+  //const amounts = Array.from(Array(resources.length / 2).fill(1))
+  //console.log("Minting", rawIds, amounts);
+  //const mintTx = await contract.mintBatch(accounts[0].address, tokenIds, amounts, []);
+  //await mintTx.wait();
+}
+
+const updateMetadata = async () => {
+  const contract = await getContract("CosmicElves", hre)
+  const professions = ["Alchemy", "Architecture", "Carpentry", "Cooking", "Crystal Extraction", "Farming", "Fishing", "Gem Cutting", "Herbalism", "Mining", "Tailoring", "Woodcutting"]
+
+  const tx = await contract.batchSetSkillName(3, [0, 1, 2], ['Adventures Unlocked', 'On Adventure', 'On Expedition'])
+  await tx.wait();
+
+  return;
+  for (let i = 0; i < professions.length; i++) {
+    for (let j = 0; j < 4; j++) {
+      const tool = {
+        skillId: i,
+        durability: 0,
+        rarity: j,
+      }
+      console.log(i, j);
+      if ([0, 1, 2].includes(i) || (i === 3 && j !== 0) || i === 4 && j === 1) {
+        console.log("skipping");
+        continue;
+      }
+      const bytes = ethers.utils.AbiCoder.prototype.encode(['uint256', 'uint256', 'uint8'], [i, 0, j]);
+      const tx = await contract['mint(address,bytes)'](accounts[0].address, bytes);
+      await tx.wait();
+    }
+  }
+}
+updateMetadata()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error(error)

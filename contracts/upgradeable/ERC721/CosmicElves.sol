@@ -69,7 +69,7 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConst
         }
         // Professions (12)
         for (uint256 i = 0; i < 12; i++) {
-            attributes[i + 14] = TokenMetadata.Attribute(getSkillName(1, i), 'number', getSkill(tokenId, 1, i).toString(), false);
+            attributes[i + 14] = TokenMetadata.Attribute(getSkillName(1, i), '', getSkill(tokenId, 1, i).toString(), true);
         }
 
         return makeMetadataJSON(tokenId, name, 'A Cosmic Elf', attributes);

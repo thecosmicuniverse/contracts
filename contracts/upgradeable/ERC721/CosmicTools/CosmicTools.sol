@@ -7,6 +7,7 @@ import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
+
 import "../extensions/ERC721EnumerableExtendedUpgradeable.sol";
 import "../extensions/ERC721BurnableExtendedUpgradeable.sol";
 import "../extensions/CosmicAttributeStorageUpgradeable.sol";
@@ -166,7 +167,7 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable  {
         imageBaseURI = _imageBaseURI;
     }
 
-    function burn(uint256 tokenId) public override(ERC721BurnableExtendedUpgradeable, IBridgeableERC721) {
+    function burn(uint256 tokenId) public override(ERC721BurnableExtendedUpgradeable, IStandardERC721) {
         super.burn(tokenId);
     }
 

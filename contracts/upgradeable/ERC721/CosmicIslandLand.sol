@@ -10,17 +10,19 @@ import "./extensions/ERC721EnumerableExtendedUpgradeable.sol";
 import "./extensions/ERC721URIStorageExtendedUpgradeable.sol";
 import "./extensions/ERC721BurnableExtendedUpgradeable.sol";
 import "../utils/TokenConstants.sol";
+import "../library/TokenMetadata.sol";
 
 /**
 * @title Cosmic Island Land v1.0.0
 * @author @DirtyCajunRice
 */
-contract CosmicIslandLandUpgradeable is Initializable, ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable,
+contract CosmicIslandLand is Initializable, ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable,
 ERC721URIStorageExtendedUpgradeable, PausableUpgradeable, AccessControlEnumerableUpgradeable,
 ERC721BurnableExtendedUpgradeable, TokenConstants {
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.AddressSet;
     using StringsUpgradeable for uint256;
     using StringsUpgradeable for address;
+    using TokenMetadata for string;
 
     EnumerableSetUpgradeable.AddressSet private _blacklist;
 
@@ -150,6 +152,18 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
     // Overrides
     function tokenURI(uint256 tokenId) public view virtual
     override(ERC721Upgradeable, ERC721URIStorageExtendedUpgradeable) returns (string memory) {
+        return tokenURIJSON(tokenId).toBase64();
+    }
+
+    function batchTokenURI(uint256[] memory tokenIds) public view returns(string[] memory) {
+        string[] memory uris = new string[](tokenIds.length);
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            uris[i] = tokenURI(tokenIds[i]);
+        }
+        return uris;
+    }
+
+    function tokenURIJSON(uint256 tokenId) public view virtual returns (string memory) {
         uint256 latitude = _numericAttributes[tokenId][0];
         uint256 longitude = _numericAttributes[tokenId][1];
         uint256 region = _numericAttributes[tokenId][2];
@@ -166,34 +180,28 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
 
         bytes memory dataURIAttributes = abi.encodePacked(
             '"attributes": [',
-                '{',
-                    '"trait_type": "latitude", ',
-                    '"value": ',  latitude.toString(),
-                '}, ',
-                '{',
-                    '"trait_type": "longitude", ',
-                    '"value": ',  longitude.toString(),
-                '}, ',
-                '{',
-                    '"trait_type": "region", ',
-                    '"value": ', region.toString(),
-                '}',
+            '{',
+            '"trait_type": "latitude", ',
+            '"value": ',  latitude.toString(),
+            '}, ',
+            '{',
+            '"trait_type": "longitude", ',
+            '"value": ',  longitude.toString(),
+            '}, ',
+            '{',
+            '"trait_type": "region", ',
+            '"value": ', region.toString(),
+            '}',
             ']'
         );
 
-        bytes memory dataURI = abi.encodePacked('{', string(dataURIGeneral), string(dataURIAttributes), '}');
-        return string(
-            abi.encodePacked(
-                "data:application/json;base64,",
-                Base64Upgradeable.encode(dataURI)
-            )
-        );
+        return string(abi.encodePacked('{', string(dataURIGeneral), string(dataURIAttributes), '}'));
     }
 
-    function batchTokenURI(uint256[] memory tokenIds) public view returns(string[] memory) {
+    function batchTokenURIJSON(uint256[] memory tokenIds) public view returns(string[] memory) {
         string[] memory uris = new string[](tokenIds.length);
         for (uint256 i = 0; i < tokenIds.length; i++) {
-            uris[i] = tokenURI(tokenIds[i]);
+            uris[i] = tokenURIJSON(tokenIds[i]);
         }
         return uris;
     }

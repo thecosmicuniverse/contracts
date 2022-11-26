@@ -15,6 +15,7 @@ import "./interfaces/CosmicStructs.sol";
 import "./extensions/ERC1155Supply.sol";
 import "../utils/TokenConstants.sol";
 import "../utils/Blacklistable.sol";
+import "./interfaces/IStandardERC1155.sol";
 
 /**
 * @title Cosmic Raw Resources v1.0.0
@@ -22,7 +23,9 @@ import "../utils/Blacklistable.sol";
 */
 contract CosmicRawResources is Initializable, ERC1155Upgradeable, StandardAccessControl, PausableUpgradeable,
 ERC1155BurnableUpgradeable, ERC1155Supply, Blacklistable, CosmicStructs, ERC1155AttributeStorage,
-ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
+ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata, IStandardERC1155 {
+
+    address public bridgeContract;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -84,6 +87,17 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
         _unpause();
     }
 
+    function setBridgeContract(address _bridgeContract) public onlyAdmin {
+        bridgeContract = _bridgeContract;
+    }
+
+    function bridgeExtraData(uint256 id, uint256 amount) external returns(bytes memory) {
+        return "";
+    }
+
+    function burn(address account, uint256 id, uint256 amount) public override(IStandardERC1155, ERC1155BurnableUpgradeable) {
+        super.burn(account, id, amount);
+    }
     function _beforeTokenTransfer(
         address operator,
         address from,
@@ -99,7 +113,7 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
 
     function supportsInterface(
         bytes4 interfaceId
-    ) public view override(ERC1155Upgradeable, AccessControlEnumerableUpgradeable) returns (bool) {
+    ) public view override(ERC1155Upgradeable, AccessControlEnumerableUpgradeable, IERC165Upgradeable) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 }
