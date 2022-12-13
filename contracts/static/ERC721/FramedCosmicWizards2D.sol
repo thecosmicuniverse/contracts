@@ -131,9 +131,13 @@ contract FramedCosmicWizards2D is ERC721, ERC721Enumerable, ERC721URIStorage, ER
 
     // Overrides
 
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal whenNotPaused
-    override(ERC721, ERC721Enumerable) {
-        super._beforeTokenTransfer(from, to, tokenId);
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 firstTokenId,
+        uint256 batchSize
+    ) internal whenNotPaused override(ERC721, ERC721Enumerable) {
+        super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
 
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {

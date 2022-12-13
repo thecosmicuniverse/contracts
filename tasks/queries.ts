@@ -1,7 +1,7 @@
 import "@nomiclabs/hardhat-ethers";
 import '@openzeppelin/hardhat-upgrades';
 import { task } from 'hardhat/config';
-import { getContract, getUpgradeableData } from './helpers';
+import { getContract, getProxyData } from './helpers';
 
 
 task("token-uri", "Fetches the token metadata for the given token ID")
@@ -19,7 +19,7 @@ task("getUpgradeDetails", "Get the admin and implementation address of a deploye
   .addParam("name", 'Name of the contract')
   .setAction(async ({ address }, hre) => {
     const contract = await getContract('name', hre);
-    const { admin, impl } = await getUpgradeableData(contract, hre);
+    const { admin, impl } = await getProxyData(address, hre);
     console.log("Proxy:", contract.address)
     console.log("Admin:", admin)
     console.log("Impl:", impl)

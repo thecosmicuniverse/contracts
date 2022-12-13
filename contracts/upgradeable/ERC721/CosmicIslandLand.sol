@@ -9,8 +9,9 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "./extensions/ERC721EnumerableExtendedUpgradeable.sol";
 import "./extensions/ERC721URIStorageExtendedUpgradeable.sol";
 import "./extensions/ERC721BurnableExtendedUpgradeable.sol";
-import "../utils/TokenConstants.sol";
+import "./interfaces/IStandardERC721.sol";
 import "../library/TokenMetadata.sol";
+import "../utils/TokenConstants.sol";
 
 /**
 * @title Cosmic Island Land v1.0.0
@@ -18,7 +19,7 @@ import "../library/TokenMetadata.sol";
 */
 contract CosmicIslandLand is Initializable, ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable,
 ERC721URIStorageExtendedUpgradeable, PausableUpgradeable, AccessControlEnumerableUpgradeable,
-ERC721BurnableExtendedUpgradeable, TokenConstants {
+ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.AddressSet;
     using StringsUpgradeable for uint256;
     using StringsUpgradeable for address;
@@ -45,6 +46,9 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
     mapping(uint256 => mapping(uint256 => mapping(uint256 => uint256))) private _store;
     // tokenId > customId  > stringValue
     mapping(uint256 => mapping(uint256 => string)) private _textStore;
+
+    address public bridgeContract;
+
     event ValueUpdated(uint256 indexed tokenId, uint256 treeId, uint256 skillId, uint256 value);
     event TextUpdated(uint256 indexed tokenId, uint256 customId, string value);
 
@@ -79,6 +83,11 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
         for (uint256 i = 0; i < tokenIds.length; i++) {
             _safeMint(to, tokenIds[i]);
         }
+    }
+
+    function mint(address to, uint256 tokenId, bytes memory data) public onlyRole(MINTER_ROLE) {
+        _safeMint(to, tokenId);
+        _removeBurnedId(tokenId);
     }
 
     // PAUSER_ROLE Functions
@@ -206,6 +215,10 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
         return uris;
     }
 
+    function bridgeExtraData(uint256 tokenId) external view returns(bytes memory) {
+        return "";
+    }
+
     function setTokenURI(uint256 tokenId, uint256 attrId, uint256 value) public onlyRole(ADMIN_ROLE) {
         _numericAttributes[tokenId][attrId] = value;
     }
@@ -221,6 +234,10 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
         imageBaseURI = _imageBaseURI;
     }
 
+    function burn(uint256 tokenId) public virtual override(IStandardERC721, ERC721BurnableExtendedUpgradeable) {
+        super.burn(tokenId);
+    }
+
     function _burn(uint256 tokenId) internal virtual override(ERC721Upgradeable, ERC721URIStorageExtendedUpgradeable) {
         super._burn(tokenId);
     }
@@ -230,14 +247,15 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
         return super._exists(tokenId);
     }
 
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
-    internal
-    whenNotPaused
-    notBlacklisted(from)
-    notBlacklisted(to)
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 firstTokenId,
+        uint256 batchSize
+    ) internal whenNotPaused notBlacklisted(from) notBlacklisted(to)
     override(ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable, ERC721BurnableExtendedUpgradeable)
     {
-        super._beforeTokenTransfer(from, to, tokenId);
+        super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
 
     function supportsInterface(bytes4 interfaceId) public view
@@ -245,9 +263,10 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
     ERC721Upgradeable,
     ERC721EnumerableExtendedUpgradeable,
     AccessControlEnumerableUpgradeable,
-    ERC721BurnableExtendedUpgradeable
+    ERC721BurnableExtendedUpgradeable,
+    IERC165Upgradeable
     ) returns (bool)
     {
-        return super.supportsInterface(interfaceId);
+        return interfaceId == type(IStandardERC721).interfaceId || super.supportsInterface(interfaceId);
     }
 }

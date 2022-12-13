@@ -36,7 +36,7 @@ subtask("deploy:static", "Deploy a static contract")
     })
     await waitSeconds(5);
     console.log("Verifying contract...")
-    await hre.run("verify:verify", { address: contract.address })
+    await hre.run("verify", { address: contract.address })
   });
 
 subtask("deploy:upgradeable", "Deploy a transparent proxy contract")
@@ -59,24 +59,5 @@ subtask("deploy:upgradeable", "Deploy a transparent proxy contract")
       type: proxy.kind
     })
     await waitSeconds(5);
-    await hre.run('verify:upgradeable', { name })
-  });
-
-subtask("deploy:uups", "Deploy a UUPS proxy contract")
-  .addParam("name")
-  .setAction(async ({ name, type }, hre) => {
-    await hre.run('compile')
-    const contractFactory = await hre.ethers.getContractFactory(name)
-    console.log("Deploying", name, "as a UUPS upgradeable contract")
-    const contract = await hre.upgrades.deployProxy(contractFactory as any)
-    await contract.deployed();
-    console.log(name, "deployed!")
-    await hre.run('saveContractDetails:subtask', {
-      name,
-      address: contract.address,
-      chainId: hre.network.config.chainId,
-      upgradeable: 'uups'
-    })
-    await waitSeconds(5);
-    await hre.run('verify:upgradeable', { name })
+    await hre.run('verify', { name })
   });

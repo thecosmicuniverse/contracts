@@ -11,6 +11,7 @@ import "./extensions/ERC1155AttributeStorage.sol";
 import "./extensions/ERC1155URITokenJSON.sol";
 import "./interfaces/IStandardERC1155.sol";
 import "./extensions/ERC1155Soulbound.sol";
+import "./interfaces/IStandardERC1155.sol";
 import "./extensions/ERC1155Metadata.sol";
 import "./interfaces/CosmicStructs.sol";
 import "./extensions/ERC1155Supply.sol";
@@ -85,7 +86,7 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
         return "";
     }
 
-    function setBridgeContract(address _bridgeContract) external onlyAdmin {
+    function setBridgeContract(address _bridgeContract) public onlyAdmin {
         bridgeContract = _bridgeContract;
     }
 
@@ -113,6 +114,6 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
     function supportsInterface(
         bytes4 interfaceId
     ) public view override(IERC165Upgradeable, ERC1155Upgradeable, AccessControlEnumerableUpgradeable) returns (bool) {
-        return super.supportsInterface(interfaceId);
+        return type(IStandardERC1155).interfaceId == interfaceId || super.supportsInterface(interfaceId);
     }
 }

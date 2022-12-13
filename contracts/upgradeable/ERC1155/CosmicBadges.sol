@@ -10,6 +10,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "./extensions/ERC1155AttributeStorage.sol";
 import "./extensions/ERC1155URITokenJSON.sol";
 import "./extensions/ERC1155Soulbound.sol";
+import "./interfaces/IStandardERC1155.sol";
 import "./extensions/ERC1155Metadata.sol";
 import "./interfaces/CosmicStructs.sol";
 import "./extensions/ERC1155Supply.sol";
@@ -22,8 +23,10 @@ import "../utils/Blacklistable.sol";
 */
 contract CosmicBadges is Initializable, ERC1155Upgradeable, AccessControlEnumerableUpgradeable, PausableUpgradeable,
 ERC1155BurnableUpgradeable, ERC1155Supply, Blacklistable, TokenConstants, CosmicStructs, ERC1155AttributeStorage,
-ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
+ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata, IStandardERC1155 {
     using StringsUpgradeable for uint256;
+
+    address public bridgeContract;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -73,6 +76,10 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
         _burnBatch(from, ids, amounts);
     }
 
+    function bridgeExtraData(uint256 id, uint256 amount) external view returns(bytes memory) {
+        return "";
+    }
+
     function uri(uint256 tokenId) public view virtual override(ERC1155Upgradeable, ERC1155URITokenJSON) returns(string memory) {
         string memory name = getAttributeName(tokenId, 1000);
         string memory description = getAttributeName(tokenId, 1001);
@@ -86,6 +93,14 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
             attributes[i] = Attribute(attributeNames[i], '', attributeValues[i].toString());
         }
         return _makeBase64(_makeJSON(tokenId, name, description, attributes));
+    }
+
+    function setBridgeContract(address _bridgeContract) public onlyRole(ADMIN_ROLE) {
+        bridgeContract = _bridgeContract;
+    }
+
+    function burn(address account, uint256 id, uint256 amount) public override(IStandardERC1155, ERC1155BurnableUpgradeable) {
+        super.burn(account, id, amount);
     }
 
     function _beforeTokenTransfer(address operator, address from, address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data)
@@ -102,9 +117,9 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
     function supportsInterface(bytes4 interfaceId)
     public
     view
-    override(ERC1155Upgradeable, AccessControlEnumerableUpgradeable)
+    override(ERC1155Upgradeable, AccessControlEnumerableUpgradeable, IERC165Upgradeable)
     returns (bool)
     {
-        return super.supportsInterface(interfaceId);
+        return type(IStandardERC1155).interfaceId == interfaceId || super.supportsInterface(interfaceId);
     }
 }

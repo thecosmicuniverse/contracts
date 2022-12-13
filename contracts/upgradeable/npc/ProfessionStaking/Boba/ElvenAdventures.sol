@@ -50,7 +50,7 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
     modifier onAdventure(uint256 tokenId) {
         require(ICosmicAttributeStorage(_elves).ownerOf(tokenId) == msg.sender, "ElvenAdventures::Not owner");
         require(
-            ICosmicAttributeStorage(_elves).getSkill(tokenId, 0, 101) == 1,
+            ICosmicAttributeStorage(_elves).getSkill(tokenId, 3, 1) == 1,
             "ElvenAdventures::Not on an adventure"
         );
         _;
@@ -59,7 +59,7 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
     modifier notOnAdventure(uint256 tokenId) {
         require(ICosmicAttributeStorage(_elves).ownerOf(tokenId) == msg.sender, "ElvenAdventures::Not owner");
         require(
-            ICosmicAttributeStorage(_elves).getSkill(tokenId, 0, 101) == 0,
+            ICosmicAttributeStorage(_elves).getSkill(tokenId, 3, 1) == 0,
             "ElvenAdventures::Already on an adventure"
         );
         _;
@@ -68,7 +68,7 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
     modifier onlyUnlocked(uint256 tokenId) {
         require(ICosmicAttributeStorage(_elves).ownerOf(tokenId) == msg.sender, "ElvenAdventures::Not owner");
         require(
-            ICosmicAttributeStorage(_elves).getSkill(tokenId, 0, 100) == 1,
+            ICosmicAttributeStorage(_elves).getSkill(tokenId, 3, 0) == 1,
             "ElvenAdventures::Adventures are not unlocked"
         );
         _;
@@ -84,8 +84,8 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
         __StandardAccessControl_init();
         __UUPSUpgradeable_init();
 
-        _elves = address(0);
-        _magic = address(0);
+        _elves = 0x09692b3a53eB7870F00b342444E4f42e259e7999;
+        _magic = 0x245B4C64271e91C9FB6bE1971A0208dD92EFeBDe;
     }
 
     /******************
@@ -94,12 +94,13 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
 
     function unlockAdventures(uint256 tokenId) public whenNotPaused onlyAdmin {
         require(
-            ICosmicAttributeStorage(_elves).getSkill(tokenId, 0, 100) == 0,
+            ICosmicAttributeStorage(_elves).getSkill(tokenId, 3, 0) == 0,
            "ElvenAdventures::Adventures already unlocked for Elf"
         );
-
-        IERC20Upgradeable(_magic).transferFrom(msg.sender, address(this), 20 ether);
-        ICosmicAttributeStorage(_elves).updateSkill(tokenId, 0, 100, 1);
+        if (!_hasDefaultAdminRole(msg.sender)) {
+            IERC20Upgradeable(_magic).transferFrom(msg.sender, address(this), 20 ether);
+        }
+        ICosmicAttributeStorage(_elves).updateSkill(tokenId, 3, 0, 1);
 
         emit UnlockedAdventures(msg.sender, tokenId);
     }
@@ -113,7 +114,7 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
 
     function beginAdventure(uint256 tokenId) public whenNotPaused
     notOnAdventure(tokenId) onlyUnlocked(tokenId) onlyAdmin {
-        ICosmicAttributeStorage(_elves).updateSkill(tokenId, 0, 101, 1);
+        ICosmicAttributeStorage(_elves).updateSkill(tokenId, 3, 1, 1);
         emit BeganAdventure(msg.sender, tokenId);
     }
 
@@ -125,7 +126,7 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
     }
 
     function finishAdventure(uint256 tokenId) public onAdventure(tokenId) {
-        ICosmicAttributeStorage(_elves).updateSkill(tokenId, 0, 101, 0);
+        ICosmicAttributeStorage(_elves).updateSkill(tokenId, 3, 1, 0);
         delete _quests[tokenId];
         emit FinishedAdventure(msg.sender, tokenId);
     }
@@ -137,7 +138,7 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
         }
     }
 
-    function startQuest(uint256 tokenId, uint256 skillId) public whenNotPaused onAdventure(tokenId) {
+    function _startQuest(uint256 tokenId, uint256 skillId, bool leveling) internal {
         Quest storage quest = _quests[tokenId];
         require(quest.completeAt == 0, "ElvenAdventures::Quest is already in progress");
 
@@ -145,20 +146,35 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
 
         uint256 skill = ICosmicAttributeStorage(_elves).getSkill(tokenId, 1, skillId);
         require(skill <= 19, "ElvenAdventures::Exceeds maximum skill level for quest");
+        if (leveling) {
+            require(skill > 0, "ElvenAdventures::Profession not started");
+        }
         uint256 time = _questTime.get(skill + 1);
 
-        IERC20Upgradeable(_magic).transferFrom(msg.sender, address(this), 60 ether);
+        if (!_hasDefaultAdminRole(msg.sender)) {
+            IERC20Upgradeable(_magic).transferFrom(msg.sender, address(this), 60 ether);
+        }
 
         _quests[tokenId] = Quest(skill + 1, skillId, block.timestamp + time);
 
         emit BeganQuest(msg.sender, tokenId, skillId, skill + 1, block.timestamp + time);
     }
 
-    function batchStartQuest(uint256[] calldata tokenIds, uint256[] calldata skillIds) external {
+    function startQuest(uint256 tokenId, uint256 skillId) public whenNotPaused onAdventure(tokenId) {
+        _startQuest(tokenId, skillId, false);
+    }
+
+    /**
+     * @dev Start a quest for multiple tokenIds at once. If any tokenId is not currently leveling(e.g. their
+     *      profession level is in the range of 1-19) it will revert.
+     * @param tokenIds Array of tokenIds
+     */
+    function batchStartQuest(uint256[] calldata tokenIds) external {
         require(tokenIds.length > 0, "ElvenAdventures::Token ID array must be larger than 0");
-        require(tokenIds.length == skillIds.length, "ElvenAdventures::Token Id count must match Skill Id count");
         for (uint256 i = 0; i < tokenIds.length; i++) {
-            startQuest(tokenIds[i], skillIds[i]);
+            uint256[] memory options = getAllowedSkillChoices(tokenIds[i]);
+            require(options.length == 1, "ElvenAdventures::Invalid options length");
+            _startQuest(tokenIds[i], options[0], true);
         }
     }
 
@@ -206,7 +222,7 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
         if (reward.tokenType == TokenType.ERC20) {
             IERC20Upgradeable(_magic).transfer(msg.sender, reward.amount);
         } else if (reward.tokenType == TokenType.ERC721) {
-            ICosmicTools.Tool memory tool = ICosmicTools.Tool(skillId, 0, Rarity.Rare);
+            ICosmicTools.Tool memory tool = ICosmicTools.Tool(skillId, 30, Rarity.Rare);
             ICosmicTools(reward._address).mint(msg.sender, abi.encode(tool));
         } else {
             uint256 rewardId = reward.id;
@@ -256,6 +272,11 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
         }
     }
 
+    function setLateInit() external onlyAdmin {
+        _elves = 0x09692b3a53eB7870F00b342444E4f42e259e7999;
+        _magic = 0x245B4C64271e91C9FB6bE1971A0208dD92EFeBDe;
+    }
+
     /*******************
      * Query Functions *
      *******************/
@@ -273,6 +294,24 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
         return quests;
     }
 
+    function getQuestsArray(uint256[] calldata tokenIds) external view returns(
+        uint256[] calldata, /* tokenIds */
+        uint256[] memory levels,
+        uint256[] memory skillIds,
+        uint256[] memory completeAts
+    ) {
+        require(tokenIds.length > 0, "ElvenAdventures::Token ID array must be larger than 0");
+        levels = new uint256[](tokenIds.length);
+        skillIds = new uint256[](tokenIds.length);
+        completeAts = new uint256[](tokenIds.length);
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            Quest memory quest = _quests[tokenIds[i]];
+            levels[i] = quest.level;
+            skillIds[i] = quest.skillId;
+            completeAts[i] = quest.completeAt;
+        }
+        return (tokenIds, levels, skillIds, completeAts);
+    }
 
     function getAllowedSkillChoices(uint256 tokenId) public view returns(uint256[] memory) {
         uint256[] memory skillIds = new uint256[](12);

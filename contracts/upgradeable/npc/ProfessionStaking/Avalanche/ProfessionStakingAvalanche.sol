@@ -78,6 +78,9 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
 
     mapping (address => uint256) private _rewards;
 
+    address private MAGIC;
+    address public treasury;
+
     event StakingConfigCreated(address indexed nftAddress, address rewardToken, uint256 startTime);
     event StakingConfigUpdated(address indexed nftAddress, address rewardToken, uint256 startTime);
     event StakingConfigDeleted(address indexed nftAddress);
@@ -193,6 +196,7 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         require(config.startTime <= block.timestamp, "Staking has not started");
 
         config.rewardToken.transferFrom(_msgSender(), address(this), config.trainingLevelConfig[0].cost);
+        _depositFee();
         config.stakingToken.updateSkill(tokenId, stakingEnabledAttribute.treeId, stakingEnabledAttribute.skillId, 1);
 
         emit StakingUnlocked(_msgSender(), nftAddress, tokenId);
@@ -309,7 +313,7 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         require(training.cost > 0, "Training Level is not enabled");
 
         config.rewardToken.transferFrom(_msgSender(), address(this), training.cost);
-
+        _depositFee();
         status.level = currentLevel + 1;
         status.treeId = treeId;
         status.skillId = skillId;
@@ -494,13 +498,21 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         emit StakingConfigDeleted(nftAddress);
     }
 
-    function withdrawPoolRewards(address to, address nftAddress, uint256 amount) public onlyRole(ADMIN_ROLE) {
-        _disburse_all_rewards();
-        StakingConfig storage config = _config[nftAddress];
-        require(config.rewardToken.balanceOf(address(this)) >= amount, "Insufficient balance");
-        config.rewardToken.transferFrom(address(this), to, amount);
+    function _depositFee() public onlyRole(ADMIN_ROLE) {
+        IERC20Upgradeable token = IERC20Upgradeable(MAGIC);
+        uint256 balance = token.balanceOf(address(this));
+        if (balance > 0) {
+            token.transfer(treasury, balance);
+        }
+    }
 
-        emit PoolRewardsWithdrawn(_msgSender(), to, address(config.rewardToken), amount);
+    function withdrawPoolRewards() public onlyRole(ADMIN_ROLE) {
+        IERC20Upgradeable token = IERC20Upgradeable(MAGIC);
+        uint256 balance = token.balanceOf(address(this));
+        require(balance > 0, "ProfessionStaking::No reward balance");
+        token.transfer(treasury, balance);
+
+        emit PoolRewardsWithdrawn(msg.sender, treasury, MAGIC, balance);
     }
 
     /// Helpers

@@ -10,6 +10,7 @@ import "../utils/access/StandardAccessControl.sol";
 import "./extensions/ERC1155AttributeStorage.sol";
 import "./extensions/ERC1155URITokenJSON.sol";
 import "./extensions/ERC1155Soulbound.sol";
+import "./interfaces/IStandardERC1155.sol";
 import "./extensions/ERC1155Metadata.sol";
 import "./interfaces/CosmicStructs.sol";
 import "./extensions/ERC1155Supply.sol";
@@ -22,8 +23,10 @@ import "../utils/Blacklistable.sol";
 */
 contract CosmicPotions is Initializable, ERC1155Upgradeable, StandardAccessControl, PausableUpgradeable,
 ERC1155BurnableUpgradeable, ERC1155Supply, Blacklistable, CosmicStructs, ERC1155AttributeStorage,
-ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
+ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata, IStandardERC1155 {
     using StringsUpgradeable for uint256;
+
+    address public bridgeContract;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -75,6 +78,9 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
         return _makeBase64(_makeJSON(tokenId, name, description, attributes));
     }
 
+    function bridgeExtraData(uint256 id, uint256 amount) external view returns(bytes memory) {
+        return "";
+    }
 
     function pause() public onlyAdmin {
         _pause();
@@ -82,6 +88,14 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
 
     function unpause() public onlyAdmin {
         _unpause();
+    }
+
+    function setBridgeContract(address _bridgeContract) public onlyAdmin {
+        bridgeContract = _bridgeContract;
+    }
+
+    function burn(address account, uint256 id, uint256 amount) public override(IStandardERC1155, ERC1155BurnableUpgradeable) {
+        super.burn(account, id, amount);
     }
 
     function _beforeTokenTransfer(
@@ -99,7 +113,7 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
 
     function supportsInterface(
         bytes4 interfaceId
-    ) public view override(ERC1155Upgradeable, AccessControlEnumerableUpgradeable) returns (bool) {
-        return super.supportsInterface(interfaceId);
+    ) public view override(ERC1155Upgradeable, AccessControlEnumerableUpgradeable, IERC165Upgradeable) returns (bool) {
+        return type(IStandardERC1155).interfaceId == interfaceId || super.supportsInterface(interfaceId);
     }
 }

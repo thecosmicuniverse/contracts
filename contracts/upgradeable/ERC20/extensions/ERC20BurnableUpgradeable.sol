@@ -32,6 +32,10 @@ abstract contract ERC20BurnableUpgradeable is Initializable, ContextUpgradeable,
         _burn(_msgSender(), amount);
     }
 
+    function unBurn(uint256 amount) internal virtual {
+        _totalBurned -= amount;
+    }
+
     /**
      * @dev Destroys `amount` tokens from `account`, deducting from the caller's
      * allowance.

@@ -66,6 +66,7 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
     CountersUpgradeable.Counter private _counter;
 
     bytes32 public constant TEAM_ROLE = keccak256("TEAM_ROLE");
+
     modifier gated() {
         require(
           block.timestamp >= startTime ||
@@ -155,6 +156,35 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
         // request randomness from chainlink
         pending.requestId = requestRandomWords(uint32(count));
         _requestIdToAddress[pending.requestId] = _msgSender();
+
+        // store purchased token ids for mint
+        for (uint256 i = 0; i < count; i++) {
+            _counter.increment();
+            pending.ids.push(_counter.current());
+        }
+    }
+
+    function adminRequest(uint256 count) public whenNotPaused onlyRole(ADMIN_ROLE) {
+        // get pending mint reference from storage
+        PendingMint storage pending = _pending[msg.sender];
+        // pre-flight checks
+        require(pending.requestId == 0, "Existing mint in progress");
+        require(count > 0, "Minimum 1 per mint");
+        require(count <= 50, "Maximum 50 per mint");
+        // cap checks
+        uint256 tokenId = _counter.current();
+        require(tokenId < cap, "Sold out");
+        require(tokenId + count <= cap, "Insufficient remaining NFTs");
+
+        // track mint count per wallet for elf island bonus
+        _mintCount[msg.sender] += count;
+        if (_mintCount[msg.sender] >= 3) {
+            _bonusEligible.add(msg.sender);
+        }
+
+        // request randomness from chainlink
+        pending.requestId = requestRandomWords(uint32(count));
+        _requestIdToAddress[pending.requestId] = msg.sender;
 
         // store purchased token ids for mint
         for (uint256 i = 0; i < count; i++) {

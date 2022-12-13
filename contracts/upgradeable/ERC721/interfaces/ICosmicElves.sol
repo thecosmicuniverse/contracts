@@ -4,6 +4,13 @@ pragma solidity ^0.8.16;
 import "@openzeppelin/contracts-upgradeable/token/ERC721/IERC721Upgradeable.sol";
 
 interface ICosmicElves is IERC721Upgradeable {
+
+    struct Elf {
+        uint256[] base;
+        uint256[] adventures;
+        uint256[] professions;
+    }
+
     function mint(address to, uint256 tokenId) external;
     function getAllTokenIds() external view returns(uint256[] memory);
     function batchTokenURI(uint256[] memory tokenIds) external view returns(string[] memory);

@@ -11,6 +11,8 @@ import "./extensions/ERC721EnumerableExtendedUpgradeable.sol";
 import "./extensions/ERC721BurnableExtendedUpgradeable.sol";
 import "./extensions/CosmicAttributeStorageUpgradeable.sol";
 import "./extensions/ERC721URITokenJSON.sol";
+import "./interfaces/IStandardERC721.sol";
+import "./interfaces/ICosmicElves.sol";
 import "../utils/TokenConstants.sol";
 import "../utils/Blacklistable.sol";
 
@@ -20,9 +22,11 @@ import "../utils/Blacklistable.sol";
 */
 contract CosmicElves is Initializable, ERC721Upgradeable, PausableUpgradeable, AccessControlEnumerableUpgradeable,
 ERC721BurnableExtendedUpgradeable, ERC721EnumerableExtendedUpgradeable,
-ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConstants  {
+ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConstants, IStandardERC721  {
     using StringsUpgradeable for uint256;
     using TokenMetadata for string;
+
+    address public bridgeContract;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -75,6 +79,48 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConst
         return makeMetadataJSON(tokenId, name, 'A Cosmic Elf', attributes);
     }
 
+    function mint(address to, uint256 tokenId, bytes memory data) public onlyRole(MINTER_ROLE) {
+        (ICosmicElves.Elf memory elf) = abi.decode(data, (ICosmicElves.Elf));
+        uint256[] memory baseIds = new uint256[](11);
+        uint256[] memory adventuresIds = new uint256[](3);
+        uint256[] memory professionsIds = new uint256[](12);
+        for (uint256 i = 0; i < 12; i++) {
+            professionsIds[i] = i;
+            if (i < 11) {
+                baseIds[i] = i;
+            }
+            if (i < 3) {
+                adventuresIds[i] = i;
+            }
+        }
+        _safeMint(to, tokenId);
+        batchUpdateSkillsOfToken(tokenId, 0, baseIds, elf.base);
+        batchUpdateSkillsOfToken(tokenId, 3, adventuresIds, elf.adventures);
+        batchUpdateSkillsOfToken(tokenId, 1, professionsIds, elf.professions);
+        _removeBurnedId(tokenId);
+    }
+
+    function bridgeExtraData(uint256 tokenId) external view returns(bytes memory) {
+        uint256[] memory baseIds = new uint256[](11);
+        uint256[] memory adventuresIds = new uint256[](3);
+        uint256[] memory professionsIds = new uint256[](12);
+        for (uint256 i = 0; i < 12; i++) {
+            professionsIds[i] = i;
+            if (i < 11) {
+                baseIds[i] = i;
+            }
+            if (i < 3) {
+                adventuresIds[i] = i;
+            }
+        }
+        ICosmicElves.Elf memory elf = ICosmicElves.Elf({
+            base: getSkillsByTree(tokenId, 0, baseIds),
+            adventures: getSkillsByTree(tokenId, 3, adventuresIds),
+            professions: getSkillsByTree(tokenId, 1, professionsIds)
+        });
+
+        return abi.encode(elf);
+    }
     // PAUSER_ROLE Functions
 
     /**
@@ -101,8 +147,16 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConst
         imageBaseURI = _imageBaseURI;
     }
 
+    function setBridgeContract(address _bridgeContract) public onlyRole(ADMIN_ROLE) {
+        bridgeContract = _bridgeContract;
+    }
+
     function tokenURI(uint256 tokenId) public view override(ERC721URITokenJSON, ERC721Upgradeable) returns (string memory) {
         return super.tokenURI(tokenId);
+    }
+
+    function burn(uint256 tokenId) public virtual override(IStandardERC721, ERC721BurnableExtendedUpgradeable) {
+        super.burn(tokenId);
     }
 
     function _burn(uint256 tokenId) internal virtual override(ERC721Upgradeable) {
@@ -114,14 +168,15 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConst
         return super._exists(tokenId);
     }
 
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
-    internal
-    whenNotPaused
-    notBlacklisted(from)
-    notBlacklisted(to)
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 firstTokenId,
+        uint256 batchSize
+    ) internal whenNotPaused notBlacklisted(from) notBlacklisted(to)
     override(ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable, ERC721BurnableExtendedUpgradeable)
     {
-        super._beforeTokenTransfer(from, to, tokenId);
+        super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
 
     function supportsInterface(bytes4 interfaceId) public view
@@ -129,9 +184,10 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConst
         ERC721Upgradeable,
         ERC721EnumerableExtendedUpgradeable,
         AccessControlEnumerableUpgradeable,
-        ERC721BurnableExtendedUpgradeable
+        ERC721BurnableExtendedUpgradeable,
+        IERC165Upgradeable
     ) returns (bool)
     {
-        return super.supportsInterface(interfaceId);
+        return interfaceId == type(IStandardERC721).interfaceId || super.supportsInterface(interfaceId);
     }
 }

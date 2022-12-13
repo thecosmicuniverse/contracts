@@ -5,189 +5,157 @@
   "main": "index.js",
   "scripts": {
     "-------BASE--------": "",
-
     "compile": "npx hardhat compile",
-
     "------DEPLOY------": "",
-
     "deploy:harmony": "npx hardhat --network harmony deploy",
     "deploy:avalanche": "npx hardhat --network avalanche deploy",
     "deploy:boba": "npx hardhat --network boba deploy",
-
     "-----UPGRADE-----": "",
-
     "upgrade:harmony": "npx hardhat --network harmony upgrade",
     "upgrade:avalanche": "npx hardhat --network avalanche upgrade",
     "upgrade:boba": "npx hardhat --network boba upgrade",
-
     "-------VERIFY------": "",
-
     "verify:harmony": "npx hardhat --network harmony verify",
     "verify:avalanche": "npx hardhat --network avalanche verify",
     "verify:boba": "npx hardhat --network boba verify",
-
     "----AVALANCHE----": "",
-
     "cosmic:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicUpgradeable",
     "cosmic:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicUpgradeable --address 0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4",
     "cosmic:avalanche:verify": "npm run verify:avalanche -- 0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4",
-
-    "magic:avalanche:deploy": "npm run deploy:avalanche -- --name MagicUpgradeable",
-    "magic:avalanche:upgrade": "npm run upgrade:avalanche -- --name MagicUpgradeable --address 0x9A8E0217cD870783c3f2317985C57Bf570969153",
-    "magic:avalanche:verify": "npm run verify:avalanche -- 0x9A8E0217cD870783c3f2317985C57Bf570969153",
-
+    "magic:avalanche:deploy": "npm run deploy:avalanche -- --name Magic",
+    "magic:avalanche:upgrade": "npm run upgrade:avalanche -- --name Magic",
+    "magic:avalanche:verify": "npm run verify:avalanche -- --name Magic",
     "xMagic:avalanche:deploy": "npm run deploy:avalanche -- --name xMagicUpgradeable",
     "xMagic:avalanche:upgrade": "npm run upgrade:avalanche -- --name xMagicUpgradeable --address 0x8a990BFE725c490CCaCFC94Ff99E835400dEEA6d",
     "xMagic:avalanche:verify": "npm run verify:avalanche -- 0x8a990BFE725c490CCaCFC94Ff99E835400dEEA6d",
-
     "lMagic:avalanche:deploy": "npm run deploy:avalanche -- --name lMagicUpgradeable",
     "lMagic:avalanche:upgrade": "npm run upgrade:avalanche -- --name lMagicUpgradeable --address 0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D",
     "lMagic:avalanche:verify": "npm run verify:avalanche -- 0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D",
-
     "cosmicWizards:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicWizards",
     "cosmicWizards:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicWizards --address 0xBF20c23D25Fca8Aa4e7946496250D67872691Af2",
     "cosmicWizards:avalanche:verify": "npm run verify:avalanche -- 0xBF20c23D25Fca8Aa4e7946496250D67872691Af2",
-
     "cosmicIslandLand:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicIslandLand",
     "cosmicIslandLand:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicIslandLand --address 0x2fa83f2Fa89F275863B9491b1802dFeA5A130024",
     "cosmicIslandLand:avalanche:verify": "npm run verify:avalanche -- 0x2fa83f2Fa89F275863B9491b1802dFeA5A130024",
-
     "framedWizards:avalanche:deploy": "npm run deploy:avalanche -- --name FramedWizardsUpgradeable",
     "framedWizards:avalanche:upgrade": "npm run upgrade:avalanche -- --name FramedWizardsUpgradeable --address 0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C",
     "framedWizards:avalanche:verify": "npm run verify:avalanche -- 0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C",
-
     "cosmicElvesTicket:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicElvesTicketUpgradeable",
     "cosmicElvesTicket:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicElvesTicketUpgradeable --address 0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e",
     "cosmicElvesTicket:avalanche:verify": "npm run verify:avalanche -- 0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e",
-
     "cosmicElves:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicElves",
-    "cosmicElves:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicElves --address 0x9a337A6F883De95f49e05CD7D801d475a40a9C70",
-    "cosmicElves:avalanche:verify": "npm run verify:avalanche -- 0x9a337A6F883De95f49e05CD7D801d475a40a9C70",
-
+    "cosmicElves:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicElves",
+    "cosmicElves:avalanche:verify": "npm run verify:avalanche -- --name CosmicElves",
     "marketplace:avalanche:deploy": "npm run deploy:avalanche -- --name MarketUpgradeable",
     "marketplace:avalanche:upgrade": "npm run upgrade:avalanche -- --name MarketUpgradeable --address 0x5202e45EbA7F58E350AA58B59dEB64a668654007",
     "marketplace:avalanche:verify": "npm run verify:avalanche -- 0x5202e45EbA7F58E350AA58B59dEB64a668654007",
-
     "gameStorage:avalanche:deploy": "npm run deploy:avalanche -- --name GameStorageUpgradeable",
     "gameStorage:avalanche:upgrade": "npm run upgrade:avalanche -- --name GameStorageUpgradeable --address 0x3a55FFC97D2183d94147c4D2d3b6991f0C09ABf4",
     "gameStorage:avalanche:verify": "npm run verify:avalanche -- 0x3a55FFC97D2183d94147c4D2d3b6991f0C09ABf4",
-
     "professionStaking:avalanche:deploy": "npm run deploy:avalanche -- --name ProfessionStakingAvalanche",
-    "professionStaking:avalanche:upgrade": "npm run upgrade:avalanche -- --name ProfessionStakingAvalanche --address 0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1",
-    "professionStaking:avalanche:verify": "npm run verify:avalanche -- 0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1",
-
+    "professionStaking:avalanche:upgrade": "npm run upgrade:avalanche -- --name ProfessionStakingAvalanche",
+    "professionStaking:avalanche:verify": "npm run verify:avalanche -- --name ProfessionStakingAvalanche",
     "cosmicElvesMinter:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicElvesMinter",
-    "cosmicElvesMinter:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicElvesMinter --address 0x8D1dA51e910155d27015F370A4d3718996d47e11",
-    "cosmicElvesMinter:avalanche:verify": "npm run verify:avalanche -- 0x8D1dA51e910155d27015F370A4d3718996d47e11",
-
+    "cosmicElvesMinter:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicElvesMinter",
+    "cosmicElvesMinter:avalanche:verify": "npm run verify:avalanche -- --name CosmicElvesMinter",
     "ueQueryHelper:avalanche:deploy": "npm run deploy:avalanche -- --name UEQueryHelper",
     "ueQueryHelper:avalanche:upgrade": "npm run upgrade:avalanche -- --name UEQueryHelper --address 0xa803303fAaC31046ef572DF26E7de5338237000c",
     "ueQueryHelper:avalanche:verify": "npm run verify:avalanche -- 0xa803303fAaC31046ef572DF26E7de5338237000c",
-
     "upgrade:simpleMasterInvestor": "npm run upgrade:avalanche -- --name SimpleMasterInvestor --address 0xc9d61e23E27A3b75B8fEf4b66a67bFC5737e6262",
-
     "cosmicBadges:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicBadges",
-    "cosmicBadges:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicBadges --address 0x03A37A09be3E90bE403e263238c1aCb14a341DEf",
-    "cosmicBadges:avalanche:verify": "npm run verify:avalanche -- 0x03A37A09be3E90bE403e263238c1aCb14a341DEf",
-
+    "cosmicBadges:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicBadges",
+    "cosmicBadges:avalanche:verify": "npm run verify:avalanche -- --name CosmicBadges",
     "cosmicBundles:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicBundles",
-    "cosmicBundles:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicBundles --address 0x04AB0F76De2D5ba63082193C66E8ce571A32454E",
-    "cosmicBundles:avalanche:verify": "npm run verify:avalanche -- 0x04AB0F76De2D5ba63082193C66E8ce571A32454E",
-
+    "cosmicBundles:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicBundles",
+    "cosmicBundles:avalanche:verify": "npm run verify:avalanche -- --name CosmicBundles",
     "stakingRewardsClaim:avalanche:deploy": "npm run deploy:avalanche -- --name StakingRewardsClaimAvalanche",
     "stakingRewardsClaim:avalanche:upgrade": "npm run upgrade:avalanche -- --name StakingRewardsClaimAvalanche --address 0x21C5eB2Fee538D641Ea76B9620B1f80f24eb3791",
     "stakingRewardsClaim:avalanche:verify": "npm run verify:avalanche -- 0x21C5eB2Fee538D641Ea76B9620B1f80f24eb3791",
-
     "cosmicTools:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicTools",
-    "cosmicTools:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicTools --address 0x39Ad4AAfa177f59ed7356fFDBbF36A840075b7A6",
-    "cosmicTools:avalanche:verify": "npm run verify:avalanche -- 0x39Ad4AAfa177f59ed7356fFDBbF36A840075b7A6",
-
+    "cosmicTools:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicTools",
+    "cosmicTools:avalanche:verify": "npm run verify:avalanche -- --name CosmicTools",
     "cosmicComponents:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicComponents",
-    "cosmicComponents:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicComponents --address 0xCB9e8C619CF2C27781dAD8F6e5B27fEBB4f1D89C",
-    "cosmicComponents:avalanche:verify": "npm run verify:avalanche -- 0xCB9e8C619CF2C27781dAD8F6e5B27fEBB4f1D89C",
-
+    "cosmicComponents:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicComponents",
+    "cosmicComponents:avalanche:verify": "npm run verify:avalanche -- --name CosmicComponents",
     "cosmicPotions:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicPotions",
-    "cosmicPotions:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicPotions --address 0x54EC1799Cafa5685F0f1A16537b74c02589b7FCe",
-    "cosmicPotions:avalanche:verify": "npm run verify:avalanche -- 0x54EC1799Cafa5685F0f1A16537b74c02589b7FCe",
-
+    "cosmicPotions:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicPotions",
+    "cosmicPotions:avalanche:verify": "npm run verify:avalanche -- --name CosmicPotions",
     "cosmicRawResources:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicRawResources",
-    "cosmicRawResources:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicRawResources --address 0xF31dC5F3A6D0af979FC3D8ad7A216E2eA49a1Cb1",
-    "cosmicRawResources:avalanche:verify": "npm run verify:avalanche -- 0xF31dC5F3A6D0af979FC3D8ad7A216E2eA49a1Cb1",
-
+    "cosmicRawResources:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicRawResources",
+    "cosmicRawResources:avalanche:verify": "npm run verify:avalanche -- --name CosmicRawResources",
     "cosmicRefinedResources:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicRefinedResources",
-    "cosmicRefinedResources:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicRefinedResources --address 0xEacF75f43674a85eae7679E4A67C7FEF004CC7CB",
-    "cosmicRefinedResources:avalanche:verify": "npm run verify:avalanche -- 0xEacF75f43674a85eae7679E4A67C7FEF004CC7CB",
-
+    "cosmicRefinedResources:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicRefinedResources",
+    "cosmicRefinedResources:avalanche:verify": "npm run verify:avalanche -- --name CosmicRefinedResources",
     "cosmicSkins:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicSkins",
-    "cosmicSkins:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicSkins --address 0x1A356b2B223eB5eb4221a956C67634B7d5c72910",
-    "cosmicSkins:avalanche:verify": "npm run verify:avalanche -- 0x1A356b2B223eB5eb4221a956C67634B7d5c72910",
-
+    "cosmicSkins:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicSkins",
+    "cosmicSkins:avalanche:verify": "npm run verify:avalanche -- --name CosmicSkins",
     "-------BOBA--------": "",
-
     "cosmicBadges:boba:deploy": "npm run deploy:boba -- --name CosmicBadges",
-    "cosmicBadges:boba:upgrade": "npm run upgrade:boba -- --name CosmicBadges --address 0x9E2Aa514325e67D3bA78E575cAF6F90fBC628069",
-    "cosmicBadges:boba:verify": "npm run verify:boba -- 0x9E2Aa514325e67D3bA78E575cAF6F90fBC628069",
-
+    "cosmicBadges:boba:upgrade": "npm run upgrade:boba -- --name CosmicBadges",
+    "cosmicBadges:boba:verify": "npm run verify:boba -- --name CosmicBadges",
     "cosmicTools:boba:deploy": "npm run deploy:boba -- --name CosmicTools",
-    "cosmicTools:boba:upgrade": "npm run upgrade:boba -- --name CosmicTools --address 0x0458b679C30AA4B8622742eA9fb2A44660c4a2a1",
-    "cosmicTools:boba:verify": "npm run verify:boba -- 0x0458b679C30AA4B8622742eA9fb2A44660c4a2a1",
-
+    "cosmicTools:boba:upgrade": "npm run upgrade:boba -- --name CosmicTools",
+    "cosmicTools:boba:verify": "npm run verify:boba -- --name CosmicTools",
     "cosmicComponents:boba:deploy": "npm run deploy:boba -- --name CosmicComponents",
-    "cosmicComponents:boba:upgrade": "npm run upgrade:boba -- --name CosmicComponents --address ",
-    "cosmicComponents:boba:verify": "npm run verify:boba -- ",
-
+    "cosmicComponents:boba:upgrade": "npm run upgrade:boba -- --name CosmicComponents",
+    "cosmicComponents:boba:verify": "npm run verify:boba -- --name CosmicComponents",
     "cosmicPotions:boba:deploy": "npm run deploy:boba -- --name CosmicPotions",
-    "cosmicPotions:boba:upgrade": "npm run upgrade:boba -- --name CosmicPotions --address ",
-    "cosmicPotions:boba:verify": "npm run verify:boba -- ",
-
+    "cosmicPotions:boba:upgrade": "npm run upgrade:boba -- --name CosmicPotions",
+    "cosmicPotions:boba:verify": "npm run verify:boba -- --name CosmicPotions",
     "cosmicRawResources:boba:deploy": "npm run deploy:boba -- --name CosmicRawResources",
-    "cosmicRawResources:boba:upgrade": "npm run upgrade:boba -- --name CosmicRawResources --address ",
-    "cosmicRawResources:boba:verify": "npm run verify:boba -- ",
-
+    "cosmicRawResources:boba:upgrade": "npm run upgrade:boba -- --name CosmicRawResources",
+    "cosmicRawResources:boba:verify": "npm run verify:boba -- --name CosmicRawResources",
     "cosmicRefinedResources:boba:deploy": "npm run deploy:boba -- --name CosmicRefinedResources",
-    "cosmicRefinedResources:boba:upgrade": "npm run upgrade:boba -- --name CosmicRefinedResources --address ",
-    "cosmicRefinedResources:boba:verify": "npm run verify:boba -- ",
-
+    "cosmicRefinedResources:boba:upgrade": "npm run upgrade:boba -- --name CosmicRefinedResources",
+    "cosmicRefinedResources:boba:verify": "npm run verify:boba --name CosmicRefinedResources",
     "cosmicSkins:boba:deploy": "npm run deploy:boba -- --name CosmicSkins",
-    "cosmicSkins:boba:upgrade": "npm run upgrade:boba -- --name CosmicSkins --address ",
-    "cosmicSkins:boba:verify": "npm run verify:boba -- ",
-
+    "cosmicSkins:boba:upgrade": "npm run upgrade:boba -- --name CosmicSkins",
+    "cosmicSkins:boba:verify": "npm run verify:boba -- --name CosmicSkins",
     "elvenAdventures:boba:deploy": "npm run deploy:boba -- --name ElvenAdventures",
     "elvenAdventures:boba:upgrade": "npm run upgrade:boba -- --name ElvenAdventures",
     "elvenAdventures:boba:verify": "npm run verify:boba -- --name ElvenAdventures",
-
+    "cosmicElves:boba:deploy": "npm run deploy:boba -- --name CosmicElves",
+    "cosmicElves:boba:upgrade": "npm run upgrade:boba -- --name CosmicElves",
+    "cosmicElves:boba:verify": "npm run verify:boba -- --name CosmicElves",
+    "cosmicWizards:boba:deploy": "npm run deploy:boba -- --name CosmicWizards",
+    "cosmicWizards:boba:upgrade": "npm run upgrade:boba -- --name CosmicWizards",
+    "cosmicWizards:boba:verify": "npm run verify:boba -- --name CosmicWizards",
+    "cosmicIslandLand:boba:deploy": "npm run deploy:boba -- --name CosmicIslandLand",
+    "cosmicIslandLand:boba:upgrade": "npm run upgrade:boba -- --name CosmicIslandLand",
+    "cosmicIslandLand:boba:verify": "npm run verify:boba -- --name CosmicIslandLand",
+    "cosmicBundles:boba:deploy": "npm run deploy:boba -- --name CosmicBundles",
+    "cosmicBundles:boba:upgrade": "npm run upgrade:boba -- --name CosmicBundles",
+    "cosmicBundles:boba:verify": "npm run verify:boba -- --name CosmicBundles",
+    "magicL2:boba:deploy": "npm run deploy:boba -- --name MagicL2",
+    "magicL2:boba:upgrade": "npm run upgrade:boba -- --name MagicL2",
+    "magicL2:boba:verify": "npm run verify:boba -- --name MagicL2",
     "------HARMONY------": "",
-
     "cosmicElvesTicket:harmony:deploy": "npm run deploy -- --name CosmicElvesTicketUpgradeable",
     "cosmicElvesTicket:harmony:upgrade": "npm run upgrade -- --name CosmicElvesTicketUpgradeable --address 0xdC48cECc5443cC1982926060a89392c7dF1d4892",
-
     "professionStaking:harmony:upgrade": "npm run upgrade:harmony -- --name ProfessionStakingHarmony --address 0x8Dfc57c1c1032e08f3DF6C71A6d8b8EF88a7aC21",
     "professionStaking:harmony:verify": "npm run verify:harmony -- 0x8Dfc57c1c1032e08f3DF6C71A6d8b8EF88a7aC21",
-
     "gameStorage:harmony:upgrade": "npm run upgrade -- --name GameStorageUpgradeable --address 0xdc0B143afD1c806d142617f99c5eE037Df4bA28f",
-
     "assetCustomization:harmony:deploy": "npm run deploy -- --name AssetCustomizationUpgradeable",
     "assetCustomization:harmony:upgrade": "npm run upgrade -- --name AssetCustomizationUpgradeable --address 0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4",
-
     "erc721QueryHelper:harmony:deploy": "npm run deploy:harmony -- --name ERC721QueryHelper",
     "erc721QueryHelper:harmony:upgrade": "npm run upgrade:harmony -- --name ERC721QueryHelper --address 0xd26599F823494a1De265e94cf9DC0Af49fA08DA1",
     "erc721QueryHelper:harmony:verify": "npm run verify:harmony -- 0xd26599F823494a1De265e94cf9DC0Af49fA08DA1"
-
   },
   "author": "dirtycajunrice",
   "license": "MIT",
   "dependencies": {
-    "@openzeppelin/contracts": "4.7.3",
-    "@openzeppelin/upgrades-core": "1.19.1",
-    "dotenv": "16.0.2",
-    "hardhat": "2.11.2",
+    "@openzeppelin/contracts": "4.8.0",
+    "@openzeppelin/upgrades-core": "1.20.5",
+    "@poanet/solidity-flattener": "^3.0.8",
+    "dotenv": "16.0.3",
+    "hardhat": "2.12.2",
     "ts-node": "10.9.1",
-    "typescript": "4.8.3"
+    "typescript": "4.9.3"
   },
   "devDependencies": {
+    "@chainlink/contracts": "0.5.1",
     "@nomicfoundation/hardhat-toolbox": "2.0.0",
-    "@openzeppelin/contracts-upgradeable": "4.7.3",
-    "@openzeppelin/hardhat-upgrades": "1.21.0",
-    "@chainlink/contracts": "0.4.1"
+    "@openzeppelin/contracts-upgradeable": "4.8.0",
+    "@openzeppelin/hardhat-upgrades": "1.21.0"
   }
 }

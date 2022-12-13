@@ -10,12 +10,12 @@ import "../utils/access/StandardAccessControl.sol";
 import "./extensions/ERC1155AttributeStorage.sol";
 import "./extensions/ERC1155URITokenJSON.sol";
 import "./extensions/ERC1155Soulbound.sol";
+import "./interfaces/IStandardERC1155.sol";
 import "./extensions/ERC1155Metadata.sol";
 import "./interfaces/CosmicStructs.sol";
 import "./extensions/ERC1155Supply.sol";
 import "../utils/TokenConstants.sol";
 import "../utils/Blacklistable.sol";
-import "./interfaces/IStandardERC1155.sol";
 
 /**
 * @title Cosmic Raw Resources v1.0.0
@@ -91,13 +91,14 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata, IStandardERC1155 {
         bridgeContract = _bridgeContract;
     }
 
-    function bridgeExtraData(uint256 id, uint256 amount) external returns(bytes memory) {
+    function bridgeExtraData(uint256 id, uint256 amount) external view returns(bytes memory) {
         return "";
     }
 
     function burn(address account, uint256 id, uint256 amount) public override(IStandardERC1155, ERC1155BurnableUpgradeable) {
         super.burn(account, id, amount);
     }
+
     function _beforeTokenTransfer(
         address operator,
         address from,
@@ -114,6 +115,6 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata, IStandardERC1155 {
     function supportsInterface(
         bytes4 interfaceId
     ) public view override(ERC1155Upgradeable, AccessControlEnumerableUpgradeable, IERC165Upgradeable) returns (bool) {
-        return super.supportsInterface(interfaceId);
+        return type(IStandardERC1155).interfaceId == interfaceId || super.supportsInterface(interfaceId);
     }
 }

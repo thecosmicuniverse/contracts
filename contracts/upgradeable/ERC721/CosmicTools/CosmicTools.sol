@@ -180,14 +180,15 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable  {
         return super._exists(tokenId);
     }
 
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
-    internal
-    whenNotPaused
-    notBlacklisted(from)
-    notBlacklisted(to)
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 firstTokenId,
+        uint256 batchSize
+    ) internal whenNotPaused notBlacklisted(from) notBlacklisted(to)
     override(ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable, ERC721BurnableExtendedUpgradeable)
     {
-        super._beforeTokenTransfer(from, to, tokenId);
+        super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
 
     function supportsInterface(bytes4 interfaceId) public view
@@ -199,6 +200,6 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable  {
         IERC165Upgradeable
     ) returns (bool)
     {
-        return super.supportsInterface(interfaceId);
+        return interfaceId == type(IStandardERC721).interfaceId || super.supportsInterface(interfaceId);
     }
 }

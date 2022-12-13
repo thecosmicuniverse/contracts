@@ -1,6 +1,5 @@
 import "@nomicfoundation/hardhat-toolbox";
 import { Manifest } from '@openzeppelin/upgrades-core';
-import { Contract } from 'ethers';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import fs from 'fs';
 import { setTimeout } from 'timers/promises';
