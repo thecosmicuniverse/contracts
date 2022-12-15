@@ -129,6 +129,9 @@
     "magicL2:boba:deploy": "npm run deploy:boba -- --name MagicL2",
     "magicL2:boba:upgrade": "npm run upgrade:boba -- --name MagicL2",
     "magicL2:boba:verify": "npm run verify:boba -- --name MagicL2",
+    "chestRedeemer:boba:deploy": "npm run deploy:boba -- --name ChestRedeemer",
+    "chestRedeemer:boba:upgrade": "npm run upgrade:boba -- --name ChestRedeemer",
+    "chestRedeemer:boba:verify": "npm run verify:boba -- --name ChestRedeemer",
     "------HARMONY------": "",
     "cosmicElvesTicket:harmony:deploy": "npm run deploy -- --name CosmicElvesTicketUpgradeable",
     "cosmicElvesTicket:harmony:upgrade": "npm run upgrade -- --name CosmicElvesTicketUpgradeable --address 0xdC48cECc5443cC1982926060a89392c7dF1d4892",
@@ -156,6 +159,7 @@
     "@chainlink/contracts": "0.5.1",
     "@nomicfoundation/hardhat-toolbox": "2.0.0",
     "@openzeppelin/contracts-upgradeable": "4.8.0",
-    "@openzeppelin/hardhat-upgrades": "1.21.0"
+    "@openzeppelin/hardhat-upgrades": "1.21.0",
+    "@dirtycajunrice/contracts": "0.5.0"
   }
 }

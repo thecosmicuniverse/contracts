@@ -138,6 +138,11 @@
       "name": "MagicL2",
       "type": "uups",
       "impl": "0x1ceab20bBD06f4F232b694498D4a3E506D68D58c"
+    },
+    "0xf0D8537ca2D0F3e268aa01895AFe87a38Faf6D0E": {
+      "name": "ChestRedeemer",
+      "type": "uups",
+      "impl": "0x37E6eA389325c3890fAF1b99cf741529C455620D"
     }
   }
 }

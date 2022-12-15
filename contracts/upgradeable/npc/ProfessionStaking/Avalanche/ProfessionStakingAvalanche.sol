@@ -202,7 +202,7 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         emit StakingUnlocked(_msgSender(), nftAddress, tokenId);
     }
 
-    function batchEnableStaking(address[] memory nftAddresses, uint256[] memory tokenIds) public whenNotPaused {
+    function batchEnableStaking(address[] memory nftAddresses, uint256[] memory tokenIds) public {
         require(nftAddresses.length == tokenIds.length, "address count must match token count");
         for (uint256 i = 0; i < nftAddresses.length; i++) {
             enableStaking(nftAddresses[i], tokenIds[i]);
