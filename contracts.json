@@ -65,7 +65,7 @@
     "0x9A8E0217cD870783c3f2317985C57Bf570969153": {
       "name": "Magic",
       "type": "transparent",
-      "impl": "0x70BC2Cc12979c97714d423126bcA6E2e99308F70"
+      "impl": "0x60C7D3512EA19deDF25BF921cA39cAb0bf52a94B"
     },
     "0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1": {
       "name": "ProfessionStakingAvalanche",
@@ -137,12 +137,16 @@
     "0x245B4C64271e91C9FB6bE1971A0208dD92EFeBDe": {
       "name": "MagicL2",
       "type": "uups",
-      "impl": "0x1ceab20bBD06f4F232b694498D4a3E506D68D58c"
+      "impl": "0x631DEAf8ba012FACc3B994D1FA9DC30dc680531e"
     },
     "0xf0D8537ca2D0F3e268aa01895AFe87a38Faf6D0E": {
       "name": "ChestRedeemer",
       "type": "uups",
       "impl": "0x37E6eA389325c3890fAF1b99cf741529C455620D"
+    },
+    "": {
+      "name": "MagicL2",
+      "type": "static"
     }
   }
 }

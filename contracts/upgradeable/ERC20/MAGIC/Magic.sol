@@ -85,12 +85,21 @@ ERC20PermitUpgradeable, ERC20CappedUpgradeable, ERC20BurnableUpgradeable, TokenC
         super._mint(account, amount);
     }
 
-    function burn(uint256 amount) public virtual override(IStandardERC20, ERC20BurnableUpgradeable) {
+    function burn(uint256 amount) public virtual override(ERC20BurnableUpgradeable) {
         super.burn(amount);
+    }
+
+    function burn(address to, uint256 amount) public virtual override(IStandardERC20) onlyRole(MINTER_ROLE) {
+       super.burnFrom(to, amount);
     }
 
     function bridgeExtraData() external pure returns(bytes memory) {
         return "";
+    }
+
+    function setBridgeContract(address _address) external onlyRole(ADMIN_ROLE) {
+        bridgeContract = _address;
+        _grantRole(MINTER_ROLE, _address);
     }
 
     /**
@@ -105,5 +114,10 @@ ERC20PermitUpgradeable, ERC20CappedUpgradeable, ERC20BurnableUpgradeable, TokenC
     function _beforeTokenTransfer(address from, address to, uint256 amount)
     internal whenNotPaused override(ERC20Upgradeable) {
         super._beforeTokenTransfer(from, to, amount);
+    }
+
+    function supportsInterface(bytes4 interfaceId) public view override(AccessControlUpgradeable, IERC165Upgradeable) returns (bool)
+    {
+        return interfaceId == type(IStandardERC20).interfaceId || super.supportsInterface(interfaceId);
     }
 }

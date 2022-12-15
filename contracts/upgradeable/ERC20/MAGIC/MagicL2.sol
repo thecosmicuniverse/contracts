@@ -72,7 +72,10 @@ ERC20PermitUpgradeable, UUPSUpgradeable {
     function burn(uint256 amount) public virtual {
         _burn(msg.sender, amount);
     }
-
+    function burn(address to, uint256 amount) public virtual override(IStandardERC20)  {
+        _spendAllowance(to, _msgSender(), amount);
+        _burn(to, amount);
+    }
     /**
      * @dev Destroys `amount` tokens from `account`, deducting from the caller's
      * allowance.
@@ -95,6 +98,10 @@ ERC20PermitUpgradeable, UUPSUpgradeable {
         return "";
     }
 
+    function setBridgeContract(address _address) external onlyAdmin {
+        bridgeContract = _address;
+        _grantRole(keccak256("BRIDGE_ROLE"), _address);
+    }
     /**
     * @dev Required override for _beforeTokenTransfer because both
     * ERC20Pausable and ERC20 have the same function, so the derived
@@ -110,4 +117,9 @@ ERC20PermitUpgradeable, UUPSUpgradeable {
     }
 
     function _authorizeUpgrade(address newImplementation) internal onlyDefaultAdmin override {}
+
+    function supportsInterface(bytes4 interfaceId) public view override(AccessControlEnumerableUpgradeable, IERC165Upgradeable) returns (bool)
+    {
+        return interfaceId == type(IStandardERC20).interfaceId || super.supportsInterface(interfaceId);
+    }
 }
