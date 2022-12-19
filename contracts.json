@@ -70,7 +70,7 @@
     "0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1": {
       "name": "ProfessionStakingAvalanche",
       "type": "transparent",
-      "impl": "0xc62576132415C7d58A7B03C085F6b667c8E3759a"
+      "impl": "0x09522B8f766d53A03570f0d2F05924A69060A67E"
     }
   },
   "43288": {
@@ -102,7 +102,7 @@
     "0x94932B53B666179cF0cFEB178BDa358f538f36c4": {
       "name": "ElvenAdventures",
       "type": "uups",
-      "impl": "0x147aE39c5eF9384592C5c9f6D8DDecA4ebb0B3d2"
+      "impl": "0xB8669d455aB2D65F08d2fB57eDb41878dee1a806"
     },
     "0x09692b3a53eB7870F00b342444E4f42e259e7999": {
       "name": "CosmicElves",
@@ -142,10 +142,10 @@
     "0xf0D8537ca2D0F3e268aa01895AFe87a38Faf6D0E": {
       "name": "ChestRedeemer",
       "type": "uups",
-      "impl": "0x37E6eA389325c3890fAF1b99cf741529C455620D"
+      "impl": "0x0d2a69f06E7f63857726535CfaFF8004E0dB188F"
     },
     "": {
-      "name": "MagicL2",
+      "name": "ElvenAdventures",
       "type": "static"
     }
   }

@@ -498,7 +498,7 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         emit StakingConfigDeleted(nftAddress);
     }
 
-    function _depositFee() public onlyRole(ADMIN_ROLE) {
+    function _depositFee() internal {
         IERC20Upgradeable token = IERC20Upgradeable(MAGIC);
         uint256 balance = token.balanceOf(address(this));
         if (balance > 0) {

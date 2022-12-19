@@ -9,11 +9,11 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@dirtycajunrice/contracts/utils/access/StandardAccessControl.sol";
 
 import "../../../ERC721/interfaces/ICosmicAttributeStorage.sol";
 import "../../../ERC1155/interfaces/IStandardERC1155.sol";
 import "../../../ERC721/interfaces/IStandardERC721.sol";
-import "../../../utils/access/StandardAccessControl.sol";
 import "../../../ERC721/CosmicTools/ICosmicTools.sol";
 import "./IElvenAdventures.sol";
 
@@ -92,7 +92,7 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
      * User Functions *
      ******************/
 
-    function unlockAdventures(uint256 tokenId) public whenNotPaused onlyAdmin {
+    function unlockAdventures(uint256 tokenId) public whenNotPaused {
         require(
             ICosmicAttributeStorage(_elves).getSkill(tokenId, 3, 0) == 0,
            "ElvenAdventures::Adventures already unlocked for Elf"
@@ -113,7 +113,7 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
     }
 
     function beginAdventure(uint256 tokenId) public whenNotPaused
-    notOnAdventure(tokenId) onlyUnlocked(tokenId) onlyAdmin {
+    notOnAdventure(tokenId) onlyUnlocked(tokenId) {
         ICosmicAttributeStorage(_elves).updateSkill(tokenId, 3, 1, 1);
         emit BeganAdventure(msg.sender, tokenId);
     }
