@@ -143,10 +143,6 @@
       "name": "ChestRedeemer",
       "type": "uups",
       "impl": "0x0d2a69f06E7f63857726535CfaFF8004E0dB188F"
-    },
-    "": {
-      "name": "ElvenAdventures",
-      "type": "static"
     }
   }
 }
