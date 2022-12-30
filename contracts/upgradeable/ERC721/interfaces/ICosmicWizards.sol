@@ -4,6 +4,11 @@ pragma solidity ^0.8.16;
 import "@openzeppelin/contracts-upgradeable/token/ERC721/IERC721Upgradeable.sol";
 
 interface ICosmicWizards is IERC721Upgradeable {
+    struct Wizard {
+        uint256[] base;
+        uint256[] professions;
+        uint256[] extra;
+    }
     function mint(address to, uint256 tokenId) external;
     function getAllTokenIds() external view returns(uint256[] memory);
     function batchTokenURI(uint256[] memory tokenIds) external view returns(string[] memory);

@@ -1,10 +1,11 @@
 import hre, { ethers } from 'hardhat';
-import { getContract } from '../tasks'
+import { getContract, getContractAndData } from "../tasks";
 import ElvesAttributes from './metadata/elves'
 import "dotenv/config"
 
 const professions = ["Alchemy", "Architecture", "Carpentry", "Cooking", "Crystal Extraction", "Farming", "Fishing", "Gem Cutting", "Herbalism", "Mining", "Tailoring", "Woodcutting"];
 const tools = ["Cauldron", "Drawing Set", "Woodworking Tools", "Cooking Utensils", "Extraction Wand", "Rope & Sickle", "Fishing Rod", "Grinding Stone", "Herbalism Kit", "Pickaxe", "Sewing Kit", "Axe"]
+const rarities = ["Common", "Uncommon", "Rare", "Mythical", "Legendary"]
 //async function main(name, address) {
 //  const accounts = await ethers.getSigners()
 //  const contract = await ethers.getContractAt(name, address, accounts[0])
@@ -170,7 +171,6 @@ const tools = ["Cauldron", "Drawing Set", "Woodworking Tools", "Cooking Utensils
 //  "0xEacF75f43674a85eae7679E4A67C7FEF004CC7CB", accounts[0])
 //  const professions = ["Alchemy", "Architecture", "Carpentry", "Cooking", "Crystal Extraction", "Farming",
 //  "Fishing", "Gem Cutting", "Herbalism", "Mining", "Tailoring", "Woodcutting"]
-const names = ("Cauldron", "Drawing Set", "Woodworking Tools", "Cooking Utensils", "Extraction Wand", "Rope & Sickle", "Fishing Rod", "Grinding Stone", "Herbalism Kit", "Pickaxe", "Sewing Kit", "Axe")
 //  const componentNames = ["Empty Vial", "Parchment", "Nails", "Seasoning", "Te Kore Salt", "Compost", "Fish
 //  Bones", "Polish", "Bugs", "Flint", "Thread", "Sticks"]
 //  const componentSources = ["Vendor", "Vendor", "Vendor", "Vendor", "Byproduct", "Byproduct", "Byproduct",
@@ -255,8 +255,120 @@ const names = ("Cauldron", "Drawing Set", "Woodworking Tools", "Cooking Utensils
 //  //await mintTx.wait();
 //}
 
+const setComponentMetadata = async () => {
+  const { contract } = await getContractAndData("CosmicComponents", hre);
+
+  const componentNames = ["Empty Vial", "Parchment", "Nails", "Seasoning", "Te Kore Salt", "Compost", "Fish Bones", "Polish", "Bugs", "Flint", "Thread", "Sticks"]
+  const componentSources = ["Vendor", "Vendor", "Vendor", "Vendor", "Byproduct", "Byproduct", "Byproduct", "Vendor", "Byproduct", "Byproduct", "Vendor", "Byproduct"]
+
+  // set strings
+  const attributeIds = [1000, 1001, 0, 1];
+  let allTokenIds: number[] = [];
+  let allAttributeIds: number[] = [];
+  let allAttributeNames: string[] = [];
+
+  for (let i = 0; i < componentNames.length; i++) {
+    allTokenIds = allTokenIds.concat([i, i, i, i]);
+    allAttributeIds = allAttributeIds.concat(attributeIds)
+    allAttributeNames = allAttributeNames.concat([componentNames[i], `Cosmic Universe: Dawn of Crypton Minigame component for ${professions[i]} ` + componentSources[i] === 'Vendor' ? 'purchasable from the in-game vendor' : `created as a byproduct while refining`, professions[i], componentSources[i]])
+  }
+
+  const tx = await contract.batchSetAttributeNames(allTokenIds, allAttributeIds, allAttributeNames);
+  await tx.wait();
+}
+
+const setResourceMetadata = async () => {
+  const { contract: rawContract } = await getContractAndData("CosmicRawResources", hre);
+  const { contract: refinedContract } = await getContractAndData("CosmicRefinedResources", hre);
+
+  const set = 1
+
+  const typeSet = ['Raw', 'Refined'][set];
+  const contract = [rawContract, refinedContract][set]
+  const resources = ["Hemp Paste", "Aloe Vera Paste", "Cosmic Poppy Paste", "Sandstone Bricks", "Copper Ingots", "Limestone Bricks", "Pine Planks", "Birch Planks", "Bamboo Planks", "Forest Fish Fillet", "Chopped Potatoes", "Sliced Onions", "Raw Citrine", "Raw Amethyst", "Raw Tourmaline", "Carrots", "Potatoes", "Onions", "Forest Fish", "Zebra Tang", "Hermit Lionfish", "Pure Citrine", "Pure Amethyst", "Pure Tourmaline", "Hemp Leaves", "Aloe Vera", "Cosmic Poppy", "Sandstone Chunk", "Copper Ore", "Limestone Chunk", "Hemp Fibre", "Coconut Husk", "Flax", "Pine Log", "Birch Log", "Bamboo Log"]
+
+  // set strings
+  const attributeIds = [1000, 1001, 0, 1, 2];
+  let allTokenIds: number[] = [];
+  let allAttributeIds: number[] = [];
+  let allAttributeNames: string[] = [];
+
+  for (let i = 0; i < resources.length; i++) {
+    const professionId = Math.floor(i / 3)
+    const type = [0, 1, 2, 3, 7, 10].includes(professionId) ? 'Refined' : 'Raw';
+    const startingId = i * 5;
+    for (let j = 0; j < 4; j++) {
+      const tokenId = startingId + j;
+
+      if (type === typeSet) {
+        allTokenIds = allTokenIds.concat([tokenId, tokenId, tokenId, tokenId, tokenId]);
+        allAttributeIds = allAttributeIds.concat(attributeIds)
+        allAttributeNames = allAttributeNames.concat([`${rarities[j]} ${resources[i]}`, `Cosmic Universe ${type.toLowerCase()} resource used in ${professions[professionId]}`, professions[professionId], type, rarities[j]])
+      }
+    }
+  }
+  let finished = 0;
+  const batch = 150;
+  const batches = Math.ceil((allTokenIds.length - finished) / batch);
+  for (let i = 0; i < batches; i++) {
+    const begin = finished + (i * batch);
+    const end = begin + batch;
+    console.log(allTokenIds.slice(begin, end).length, allAttributeIds.slice(begin, end).length, allAttributeNames.slice(begin, end).length)
+    const tx = await contract.batchSetAttributeNames(allTokenIds.slice(begin, end), allAttributeIds.slice(begin, end), allAttributeNames.slice(begin, end));
+    await tx.wait();
+  }
+}
+
+const setPotionsMetadata = async () => {
+  const accounts = await ethers.getSigners()
+  if (hre.network.config.chainId !== 43288) {
+    throw "Not using Boba network!";
+  }
+  const c = await getContract("CosmicPotions", hre)
+  const contract = await ethers.getContractAt("CosmicPotions", c.address, accounts[0])
+  const types = ['Potion', 'Potion', 'Elixir', 'Elixir']
+  const modifiers = ['Aptitude', 'Swiftness', 'Luck', 'Focus']
+  const boostNames = ['Success Chance', 'Completion Speed', 'Rewards', 'Minimum Rarity']
+  const descriptions = [
+    'increases the success chance of a Profession Expedition by 10%',
+    'decreases the time taken for a Profession Expedition by 20%',
+    `increases the rewards found during a successful Profession Expedition by 50%`,
+    `guarantees a rare item or above during a successful Profession Expedition of medium+ length`
+  ]
+  const values = [10, 20, 50, 2]
+  const tokenIds: number[] = [];
+  const attributeIds: number[] = [];
+  const names: string[] = [];
+  types.map((t, i) => {
+    for (let j = 0; j < 3; j++) {
+      tokenIds.push(i)
+      attributeIds.push(j)
+    }
+    names.push(t)
+    names.push(modifiers[i])
+    names.push(boostNames[i])
+  })
+  types.map((t, i) => {
+    for (let j = 0; j < 2; j++) {
+      tokenIds.push(i)
+      attributeIds.push(1000 + j)
+    }
+    names.push(`${types[i]} of ${modifiers[i]}`)
+    names.push(descriptions[i])
+  })
+  for (let i = 0; i < values.length; i++) {
+    const tx = await contract.setAttribute(i, 2, values[i]);
+    await tx.wait();
+    console.log(`Updated potion ${i} boost`)
+  }
+  const tx = await contract.batchSetAttributeNames(tokenIds, attributeIds, names);
+  await tx.wait();
+  console.log("Updated potions attributes names")
+}
+
+
+
 const setToolsMetadata = async () => {
-  console.log('asdf')
   const accounts = await ethers.getSigners()
   if (hre.network.config.chainId !== 43288) {
     throw "Not using Boba network!";
@@ -271,6 +383,43 @@ const setToolsMetadata = async () => {
   const txNames = await contract.batchSetSkillName(100, toolsIds, tools);
   await txNames.wait();
   console.log(txNames)
+}
+
+const setSkinsMetadata = async () => {
+  const { contract } = await getContractAndData("CosmicSkins", hre)
+  const set = 'Firewood'
+
+  const attributeIds = [1000, 1001, 0, 1, 2];
+  let allTokenIds: number[] = [];
+  let allAttributeIds: number[] = [];
+  let allAttributeNames: string[] = [];
+
+  for (let i = 0; i < tools.length; i++) {
+    allTokenIds = allTokenIds.concat([i, i, i, i, i]);
+    allAttributeIds = allAttributeIds.concat(attributeIds)
+    allAttributeNames = allAttributeNames.concat([`${set} ${tools[i]} Skin`, `Cosmic Universe tool skin for a ${tools[i]} used in ${professions[i]} from the ${set} set`, professions[i], set, tools[i]])
+  }
+
+  const tx = await contract.batchSetAttributeNames(allTokenIds, allAttributeIds, allAttributeNames);
+  await tx.wait();
+}
+
+const setBundlesMetadata = async () => {
+  const { contract } = await getContractAndData("CosmicBundles", hre)
+  const bundles = ['Rare Reward Chest', 'Mythical Reward Chest', 'Mysterious Relic', 'Contribution Token', 'VIP Pass', 'Capybara Pet Voucher', 'Rune of Translocation']
+  const attributeIds = [1000, 1001];
+  let allTokenIds: number[] = [];
+  let allAttributeIds: number[] = [];
+  let allAttributeNames: string[] = [];
+
+  for (let i = 0; i < bundles.length; i++) {
+    allTokenIds = allTokenIds.concat([i, i]);
+    allAttributeIds = allAttributeIds.concat(attributeIds)
+    allAttributeNames = allAttributeNames.concat([bundles[i], bundles[i]])
+  }
+
+  const tx = await contract.batchSetAttributeNames(allTokenIds, allAttributeIds, allAttributeNames);
+  await tx.wait();
 }
 
 const setElvesMetadata = async () => {
@@ -353,7 +502,7 @@ const MakeUEMetadata = async () => {
 
   }
 }
-MakeUEMetadata()
+setBundlesMetadata()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error(error)

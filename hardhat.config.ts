@@ -3,11 +3,11 @@ import '@openzeppelin/hardhat-upgrades';
 
 import "dotenv/config";
 
-import "./tasks";
+import "@dirtycajunrice/hardhat-tasks/tasks"
 
 module.exports = {
   solidity: {
-    compilers: ["0.8.16", "0.8.9", "0.8.2", "0.6.0"].map(version => ({
+    compilers: ["0.8.17", "0.8.16", "0.8.9", "0.8.2", "0.6.0"].map(version => ({
       version,
       settings: {
         optimizer: {

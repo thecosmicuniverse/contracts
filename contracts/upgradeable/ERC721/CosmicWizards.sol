@@ -13,6 +13,7 @@ import "./extensions/ERC721URIStorageExtendedUpgradeable.sol";
 import "./extensions/ERC721BurnableExtendedUpgradeable.sol";
 import "./extensions/CosmicAttributeStorageUpgradeable.sol";
 import "./interfaces/IStandardERC721.sol";
+import "./interfaces/ICosmicWizards.sol";
 import "../library/TokenMetadata.sol";
 import "../utils/TokenConstants.sol";
 
@@ -83,7 +84,23 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
     }
 
     function mint(address to, uint256 tokenId, bytes memory data) public onlyRole(MINTER_ROLE) {
+        (ICosmicWizards.Wizard memory wizard) = abi.decode(data, (ICosmicWizards.Wizard));
+        uint256[] memory baseIds = new uint256[](11);
+        uint256[] memory professionsIds = new uint256[](12);
+        uint256[] memory extraIds = new uint256[](1);
+        for (uint256 i = 0; i < 12; i++) {
+            professionsIds[i] = i;
+            if (i < 11) {
+                baseIds[i] = i;
+            }
+            if (i < 1) {
+                extraIds[i] = i;
+            }
+        }
         _safeMint(to, tokenId);
+        batchUpdateSkillsOfToken(tokenId, 0, baseIds, wizard.base);
+        batchUpdateSkillsOfToken(tokenId, 1, professionsIds, wizard.professions);
+        batchUpdateSkillsOfToken(tokenId, 2, extraIds, wizard.extra);
         _removeBurnedId(tokenId);
     }
     // PAUSER_ROLE Functions
@@ -121,6 +138,16 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
         uint256[] memory values) public onlyRole(CONTRACT_ROLE) {
         for (uint256 i = 0; i < tokenIds.length; i++) {
             _store[tokenIds[i]][treeIds[i]][skillIds[i]] = values[i];
+        }
+    }
+
+    function batchUpdateSkillsOfToken(
+        uint256 tokenId,
+        uint256 treeId,
+        uint256[] memory skillIds,
+        uint256[] memory values) public onlyRole(CONTRACT_ROLE) {
+        for (uint256 i = 0; i < skillIds.length; i++) {
+            _store[tokenId][treeId][skillIds[i]] = values[i];
         }
     }
 
@@ -187,30 +214,19 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
 
         // base
         attributes[0] = TokenMetadata.Attribute("Gender", '', genderString, false);
-        attributes[1] = TokenMetadata.Attribute("Background", '', _attributeNameStore[0][gender == 0 ? 1 : 11][_store[tokenId][0][1]], false);
-        attributes[2] = TokenMetadata.Attribute("Hair", '', _attributeNameStore[0][gender == 0 ? 2 : 12][_store[tokenId][0][2]], false);
-        attributes[3] = TokenMetadata.Attribute("Hat", '', _attributeNameStore[0][gender == 0 ? 3 : 13][_store[tokenId][0][3]], false);
-        attributes[4] = TokenMetadata.Attribute("Eyes", '', _attributeNameStore[0][gender == 0 ? 4 : 14][_store[tokenId][0][4]], false);
-        attributes[5] = TokenMetadata.Attribute("Base", '', _attributeNameStore[0][gender == 0 ? 5 : 15][_store[tokenId][0][5]], false);
-        attributes[6] = TokenMetadata.Attribute("Staff", '', _attributeNameStore[0][gender == 0 ? 6 : 16][_store[tokenId][0][6]], false);
-        attributes[7] = TokenMetadata.Attribute("Robe", '', _attributeNameStore[0][gender == 0 ? 7 : 17][_store[tokenId][0][7]], false);
-        attributes[8] = TokenMetadata.Attribute("Mouth", '', _attributeNameStore[0][gender == 0 ? 8 : 18][_store[tokenId][0][8]], false);
+        string[8] memory baseNames = ["Background", "Hair", "Hat", "Eyes", "Base", "Staff", "Robe", "Mouth"];
+        for (uint256 i = 1; i < 9; i++) {
+            attributes[i] = TokenMetadata.Attribute(baseNames[i-1], '', _attributeNameStore[0][gender == 0 ? i : i + 10][_store[tokenId][0][i]], false);
+        }
+
         // staking
         attributes[9] = TokenMetadata.Attribute("Staking Unlocked", '', _store[tokenId][0][9] == 0 ? 'False' : 'True', false);
         attributes[10] = TokenMetadata.Attribute("Staked", '', _store[tokenId][0][10] == 0 ? 'False' : 'True', false);
         // professions
-        attributes[11] = TokenMetadata.Attribute("Alchemy", '', _store[tokenId][1][0].toString(), true);
-        attributes[12] = TokenMetadata.Attribute("Architecture", '', _store[tokenId][1][1].toString(), true);
-        attributes[13] = TokenMetadata.Attribute("Carpentry", '', _store[tokenId][1][2].toString(), true);
-        attributes[14] = TokenMetadata.Attribute("Cooking", '', _store[tokenId][1][3].toString(), true);
-        attributes[15] = TokenMetadata.Attribute("Crystal Extraction", '', _store[tokenId][1][4].toString(), true);
-        attributes[16] = TokenMetadata.Attribute("Farming", '', _store[tokenId][1][5].toString(), true);
-        attributes[17] = TokenMetadata.Attribute("Fishing", '', _store[tokenId][1][6].toString(), true);
-        attributes[18] = TokenMetadata.Attribute("Gem Cutting", '', _store[tokenId][1][7].toString(), true);
-        attributes[19] = TokenMetadata.Attribute("Herbalism", '', _store[tokenId][1][8].toString(), true);
-        attributes[20] = TokenMetadata.Attribute("Mining", '', _store[tokenId][1][9].toString(), true);
-        attributes[21] = TokenMetadata.Attribute("Tailoring", '', _store[tokenId][1][10].toString(), true);
-        attributes[22] = TokenMetadata.Attribute("Woodcutting", '', _store[tokenId][1][11].toString(), true);
+        string[12] memory professionNames = ["Alchemy", "Architecture", "Carpentry", "Cooking", "Crystal Extraction", "Farming", "Fishing", "Gem Cutting", "Herbalism", "Mining", "Tailoring", "Woodcutting"];
+        for (uint256 i = 0; i < 12; i++) {
+            attributes[i + 11] = TokenMetadata.Attribute(professionNames[i], '', _store[tokenId][1][i].toString(), true);
+        }
         // rewards
         attributes[23] = TokenMetadata.Attribute("Chests Claimed", 'boost_number', _store[tokenId][2][0].toString(), true);
         string memory imageURI = string(abi.encodePacked(imageBaseURI, tokenId.toString()));
@@ -242,11 +258,33 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
     }
 
     function bridgeExtraData(uint256 tokenId) external view returns(bytes memory) {
-        return "";
+        uint256[] memory baseIds = new uint256[](11);
+        uint256[] memory professionsIds = new uint256[](12);
+        uint256[] memory extraIds = new uint256[](1);
+        for (uint256 i = 0; i < 12; i++) {
+            professionsIds[i] = i;
+            if (i < 11) {
+                baseIds[i] = i;
+            }
+            if (i < 1) {
+                extraIds[i] = i;
+            }
+        }
+        ICosmicWizards.Wizard memory wizard = ICosmicWizards.Wizard({
+            base: getSkillsByTree(tokenId, 0, baseIds),
+            professions: getSkillsByTree(tokenId, 1, professionsIds),
+            extra: getSkillsByTree(tokenId, 2, extraIds)
+        });
+
+        return abi.encode(wizard);
     }
 
     function setImageBaseURI(string memory _imageBaseURI) public onlyRole(ADMIN_ROLE) {
         _setImageBaseURI(_imageBaseURI);
+    }
+
+    function setBridgeContract(address _bridgeContract) public onlyRole(ADMIN_ROLE) {
+        bridgeContract = _bridgeContract;
     }
 
     function burn(uint256 tokenId) public virtual override(IStandardERC721, ERC721BurnableExtendedUpgradeable) {

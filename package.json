@@ -32,8 +32,8 @@
     "lMagic:avalanche:upgrade": "npm run upgrade:avalanche -- --name lMagicUpgradeable --address 0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D",
     "lMagic:avalanche:verify": "npm run verify:avalanche -- 0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D",
     "cosmicWizards:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicWizards",
-    "cosmicWizards:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicWizards --address 0xBF20c23D25Fca8Aa4e7946496250D67872691Af2",
-    "cosmicWizards:avalanche:verify": "npm run verify:avalanche -- 0xBF20c23D25Fca8Aa4e7946496250D67872691Af2",
+    "cosmicWizards:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicWizards",
+    "cosmicWizards:avalanche:verify": "npm run verify:avalanche -- --name CosmicWizards",
     "cosmicIslandLand:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicIslandLand",
     "cosmicIslandLand:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicIslandLand --address 0x2fa83f2Fa89F275863B9491b1802dFeA5A130024",
     "cosmicIslandLand:avalanche:verify": "npm run verify:avalanche -- 0x2fa83f2Fa89F275863B9491b1802dFeA5A130024",
@@ -160,6 +160,7 @@
     "@nomicfoundation/hardhat-toolbox": "2.0.0",
     "@openzeppelin/contracts-upgradeable": "4.8.0",
     "@openzeppelin/hardhat-upgrades": "1.21.0",
-    "@dirtycajunrice/contracts": "0.5.0"
+    "@dirtycajunrice/contracts": "0.10.0",
+    "@dirtycajunrice/hardhat-tasks": "1.0.0"
   }
 }

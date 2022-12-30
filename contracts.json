@@ -8,8 +8,7 @@
     "0xBF20c23D25Fca8Aa4e7946496250D67872691Af2": {
       "name": "CosmicWizards",
       "type": "transparent",
-      "impl": "0xbdDd3f403D13BDCECa307d1C0A3d30A2f9Cc5bFb",
-      "admin": "0x918eA0E87ef08a5931aD3777b8c0EB69e2Ce37Dd"
+      "impl": "0x4A243F9f8f805555f97E4d44732c2b20e3d68263"
     },
     "0x2fa83f2Fa89F275863B9491b1802dFeA5A130024": {
       "name": "CosmicIslandLand",
@@ -127,7 +126,7 @@
     "0x003b43A3876274b76Ee366cFFbC6bc53AB89Acd7": {
       "name": "CosmicWizards",
       "type": "transparent",
-      "impl": "0xdb571341AfE7Ad723a358F3B40EE0E25F41E4d92"
+      "impl": "0xF5F97ba831a99a0848a4E1392927D80fDFdAd898"
     },
     "0x3280522Ca527e3802bb90aC74AF6Ca3CB0433F73": {
       "name": "CosmicIslandLand",
