@@ -22,33 +22,20 @@ Security contact: DirtyCajunRice#0001 (Discord)
 
 [cols="^.^,^.^,^.^,^.^"]
 |===
-
 |Category |Contract |Address |Explorer Link
-
-|Token (ERC20)
-|MAGIC |`0x245B4C64271e91C9FB6bE1971A0208dD92EFeBDe` |https://blockexplorer.avax.boba.network/token/0x245B4C64271e91C9FB6bE1971A0208dD92EFeBDe[Blockscout,role=external,window=_blank]
-
-.2+|Character (ERC721)
-|Wizards |`0x003b43A3876274b76Ee366cFFbC6bc53AB89Acd7` |https://blockexplorer.avax.boba.network/token/0x003b43A3876274b76Ee366cFFbC6bc53AB89Acd7[Blockscout,role=external,window=_blank]
+|Token (ERC20) |MAGIC |`0x245B4C64271e91C9FB6bE1971A0208dD92EFeBDe` |https://blockexplorer.avax.boba.network/token/0x245B4C64271e91C9FB6bE1971A0208dD92EFeBDe[Blockscout,role=external,window=_blank]
+.2+|Character (ERC721)|Wizards |`0x003b43A3876274b76Ee366cFFbC6bc53AB89Acd7` |https://blockexplorer.avax.boba.network/token/0x003b43A3876274b76Ee366cFFbC6bc53AB89Acd7[Blockscout,role=external,window=_blank]
 |Elves |`0x09692b3a53eB7870F00b342444E4f42e259e7999` |https://blockexplorer.avax.boba.network/token/0x09692b3a53eB7870F00b342444E4f42e259e7999[Blockscout,role=external,window=_blank]
-
-| Land (ERC721)
-|Cosmic Island Land |`0x3280522Ca527e3802bb90aC74AF6Ca3CB0433F73` |https://blockexplorer.avax.boba.network/token/0x3280522Ca527e3802bb90aC74AF6Ca3CB0433F73[Blockscout,role=external,window=_blank]
-
-|Collectable (ERC721)
-|Tools |`0x0458b679C30AA4B8622742eA9fb2A44660c4a2a1` |https://blockexplorer.avax.boba.network/token/0x0458b679C30AA4B8622742eA9fb2A44660c4a2a1[Blockscout,role=external,window=_blank]
-
-.7+|Item (ERC1155)
-|Badges |`0x9E2Aa514325e67D3bA78E575cAF6F90fBC628069` |https://blockexplorer.avax.boba.network/token/0x9E2Aa514325e67D3bA78E575cAF6F90fBC628069[Blockscout,role=external,window=_blank]
+| Land (ERC721) |Cosmic Island Land |`0x3280522Ca527e3802bb90aC74AF6Ca3CB0433F73` |https://blockexplorer.avax.boba.network/token/0x3280522Ca527e3802bb90aC74AF6Ca3CB0433F73[Blockscout,role=external,window=_blank]
+|Collectable (ERC721)| Tools |`0x0458b679C30AA4B8622742eA9fb2A44660c4a2a1` |https://blockexplorer.avax.boba.network/token/0x0458b679C30AA4B8622742eA9fb2A44660c4a2a1[Blockscout,role=external,window=_blank]
+.7+|Item (ERC1155) |Badges |`0x9E2Aa514325e67D3bA78E575cAF6F90fBC628069` |https://blockexplorer.avax.boba.network/token/0x9E2Aa514325e67D3bA78E575cAF6F90fBC628069[Blockscout,role=external,window=_blank]
 |Bundles |`0x69938433cB243721978986a5B3c981A681970212` |https://blockexplorer.avax.boba.network/token/0x69938433cB243721978986a5B3c981A681970212[Blockscout,role=external,window=_blank]
 |Components |`0x753492646D652987bC20b3e8c72c7A9Be8809f5D` |https://blockexplorer.avax.boba.network/token/0x753492646D652987bC20b3e8c72c7A9Be8809f5D[Blockscout,role=external,window=_blank]
 |Potions |`0x146D129F1aeBae23422D1f4613C75fFE4087329C` |https://blockexplorer.avax.boba.network/token/0x146D129F1aeBae23422D1f4613C75fFE4087329C[Blockscout,role=external,window=_blank]
 |Raw Resources |`0xCE953D1A6be7331EEf06ec9Ac8a4a22a4f2BDfB0` |https://blockexplorer.avax.boba.network/token/0xCE953D1A6be7331EEf06ec9Ac8a4a22a4f2BDfB0[Blockscout,role=external,window=_blank]
 |Refined Resources |`0x4F82DFbEED2aa0686EB26ddba7a075406b4C6A67` |https://blockexplorer.avax.boba.network/token/0x4F82DFbEED2aa0686EB26ddba7a075406b4C6A67[Blockscout,role=external,window=_blank]
 |Skins |`0x9402aDCfb075155c245862a23F713C15E9CD71c7` |https://blockexplorer.avax.boba.network/token/0x9402aDCfb075155c245862a23F713C15E9CD71c7[Blockscout,role=external,window=_blank]
-
-.2+|NPC (Contract)
-|Elven Adventures |`0x94932B53B666179cF0cFEB178BDa358f538f36c4` |https://blockexplorer.avax.boba.network/address/0x94932B53B666179cF0cFEB178BDa358f538f36c4[Blockscout,role=external,window=_blank]
+.2+|NPC (Contract)|Elven Adventures |`0x94932B53B666179cF0cFEB178BDa358f538f36c4` |https://blockexplorer.avax.boba.network/address/0x94932B53B666179cF0cFEB178BDa358f538f36c4[Blockscout,role=external,window=_blank]
 |Chest Redeemer |`0xf0D8537ca2D0F3e268aa01895AFe87a38Faf6D0E` |https://blockexplorer.avax.boba.network/address/0xf0D8537ca2D0F3e268aa01895AFe87a38Faf6D0E[Blockscout,role=external,window=_blank]
 |===
 
@@ -57,36 +44,24 @@ Security contact: DirtyCajunRice#0001 (Discord)
 [cols="^.^,^.^,^.^,^.^"]
 |===
 |Category |Contract |Address |Explorer Link
-
-.4+|Token (ERC20)
-|MAGIC |`0x9A8E0217cD870783c3f2317985C57Bf570969153` |https://snowtrace.io/address/0x9A8E0217cD870783c3f2317985C57Bf570969153[Snowtrace,role=external,window=_blank]
+.4+|Token (ERC20)|MAGIC |`0x9A8E0217cD870783c3f2317985C57Bf570969153` |https://snowtrace.io/address/0x9A8E0217cD870783c3f2317985C57Bf570969153[Snowtrace,role=external,window=_blank]
 |xMAGIC |`0x8a990BFE725c490CCaCFC94Ff99E835400dEEA6d` |https://snowtrace.io/address/0x8a990BFE725c490CCaCFC94Ff99E835400dEEA6d[Snowtrace,role=external,window=_blank] 
 |LMAGIC |`0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D` |https://snowtrace.io/address/0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D[Snowtrace,role=external,window=_blank]
 |COSMIC (deprecated) |`0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4` |https://snowtrace.io/address/0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4[Snowtrace,role=external,window=_blank]
-
-.2+|Character (ERC721)
-|Wizards |`0xBF20c23D25Fca8Aa4e7946496250D67872691Af2` |https://snowtrace.io/address/0xBF20c23D25Fca8Aa4e7946496250D67872691Af2[Snowtrace,role=external,window=_blank]
-|Elves |`0x9a337A6F883De95f49e05CD7D801d475a40a9C70` |https://snowtrace.io/address/0x9a337A6F883De95f49e05CD7D801d475a40a9C70[Snowtrace,role=external,window=_blank]
-
-| Land (ERC721)
+.2+|Character (ERC721) |Wizards |`0xBF20c23D25Fca8Aa4e7946496250D67872691Af2` |https://snowtrace.io/address/0xBF20c23D25Fca8Aa4e7946496250D67872691Af2[Snowtrace,role=external,window=_blank]
+|Elves |`0x9a337A6F883De95f49e05CD7D801d475a40a9C70` |https://snowtrace.io/address/0x9a337A6F883De95f49e05CD7D801d475a40a9C70[Snowtrace,role=external,window=_blank]| Land (ERC721)
 |Cosmic Island Land |`0x2fa83f2Fa89F275863B9491b1802dFeA5A130024` |https://snowtrace.io/address/0x2fa83f2Fa89F275863B9491b1802dFeA5A130024[Snowtrace,role=external,window=_blank]
-
-.3+|Collectable (ERC721)
-|Framed Wizards |`0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C` |https://snowtrace.io/address/0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C[Snowtrace,role=external,window=_blank] 
+.3+|Collectable (ERC721) |Framed Wizards |`0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C` |https://snowtrace.io/address/0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C[Snowtrace,role=external,window=_blank]
 |Cosmic Elves Discount Ticket |`0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e` |https://snowtrace.io/address/0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e[Snowtrace,role=external,window=_blank]
 |Tools |`0x39Ad4AAfa177f59ed7356fFDBbF36A840075b7A6` |https://snowtrace.io/address/0x39Ad4AAfa177f59ed7356fFDBbF36A840075b7A6[Snowtrace,role=external,window=_blank]
-
-.7+|Item (ERC1155)
-|Badges |`0x03A37A09be3E90bE403e263238c1aCb14a341DEf` |https://snowtrace.io/address/0x03A37A09be3E90bE403e263238c1aCb14a341DEf[Snowtrace,role=external,window=_blank]
+.7+|Item (ERC1155)|Badges |`0x03A37A09be3E90bE403e263238c1aCb14a341DEf` |https://snowtrace.io/address/0x03A37A09be3E90bE403e263238c1aCb14a341DEf[Snowtrace,role=external,window=_blank]
 |Bundles |`0x04AB0F76De2D5ba63082193C66E8ce571A32454E` |https://snowtrace.io/address/0x04AB0F76De2D5ba63082193C66E8ce571A32454E[Snowtrace,role=external,window=_blank]
 |Components |`0xCB9e8C619CF2C27781dAD8F6e5B27fEBB4f1D89C` |https://snowtrace.io/address/0xCB9e8C619CF2C27781dAD8F6e5B27fEBB4f1D89C[Snowtrace,role=external,window=_blank]
 |Potions |`0x54EC1799Cafa5685F0f1A16537b74c02589b7FCe` |https://snowtrace.io/address/0x54EC1799Cafa5685F0f1A16537b74c02589b7FCe[Snowtrace,role=external,window=_blank]
 |Raw Resources |`0xF31dC5F3A6D0af979FC3D8ad7A216E2eA49a1Cb1` |https://snowtrace.io/address/0xF31dC5F3A6D0af979FC3D8ad7A216E2eA49a1Cb1[Snowtrace,role=external,window=_blank]
 |Refined Resources |`0xEacF75f43674a85eae7679E4A67C7FEF004CC7CB` |https://snowtrace.io/address/0xEacF75f43674a85eae7679E4A67C7FEF004CC7CB[Snowtrace,role=external,window=_blank]
 |Skins |`0x1A356b2B223eB5eb4221a956C67634B7d5c72910` |https://snowtrace.io/address/0x1A356b2B223eB5eb4221a956C67634B7d5c72910[Snowtrace,role=external,window=_blank]
-
-.5+|NPC (Contract)
-|Elves Minter |`0x8D1dA51e910155d27015F370A4d3718996d47e11` |https://snowtrace.io/address/0x8D1dA51e910155d27015F370A4d3718996d47e11[Snowtrace,role=external,window=_blank]
+.5+|NPC (Contract)|Elves Minter |`0x8D1dA51e910155d27015F370A4d3718996d47e11` |https://snowtrace.io/address/0x8D1dA51e910155d27015F370A4d3718996d47e11[Snowtrace,role=external,window=_blank]
 |Wizard Profession Staking |`0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1` |https://snowtrace.io/address/0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1[Snowtrace,role=external,window=_blank]
 |Farm |`0xc9d61e23E27A3b75B8fEf4b66a67bFC5737e6262` |https://snowtrace.io/address/0xc9d61e23E27A3b75B8fEf4b66a67bFC5737e6262[Snowtrace,role=external,window=_blank]
 |Marketplace (Deprecated) |`0x5202e45EbA7F58E350AA58B59dEB64a668654007` |https://snowtrace.io/address/0x5202e45EbA7F58E350AA58B59dEB64a668654007[Snowtrace,role=external,window=_blank]
