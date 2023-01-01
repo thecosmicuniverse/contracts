@@ -1,3 +1,8 @@
+
+= Cosmic Universe Contracts
+:table-stripes: none
+:table-caption: Contracts Table
+
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
@@ -5,7 +10,9 @@ ifdef::env-github[]
 :caution-caption: :fire:
 :warning-caption: :warning:
 endif::[]
-= Cosmic Universe Contracts
+
+:fn-deprecated: footnote:deprecated[Deprecated. This contract is at the end of its lifecycle and will be disabled soon]
+:fn-discontinued: footnote:discontinued[Discontinued. This contract is no longer active, and is still here for posterity]
 
 This repository contains all contracts related to Cosmic Universe. Our intention is to help raise the standard of
 transparency on the Harmony network.
@@ -16,11 +23,14 @@ The existence of a contract in this repository does not guarantee that a contrac
 used or integrated into the Cosmic Universe ecosystem.
 ====
 
-Security contact: DirtyCajunRice#0001 (Discord)
+.Security contact
+[%collapsible]
+====
+DirtyCajunRice#0001 (Discord)
+====
 
-=== Boba-Avax Contracts
-
-[cols="^.^,^.^,^.^,^.^"]
+.Boba-Avax
+[cols="^.^h,^.^s,^.^m,^.^"]
 |===
 |Category |Contract |Address |Explorer Link
 |Token (ERC20) |MAGIC |`0x245B4C64271e91C9FB6bE1971A0208dD92EFeBDe` |https://blockexplorer.avax.boba.network/token/0x245B4C64271e91C9FB6bE1971A0208dD92EFeBDe[Blockscout,role=external,window=_blank]
@@ -39,20 +49,19 @@ Security contact: DirtyCajunRice#0001 (Discord)
 |Chest Redeemer |`0xf0D8537ca2D0F3e268aa01895AFe87a38Faf6D0E` |https://blockexplorer.avax.boba.network/address/0xf0D8537ca2D0F3e268aa01895AFe87a38Faf6D0E[Blockscout,role=external,window=_blank]
 |===
 
-=== Avalanche Contracts
-
+.Avalanche
 [cols="^.^,^.^,^.^,^.^"]
 |===
 |Category |Contract |Address |Explorer Link
 .4+|Token (ERC20)|MAGIC |`0x9A8E0217cD870783c3f2317985C57Bf570969153` |https://snowtrace.io/address/0x9A8E0217cD870783c3f2317985C57Bf570969153[Snowtrace,role=external,window=_blank]
 |xMAGIC |`0x8a990BFE725c490CCaCFC94Ff99E835400dEEA6d` |https://snowtrace.io/address/0x8a990BFE725c490CCaCFC94Ff99E835400dEEA6d[Snowtrace,role=external,window=_blank] 
 |LMAGIC |`0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D` |https://snowtrace.io/address/0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D[Snowtrace,role=external,window=_blank]
-|COSMIC (deprecated) |`0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4` |https://snowtrace.io/address/0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4[Snowtrace,role=external,window=_blank]
+|COSMIC{fn-deprecated} |`0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4` |https://snowtrace.io/address/0x32614E7D3C52Cd66BF2cb8CC17884749E4B070d4[Snowtrace,role=external,window=_blank]
 .2+|Character (ERC721) |Wizards |`0xBF20c23D25Fca8Aa4e7946496250D67872691Af2` |https://snowtrace.io/address/0xBF20c23D25Fca8Aa4e7946496250D67872691Af2[Snowtrace,role=external,window=_blank]
 |Elves |`0x9a337A6F883De95f49e05CD7D801d475a40a9C70` |https://snowtrace.io/address/0x9a337A6F883De95f49e05CD7D801d475a40a9C70[Snowtrace,role=external,window=_blank]| Land (ERC721)
 |Cosmic Island Land |`0x2fa83f2Fa89F275863B9491b1802dFeA5A130024` |https://snowtrace.io/address/0x2fa83f2Fa89F275863B9491b1802dFeA5A130024[Snowtrace,role=external,window=_blank]
 .3+|Collectable (ERC721) |Framed Wizards |`0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C` |https://snowtrace.io/address/0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C[Snowtrace,role=external,window=_blank]
-|Cosmic Elves Discount Ticket |`0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e` |https://snowtrace.io/address/0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e[Snowtrace,role=external,window=_blank]
+|Elves Discount Ticket{fn-deprecated} |`0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e` |https://snowtrace.io/address/0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e[Snowtrace,role=external,window=_blank]
 |Tools |`0x39Ad4AAfa177f59ed7356fFDBbF36A840075b7A6` |https://snowtrace.io/address/0x39Ad4AAfa177f59ed7356fFDBbF36A840075b7A6[Snowtrace,role=external,window=_blank]
 .7+|Item (ERC1155)|Badges |`0x03A37A09be3E90bE403e263238c1aCb14a341DEf` |https://snowtrace.io/address/0x03A37A09be3E90bE403e263238c1aCb14a341DEf[Snowtrace,role=external,window=_blank]
 |Bundles |`0x04AB0F76De2D5ba63082193C66E8ce571A32454E` |https://snowtrace.io/address/0x04AB0F76De2D5ba63082193C66E8ce571A32454E[Snowtrace,role=external,window=_blank]
@@ -64,6 +73,6 @@ Security contact: DirtyCajunRice#0001 (Discord)
 .5+|NPC (Contract)|Elves Minter |`0x8D1dA51e910155d27015F370A4d3718996d47e11` |https://snowtrace.io/address/0x8D1dA51e910155d27015F370A4d3718996d47e11[Snowtrace,role=external,window=_blank]
 |Wizard Profession Staking |`0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1` |https://snowtrace.io/address/0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1[Snowtrace,role=external,window=_blank]
 |Farm |`0xc9d61e23E27A3b75B8fEf4b66a67bFC5737e6262` |https://snowtrace.io/address/0xc9d61e23E27A3b75B8fEf4b66a67bFC5737e6262[Snowtrace,role=external,window=_blank]
-|Marketplace (Deprecated) |`0x5202e45EbA7F58E350AA58B59dEB64a668654007` |https://snowtrace.io/address/0x5202e45EbA7F58E350AA58B59dEB64a668654007[Snowtrace,role=external,window=_blank]
+|Marketplace{fn-discontinued} |`0x5202e45EbA7F58E350AA58B59dEB64a668654007` |https://snowtrace.io/address/0x5202e45EbA7F58E350AA58B59dEB64a668654007[Snowtrace,role=external,window=_blank]
 |Chest Claimer |`0x21C5eB2Fee538D641Ea76B9620B1f80f24eb3791` |https://snowtrace.io/address/0x21C5eB2Fee538D641Ea76B9620B1f80f24eb3791[Snowtrace,role=external,window=_blank]
 |===
