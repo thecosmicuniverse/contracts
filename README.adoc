@@ -15,7 +15,7 @@ endif::[]
 :fn-discontinued: footnote:discontinued[Discontinued. This contract is no longer active, and is still here for posterity]
 
 This repository contains all contracts related to Cosmic Universe. Our intention is to help raise the standard of
-transparency on the Harmony network.
+transparency across blockchain development.
 
 [NOTE]
 ====
