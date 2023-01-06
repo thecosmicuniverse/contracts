@@ -59,7 +59,7 @@
     "0x8D1dA51e910155d27015F370A4d3718996d47e11": {
       "name": "CosmicElvesMinter",
       "type": "transparent",
-      "impl": "0x440e673A6b6ACCaCCfE03aB06E240a3015ee2E59"
+      "impl": "0xe52524E0fc518b2462F2E5242310e4dEB6508F23"
     },
     "0x9A8E0217cD870783c3f2317985C57Bf570969153": {
       "name": "Magic",

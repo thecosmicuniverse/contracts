@@ -39,7 +39,7 @@
     "cosmicIslandLand:avalanche:verify": "npm run verify:avalanche -- 0x2fa83f2Fa89F275863B9491b1802dFeA5A130024",
     "framedWizards:avalanche:deploy": "npm run deploy:avalanche -- --name FramedWizardsUpgradeable",
     "framedWizards:avalanche:upgrade": "npm run upgrade:avalanche -- --name FramedWizardsUpgradeable --address 0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C",
-    "framedWizards:avalanche:verify": "npm run verify:avalanche -- 0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C",
+    "framedWizards:avalanche:verify": "npm run verify:avalanche -- ",
     "cosmicElvesTicket:avalanche:deploy": "npm run deploy:avalanche -- --name CosmicElvesTicketUpgradeable",
     "cosmicElvesTicket:avalanche:upgrade": "npm run upgrade:avalanche -- --name CosmicElvesTicketUpgradeable --address 0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e",
     "cosmicElvesTicket:avalanche:verify": "npm run verify:avalanche -- 0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e",
@@ -147,6 +147,7 @@
   "author": "dirtycajunrice",
   "license": "MIT",
   "dependencies": {
+    "@dirtycajunrice/hardhat-tasks": "^1.3.0",
     "@openzeppelin/contracts": "4.8.0",
     "dotenv": "16.0.3",
     "hardhat": "2.12.2",
@@ -156,7 +157,7 @@
   "devDependencies": {
     "@chainlink/contracts": "0.5.1",
     "@dirtycajunrice/contracts": "0.10.0",
-    "@dirtycajunrice/hardhat-tasks": "1.0.0",
+    "@ethersproject/experimental": "^5.7.0",
     "@openzeppelin/contracts-upgradeable": "4.8.0"
   }
 }

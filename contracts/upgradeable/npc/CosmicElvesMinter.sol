@@ -3,6 +3,7 @@ pragma solidity ^0.8.16;
 
 import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/structs/EnumerableMapUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
@@ -23,6 +24,8 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
     // libraries
     using CountersUpgradeable for CountersUpgradeable.Counter;
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.AddressSet;
+    using EnumerableMapUpgradeable for EnumerableMapUpgradeable.AddressToUintMap;
+
     // constants
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant CONTRACT_ROLE = keccak256("CONTRACT_ROLE");
@@ -30,12 +33,9 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
     ICosmicElves public constant ELVES = ICosmicElves(0x9a337A6F883De95f49e05CD7D801d475a40a9C70);
     ICosmicElvesTicket public constant ETICKET = ICosmicElvesTicket(0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e);
     IERC20Upgradeable public constant USDC = IERC20Upgradeable(0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E);
-    IlMagic public constant LMAGIC = IlMagic(0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D);
+    IlMagic private constant LMAGIC = IlMagic(0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D);
+
     // enums/structs
-    enum Method {
-        USDC,
-        LMAGIC
-    }
     struct PendingMint {
         uint256[] ids;
         uint256 requestId;
@@ -44,7 +44,7 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
     // public vars
     uint256 public startTime;
     uint256 public cap;
-    uint256 public pricelMAGIC;
+    uint256 private unused;
 
     address public treasury;
     // private vars
@@ -56,7 +56,7 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
 
     EnumerableSetUpgradeable.AddressSet private _bonusEligible;
 
-    uint256 private priceUSDC;
+    uint256 public price;
     uint256 private USDCSpent;
     uint256 private lMAGICBurned;
 
@@ -67,6 +67,8 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
 
     bytes32 public constant TEAM_ROLE = keccak256("TEAM_ROLE");
 
+    EnumerableMapUpgradeable.AddressToUintMap private _credits;
+
     modifier gated() {
         require(
           block.timestamp >= startTime ||
@@ -75,6 +77,9 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
           , "Mint has not started");
         _;
     }
+
+    event creditsAdded(address indexed from, address indexed to, uint256 amount);
+    event creditsUsed(address indexed from, uint256 amount);
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -98,14 +103,14 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
 
         startTime = 1661641200;
         treasury = 0xD2578A0b2631E591890f28499E9E8d73F21e5895;
-        priceUSDC = 250_000_000; // USDC is 6 decimals
-        pricelMAGIC = 1_000_000 ether; // Overly high number to ensure it is set by automation
+        price = 250_000_000; // USDC is 6 decimals
+        unused = 1_000_000 ether; // Overly high number to ensure it is set by automation
         cap = 10_000;
 
         totalElvesTickets = ETICKET.lastTokenId();
     }
 
-    function buy(uint256 count, Method method, uint256[] memory tickets) public whenNotPaused gated {
+    function buy(uint256 count, uint256[] memory tickets) public whenNotPaused gated {
         // get pending mint reference from storage
         PendingMint storage pending = _pending[_msgSender()];
         // pre-flight checks
@@ -117,11 +122,8 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
         uint256 tokenId = _counter.current();
         require(tokenId < cap, "Sold out");
         require(tokenId + count <= cap, "Insufficient remaining NFTs");
-        uint256 reserved = block.timestamp > (startTime + 7 days) ? 0 : totalElvesTickets - elvesTicketsRedeemed;
-        require((cap + tickets.length - reserved - tokenId) >= count, "Insufficient unreserved NFTs remaining");
-
-        // get relative price
-        uint256 price = method == Method.LMAGIC ? pricelMAGIC : priceUSDC;
+        // uint256 reserved = block.timestamp > (startTime + 7 days) ? 0 : totalElvesTickets - elvesTicketsRedeemed;
+        require((cap + tickets.length - tokenId) >= count, "Insufficient unreserved NFTs remaining");
 
         // calculate total cost after discounts, if any
         uint256 totalCost = 0;
@@ -138,12 +140,21 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
             totalCost += price * (count - tickets.length);
         }
 
+        // use credit, if any
+        uint256 credit = creditOf(msg.sender);
+        if (credit >= totalCost) {
+            totalCost = 0;
+            _credits.set(msg.sender, credit - totalCost);
+            emit creditsUsed(msg.sender, totalCost);
+        } else if (credit < totalCost && credit > 0) {
+            totalCost -= credit;
+            _credits.remove(msg.sender);
+            emit creditsUsed(msg.sender, credit);
+        }
+
         // handle relative token transfers
-        if (method == Method.LMAGIC) {
-            LMAGIC.burnFrom(_msgSender(), totalCost);
-            lMAGICBurned += totalCost;
-        } else {
-            USDC.transferFrom(_msgSender(), treasury, totalCost);
+        if (totalCost > 0) {
+            USDC.transferFrom(msg.sender, treasury, totalCost);
             USDCSpent += totalCost;
         }
 
@@ -267,10 +278,6 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
         }
     }
 
-    function setLMagicPrice(uint256 dollarOfLMagic) public onlyRole(CONTRACT_ROLE) {
-        pricelMAGIC = dollarOfLMagic * 500;
-    }
-
     function setTotalElvesTickets(uint256 total) public onlyRole(ADMIN_ROLE) {
         totalElvesTickets = total;
     }
@@ -285,5 +292,27 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
 
     function lastTokenId() public view returns(uint256) {
         return _counter.current();
+    }
+
+    function creditOf(address account) public view returns (uint256) {
+        (bool exists, uint256 credits) = _credits.tryGet(account);
+        if (exists) {
+            return credits;
+        }
+        return 0;
+    }
+
+    function addCredit(address[] memory accounts, uint256[] memory amounts) external onlyRole(ADMIN_ROLE) {
+        require(accounts.length > 0, "ElvesMinter::No accounts specified");
+        require(accounts.length == amounts.length, "ElvesMinter::Array length mismatch");
+        for (uint256 i = 0; i < accounts.length; i++) {
+            uint256 credits = creditOf(accounts[i]) + amounts[i];
+            _credits.set(accounts[i], credits);
+            emit creditsAdded(msg.sender, accounts[i], amounts[i]);
+        }
+    }
+
+    function setPrice(uint256 _price) external onlyRole(ADMIN_ROLE) {
+        price = _price;
     }
 }

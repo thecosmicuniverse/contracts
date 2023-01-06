@@ -1,7 +1,7 @@
 import hre, { ethers } from "hardhat";
 import "dotenv/config";
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
-import { getContractAndData } from '../tasks';
+import { getContractAndData } from "@dirtycajunrice/hardhat-tasks"
 
 enum NFTType {
   ERC1155,
@@ -14,7 +14,7 @@ const L2_NFT_BRIDGE_ABI = [{"inputs":[],"stateMutability":"nonpayable","type":"c
 const MINTER_ROLE = "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6";
 const CONTRACT_ROLE = "0x364d3d7565c7a8300c96fd53e065d19b65848d7b23b3191adcd55621c744223c";
 
-const PROXY_L1_NFT_BRIDGE = "0x18505cec943ecb79999262c2deb5127157c104cc";
+const PROXY_L1_NFT_BRIDGE = "0x18505CeC943EcB79999262c2dEb5127157c104CC";
 const PROXY_L2_NFT_BRIDGE = "0x0e1455d86920b399369a7c871be8d26f585af440";
 
 const NFT_NAME = "CosmicTools"
@@ -35,6 +35,32 @@ const setBridgeReqs = async (hre: HardhatRuntimeEnvironment) => {
     return;
   }
 }
+
+const setBridgePermissions = async (contractName: string) => {
+  console.log("Setting Bridge permissions for", contractName)
+  const { contract } = await getContractAndData(contractName, hre as any)
+  const bridge = hre.network.config.chainId === 43288 ? PROXY_L2_NFT_BRIDGE : PROXY_L1_NFT_BRIDGE;
+  const hasRole = await contract.hasRole(MINTER_ROLE, bridge);
+  if (!hasRole) {
+    console.log("Granting bridge the Minter role", MINTER_ROLE);
+    const tx = await contract.grantRole(MINTER_ROLE, bridge);
+    await tx.wait();
+  } else {
+    console.log("Bridge already has minter role")
+  }
+
+  if (NFT_TYPE === NFTType.ERC721) {
+    const hasRole = await contract.hasRole(CONTRACT_ROLE, bridge);
+    if (!hasRole) {
+      console.log("Granting bridge the Contract role", CONTRACT_ROLE);
+      const tx = await contract.grantRole(CONTRACT_ROLE, bridge);
+      await tx.wait();
+    } else {
+      console.log("Bridge already has Contract role")
+    }
+  }
+}
+
 const setL1BridgeReqs = async (hre: HardhatRuntimeEnvironment) => {
   const accounts = await ethers.getSigners();
   const wallet = accounts[0];
@@ -42,7 +68,7 @@ const setL1BridgeReqs = async (hre: HardhatRuntimeEnvironment) => {
     console.error("Wrong chain! use --network avalanche")
     return;
   }
-  const nft = await ethers.getContractAt(NFT_NAME, NFT_L1, wallet)
+  const { contract: nft } = await getContractAndData(NFT_NAME, hre as any)
   const bridge = await ethers.getContractAt(L1_NFT_BRIDGE_ABI, PROXY_L1_NFT_BRIDGE, wallet);
 
   const bridgeContract = await nft.bridgeContract();
@@ -53,27 +79,7 @@ const setL1BridgeReqs = async (hre: HardhatRuntimeEnvironment) => {
   } else {
     console.log("L2 address already configured");
   }
-
-  const hasRole = await nft.hasRole(MINTER_ROLE, PROXY_L1_NFT_BRIDGE);
-  if (!hasRole) {
-    console.log("Granting bridge the Minter role", MINTER_ROLE);
-    const tx = await nft.grantRole(MINTER_ROLE, PROXY_L1_NFT_BRIDGE);
-    await tx.wait();
-  } else {
-    console.log("Bridge already has minter role")
-  }
-
-  if (NFT_TYPE === NFTType.ERC721) {
-    const hasRole = await nft.hasRole(CONTRACT_ROLE, PROXY_L1_NFT_BRIDGE);
-    if (!hasRole) {
-      console.log("Granting bridge the Contract role", CONTRACT_ROLE);
-      const tx = await nft.grantRole(CONTRACT_ROLE, PROXY_L1_NFT_BRIDGE);
-      await tx.wait();
-    } else {
-      console.log("Bridge already has Contract role")
-    }
-  }
-
+  await setBridgePermissions(NFT_NAME)
   const pairNFTInfo = await bridge.pairNFTInfo(NFT_L1);
   if (pairNFTInfo.l1Nft === ethers.constants.AddressZero) {
     console.log("Configuring Bridge L1 NFT pair", NFT_L1, "=>", NFT_L2);
@@ -103,25 +109,7 @@ const setL2BridgeReqs = async (hre: HardhatRuntimeEnvironment) => {
     console.log("L1 address already configured");
   }
 
-  const hasRole = await nft.hasRole(MINTER_ROLE, PROXY_L2_NFT_BRIDGE);
-  if (!hasRole) {
-    console.log("Granting bridge the Minter role", MINTER_ROLE);
-    const tx = await nft.grantRole(MINTER_ROLE, PROXY_L2_NFT_BRIDGE);
-    await tx.wait();
-  } else {
-    console.log("Bridge already has minter role")
-  }
-
-  if (NFT_TYPE === NFTType.ERC721) {
-    const hasRole = await nft.hasRole(CONTRACT_ROLE, PROXY_L2_NFT_BRIDGE);
-    if (!hasRole) {
-      console.log("Granting bridge the Contract role", CONTRACT_ROLE);
-      const tx = await nft.grantRole(CONTRACT_ROLE, PROXY_L2_NFT_BRIDGE);
-      await tx.wait();
-    } else {
-      console.log("Bridge already has Contract role")
-    }
-  }
+  await setBridgePermissions(NFT_NAME)
 
   const pairNFTInfo = await bridge.pairNFTInfo(NFT_L2);
   if (pairNFTInfo.l1Nft === ethers.constants.AddressZero) {
@@ -136,7 +124,7 @@ const setL2BridgeReqs = async (hre: HardhatRuntimeEnvironment) => {
 const bridgeFromAvalancheToBoba1155 = async (hre: HardhatRuntimeEnvironment) => {
   const accounts = await ethers.getSigners();
   const wallet = accounts[0];
-  const { contract: nft } = await getContractAndData("CosmicBundles", hre);
+  const { contract: nft } = await getContractAndData("CosmicBundles", hre as any);
   const bridge = await ethers.getContractAt(L1_NFT_BRIDGE_ABI, PROXY_L1_NFT_BRIDGE, wallet);
 
   console.log("Checking for NFT approval for bridge")
@@ -165,7 +153,7 @@ const bridgeFromAvalancheToBoba1155 = async (hre: HardhatRuntimeEnvironment) => 
 const bridgeFromAvalancheToBoba721 = async (hre: HardhatRuntimeEnvironment) => {
   const accounts = await ethers.getSigners();
   const wallet = accounts[0];
-  const { contract: nft } = await getContractAndData("CosmicElves", hre)
+  const { contract: nft } = await getContractAndData("CosmicElves", hre as any)
   const bridge = await ethers.getContractAt(L1_NFT_BRIDGE_ABI, PROXY_L1_NFT_BRIDGE, wallet);
 
   console.log("Checking for NFT approval for bridge")
@@ -214,7 +202,7 @@ const massSend = async (hre: HardhatRuntimeEnvironment) => {
   const accounts = await ethers.getSigners();
   const wallet = accounts[0];
 
-  const { contract: nft } = await getContractAndData("CosmicRefinedResources", hre)
+  const { contract: nft } = await getContractAndData("CosmicRefinedResources", hre as any)
 
   const balances = await nft.balanceOfAll();
   console.log(balances);
@@ -225,7 +213,15 @@ const massSend = async (hre: HardhatRuntimeEnvironment) => {
   const tx = await nft.safeBatchTransferFrom(wallet.address, sendTo, tokenIds, amounts, []);
   await tx.wait();
 }
-massSend(hre)
+
+const setAllContractPerms = async () => {
+  const contractNames = ['CosmicTools', 'CosmicElves', 'CosmicBundles']
+  for (const name of contractNames) {
+    await setBridgePermissions(name)
+  }
+}
+
+setAllContractPerms()
     .then(() => process.exit(0))
     .catch((error) => {
         console.error(error)
