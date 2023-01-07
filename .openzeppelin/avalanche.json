@@ -86996,7 +86996,7 @@
             "label": "_roles",
             "offset": 0,
             "slot": "151",
-            "type": "t_mapping(t_bytes32,t_struct(RoleData)34_storage)",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)910_storage)",
             "contract": "AccessControlUpgradeable",
             "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:61"
           },
@@ -87012,7 +87012,7 @@
             "label": "_training_status",
             "offset": 0,
             "slot": "201",
-            "type": "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)3131_storage)))",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)37214_storage)))",
             "contract": "ProfessionStakingAvalanche",
             "src": "contracts\\upgradeable\\npc\\ProfessionStaking\\Avalanche\\ProfessionStakingAvalanche.sol:67"
           },
@@ -87020,7 +87020,7 @@
             "label": "_data",
             "offset": 0,
             "slot": "202",
-            "type": "t_mapping(t_address,t_struct(ParticipantData)3082_storage)",
+            "type": "t_mapping(t_address,t_struct(ParticipantData)37165_storage)",
             "contract": "ProfessionStakingAvalanche",
             "src": "contracts\\upgradeable\\npc\\ProfessionStaking\\Avalanche\\ProfessionStakingAvalanche.sol:70"
           },
@@ -87028,7 +87028,7 @@
             "label": "_dataKeys",
             "offset": 0,
             "slot": "203",
-            "type": "t_struct(AddressSet)2664_storage",
+            "type": "t_struct(AddressSet)10755_storage",
             "contract": "ProfessionStakingAvalanche",
             "src": "contracts\\upgradeable\\npc\\ProfessionStaking\\Avalanche\\ProfessionStakingAvalanche.sol:72"
           },
@@ -87036,7 +87036,7 @@
             "label": "_config",
             "offset": 0,
             "slot": "205",
-            "type": "t_mapping(t_address,t_struct(StakingConfig)3116_storage)",
+            "type": "t_mapping(t_address,t_struct(StakingConfig)37199_storage)",
             "contract": "ProfessionStakingAvalanche",
             "src": "contracts\\upgradeable\\npc\\ProfessionStaking\\Avalanche\\ProfessionStakingAvalanche.sol:74"
           },
@@ -87044,7 +87044,7 @@
             "label": "_configKeys",
             "offset": 0,
             "slot": "206",
-            "type": "t_struct(AddressSet)2664_storage",
+            "type": "t_struct(AddressSet)10755_storage",
             "contract": "ProfessionStakingAvalanche",
             "src": "contracts\\upgradeable\\npc\\ProfessionStaking\\Avalanche\\ProfessionStakingAvalanche.sol:76"
           },
@@ -87102,11 +87102,11 @@
             "label": "bytes32",
             "numberOfBytes": "32"
           },
-          "t_contract(ICosmicAttributeStorage)3032": {
+          "t_contract(ICosmicAttributeStorage)34151": {
             "label": "contract ICosmicAttributeStorage",
             "numberOfBytes": "20"
           },
-          "t_contract(IERC20Upgradeable)782": {
+          "t_contract(IERC20Upgradeable)4537": {
             "label": "contract IERC20Upgradeable",
             "numberOfBytes": "20"
           },
@@ -87114,19 +87114,19 @@
             "label": "mapping(address => bool)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)3131_storage)))": {
+          "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)37214_storage)))": {
             "label": "mapping(address => mapping(address => mapping(uint256 => struct ProfessionStakingAvalanche.TrainingStatus)))",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)3131_storage))": {
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)37214_storage))": {
             "label": "mapping(address => mapping(uint256 => struct ProfessionStakingAvalanche.TrainingStatus))",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_struct(ParticipantData)3082_storage)": {
+          "t_mapping(t_address,t_struct(ParticipantData)37165_storage)": {
             "label": "mapping(address => struct ProfessionStakingAvalanche.ParticipantData)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_struct(StakingConfig)3116_storage)": {
+          "t_mapping(t_address,t_struct(StakingConfig)37199_storage)": {
             "label": "mapping(address => struct ProfessionStakingAvalanche.StakingConfig)",
             "numberOfBytes": "32"
           },
@@ -87134,7 +87134,7 @@
             "label": "mapping(address => uint256)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_bytes32,t_struct(RoleData)34_storage)": {
+          "t_mapping(t_bytes32,t_struct(RoleData)910_storage)": {
             "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
             "numberOfBytes": "32"
           },
@@ -87142,31 +87142,31 @@
             "label": "mapping(bytes32 => uint256)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(NFT)3071_storage)": {
+          "t_mapping(t_uint256,t_struct(NFT)37154_storage)": {
             "label": "mapping(uint256 => struct ProfessionStakingAvalanche.NFT)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(TrainingLevelConfig)3092_storage)": {
+          "t_mapping(t_uint256,t_struct(TrainingLevelConfig)37175_storage)": {
             "label": "mapping(uint256 => struct ProfessionStakingAvalanche.TrainingLevelConfig)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(TrainingStatus)3131_storage)": {
+          "t_mapping(t_uint256,t_struct(TrainingStatus)37214_storage)": {
             "label": "mapping(uint256 => struct ProfessionStakingAvalanche.TrainingStatus)",
             "numberOfBytes": "32"
           },
-          "t_struct(AddressSet)2664_storage": {
+          "t_struct(AddressSet)10755_storage": {
             "label": "struct EnumerableSetUpgradeable.AddressSet",
             "members": [
               {
                 "label": "_inner",
-                "type": "t_struct(Set)2349_storage",
+                "type": "t_struct(Set)10440_storage",
                 "offset": 0,
                 "slot": "0"
               }
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(Attribute)3087_storage": {
+          "t_struct(Attribute)37170_storage": {
             "label": "struct ProfessionStakingAvalanche.Attribute",
             "members": [
               {
@@ -87184,7 +87184,7 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(NFT)3071_storage": {
+          "t_struct(NFT)37154_storage": {
             "label": "struct ProfessionStakingAvalanche.NFT",
             "members": [
               {
@@ -87208,18 +87208,18 @@
             ],
             "numberOfBytes": "96"
           },
-          "t_struct(ParticipantData)3082_storage": {
+          "t_struct(ParticipantData)37165_storage": {
             "label": "struct ProfessionStakingAvalanche.ParticipantData",
             "members": [
               {
                 "label": "nftIds",
-                "type": "t_struct(UintSet)2821_storage",
+                "type": "t_struct(UintSet)10912_storage",
                 "offset": 0,
                 "slot": "0"
               },
               {
                 "label": "nfts",
-                "type": "t_mapping(t_uint256,t_struct(NFT)3071_storage)",
+                "type": "t_mapping(t_uint256,t_struct(NFT)37154_storage)",
                 "offset": 0,
                 "slot": "2"
               },
@@ -87232,7 +87232,7 @@
             ],
             "numberOfBytes": "128"
           },
-          "t_struct(RoleData)34_storage": {
+          "t_struct(RoleData)910_storage": {
             "label": "struct AccessControlUpgradeable.RoleData",
             "members": [
               {
@@ -87250,7 +87250,7 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(Set)2349_storage": {
+          "t_struct(Set)10440_storage": {
             "label": "struct EnumerableSetUpgradeable.Set",
             "members": [
               {
@@ -87268,7 +87268,7 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(StakingConfig)3116_storage": {
+          "t_struct(StakingConfig)37199_storage": {
             "label": "struct ProfessionStakingAvalanche.StakingConfig",
             "members": [
               {
@@ -87297,32 +87297,32 @@
               },
               {
                 "label": "rewardToken",
-                "type": "t_contract(IERC20Upgradeable)782",
+                "type": "t_contract(IERC20Upgradeable)4537",
                 "offset": 0,
                 "slot": "4"
               },
               {
                 "label": "trainingLevelConfig",
-                "type": "t_mapping(t_uint256,t_struct(TrainingLevelConfig)3092_storage)",
+                "type": "t_mapping(t_uint256,t_struct(TrainingLevelConfig)37175_storage)",
                 "offset": 0,
                 "slot": "5"
               },
               {
                 "label": "stakingToken",
-                "type": "t_contract(ICosmicAttributeStorage)3032",
+                "type": "t_contract(ICosmicAttributeStorage)34151",
                 "offset": 0,
                 "slot": "6"
               },
               {
                 "label": "stakingEnabledAttribute",
-                "type": "t_struct(Attribute)3087_storage",
+                "type": "t_struct(Attribute)37170_storage",
                 "offset": 0,
                 "slot": "7"
               }
             ],
             "numberOfBytes": "288"
           },
-          "t_struct(TrainingLevelConfig)3092_storage": {
+          "t_struct(TrainingLevelConfig)37175_storage": {
             "label": "struct ProfessionStakingAvalanche.TrainingLevelConfig",
             "members": [
               {
@@ -87340,7 +87340,7 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(TrainingStatus)3131_storage": {
+          "t_struct(TrainingStatus)37214_storage": {
             "label": "struct ProfessionStakingAvalanche.TrainingStatus",
             "members": [
               {
@@ -87388,12 +87388,12 @@
             ],
             "numberOfBytes": "224"
           },
-          "t_struct(UintSet)2821_storage": {
+          "t_struct(UintSet)10912_storage": {
             "label": "struct EnumerableSetUpgradeable.UintSet",
             "members": [
               {
                 "label": "_inner",
-                "type": "t_struct(Set)2349_storage",
+                "type": "t_struct(Set)10440_storage",
                 "offset": 0,
                 "slot": "0"
               }
@@ -88381,6 +88381,480 @@
           "t_uint64": {
             "label": "uint64",
             "numberOfBytes": "8"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "7e42719738cb1940b10ebc924f4aa28c54d0d8eeea1f46231c7fda1462988c4a": {
+      "address": "0x7FAaC777937DB6BbBF32327e810B0406810dd2e0",
+      "txHash": "0xa4fb2f5b4ed9e8b705a9082b6e9ee21023a9e2debe7d7a40cedc00a166328494",
+      "layout": {
+        "solcVersion": "0.8.16",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_paused",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:29"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:116"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\introspection\\ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)34_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:61"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\AccessControlUpgradeable.sol:259"
+          },
+          {
+            "label": "_training_status",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)3131_storage)))",
+            "contract": "ProfessionStakingAvalanche",
+            "src": "contracts\\upgradeable\\npc\\ProfessionStaking\\Avalanche\\ProfessionStakingAvalanche.sol:67"
+          },
+          {
+            "label": "_data",
+            "offset": 0,
+            "slot": "202",
+            "type": "t_mapping(t_address,t_struct(ParticipantData)3082_storage)",
+            "contract": "ProfessionStakingAvalanche",
+            "src": "contracts\\upgradeable\\npc\\ProfessionStaking\\Avalanche\\ProfessionStakingAvalanche.sol:70"
+          },
+          {
+            "label": "_dataKeys",
+            "offset": 0,
+            "slot": "203",
+            "type": "t_struct(AddressSet)2664_storage",
+            "contract": "ProfessionStakingAvalanche",
+            "src": "contracts\\upgradeable\\npc\\ProfessionStaking\\Avalanche\\ProfessionStakingAvalanche.sol:72"
+          },
+          {
+            "label": "_config",
+            "offset": 0,
+            "slot": "205",
+            "type": "t_mapping(t_address,t_struct(StakingConfig)3116_storage)",
+            "contract": "ProfessionStakingAvalanche",
+            "src": "contracts\\upgradeable\\npc\\ProfessionStaking\\Avalanche\\ProfessionStakingAvalanche.sol:74"
+          },
+          {
+            "label": "_configKeys",
+            "offset": 0,
+            "slot": "206",
+            "type": "t_struct(AddressSet)2664_storage",
+            "contract": "ProfessionStakingAvalanche",
+            "src": "contracts\\upgradeable\\npc\\ProfessionStaking\\Avalanche\\ProfessionStakingAvalanche.sol:76"
+          },
+          {
+            "label": "_rewards",
+            "offset": 0,
+            "slot": "208",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "ProfessionStakingAvalanche",
+            "src": "contracts\\upgradeable\\npc\\ProfessionStaking\\Avalanche\\ProfessionStakingAvalanche.sol:79"
+          },
+          {
+            "label": "unused",
+            "offset": 0,
+            "slot": "209",
+            "type": "t_address",
+            "contract": "ProfessionStakingAvalanche",
+            "src": "contracts\\upgradeable\\npc\\ProfessionStaking\\Avalanche\\ProfessionStakingAvalanche.sol:81"
+          },
+          {
+            "label": "treasury",
+            "offset": 0,
+            "slot": "210",
+            "type": "t_address",
+            "contract": "ProfessionStakingAvalanche",
+            "src": "contracts\\upgradeable\\npc\\ProfessionStaking\\Avalanche\\ProfessionStakingAvalanche.sol:82"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(ICosmicAttributeStorage)3032": {
+            "label": "contract ICosmicAttributeStorage",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IERC20Upgradeable)782": {
+            "label": "contract IERC20Upgradeable",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)3131_storage)))": {
+            "label": "mapping(address => mapping(address => mapping(uint256 => struct ProfessionStakingAvalanche.TrainingStatus)))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(TrainingStatus)3131_storage))": {
+            "label": "mapping(address => mapping(uint256 => struct ProfessionStakingAvalanche.TrainingStatus))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(ParticipantData)3082_storage)": {
+            "label": "mapping(address => struct ProfessionStakingAvalanche.ParticipantData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(StakingConfig)3116_storage)": {
+            "label": "mapping(address => struct ProfessionStakingAvalanche.StakingConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)34_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(NFT)3071_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingAvalanche.NFT)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingLevelConfig)3092_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingAvalanche.TrainingLevelConfig)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(TrainingStatus)3131_storage)": {
+            "label": "mapping(uint256 => struct ProfessionStakingAvalanche.TrainingStatus)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(AddressSet)2664_storage": {
+            "label": "struct EnumerableSetUpgradeable.AddressSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)2349_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Attribute)3087_storage": {
+            "label": "struct ProfessionStakingAvalanche.Attribute",
+            "members": [
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(NFT)3071_storage": {
+            "label": "struct ProfessionStakingAvalanche.NFT",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "rewardFrom",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(ParticipantData)3082_storage": {
+            "label": "struct ProfessionStakingAvalanche.ParticipantData",
+            "members": [
+              {
+                "label": "nftIds",
+                "type": "t_struct(UintSet)2821_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "nfts",
+                "type": "t_mapping(t_uint256,t_struct(NFT)3071_storage)",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "rewards",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              }
+            ],
+            "numberOfBytes": "128"
+          },
+          "t_struct(RoleData)34_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Set)2349_storage": {
+            "label": "struct EnumerableSetUpgradeable.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(StakingConfig)3116_storage": {
+            "label": "struct ProfessionStakingAvalanche.StakingConfig",
+            "members": [
+              {
+                "label": "startTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "maxPointsPerSkill",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "skillIds",
+                "type": "t_array(t_uint256)dyn_storage",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "rewardToken",
+                "type": "t_contract(IERC20Upgradeable)782",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "trainingLevelConfig",
+                "type": "t_mapping(t_uint256,t_struct(TrainingLevelConfig)3092_storage)",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "stakingToken",
+                "type": "t_contract(ICosmicAttributeStorage)3032",
+                "offset": 0,
+                "slot": "6"
+              },
+              {
+                "label": "stakingEnabledAttribute",
+                "type": "t_struct(Attribute)3087_storage",
+                "offset": 0,
+                "slot": "7"
+              }
+            ],
+            "numberOfBytes": "288"
+          },
+          "t_struct(TrainingLevelConfig)3092_storage": {
+            "label": "struct ProfessionStakingAvalanche.TrainingLevelConfig",
+            "members": [
+              {
+                "label": "cost",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "time",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(TrainingStatus)3131_storage": {
+            "label": "struct ProfessionStakingAvalanche.TrainingStatus",
+            "members": [
+              {
+                "label": "_address",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "level",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "treeId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "skillId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "startedAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "completeAt",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_struct(UintSet)2821_storage": {
+            "label": "struct EnumerableSetUpgradeable.UintSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)2349_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
           },
           "t_uint8": {
             "label": "uint8",
