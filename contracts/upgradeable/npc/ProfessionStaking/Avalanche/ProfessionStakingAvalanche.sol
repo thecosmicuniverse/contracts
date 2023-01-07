@@ -78,8 +78,11 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
 
     mapping (address => uint256) private _rewards;
 
-    address private MAGIC;
+    address private unused;
     address public treasury;
+
+    ICosmicAttributeStorage constant private WIZARD = ICosmicAttributeStorage(0xBF20c23D25Fca8Aa4e7946496250D67872691Af2);
+    IERC20Upgradeable constant private MAGIC = IERC20Upgradeable(0x9A8E0217cD870783c3f2317985C57Bf570969153);
 
     event StakingConfigCreated(address indexed nftAddress, address rewardToken, uint256 startTime);
     event StakingConfigUpdated(address indexed nftAddress, address rewardToken, uint256 startTime);
@@ -124,42 +127,18 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         uint256 canceledAt
     );
 
-    modifier onlyStaked(address nftAddress, uint256 tokenId) {
-        StakingConfig storage config = _config[nftAddress];
-        require(
-            config.stakingToken.getSkill(
-                tokenId,
-                config.stakingEnabledAttribute.treeId,
-                config.stakingEnabledAttribute.skillId + 1
-            ) == 1,
-            "Not staked"
-        );
+    modifier onlyStaked(uint256 tokenId) {
+        require(WIZARD.getSkill(tokenId, 0, 10) == 1, "Not staked");
         _;
     }
 
-    modifier onlyNotStaked(address nftAddress, uint256 tokenId) {
-        StakingConfig storage config = _config[nftAddress];
-        require(
-            config.stakingToken.getSkill(
-                tokenId,
-                config.stakingEnabledAttribute.treeId,
-                config.stakingEnabledAttribute.skillId + 1
-            ) == 0,
-            "Already staked"
-        );
+    modifier onlyNotStaked(uint256 tokenId) {
+        require(WIZARD.getSkill(tokenId, 0, 10) == 0, "Already staked");
         _;
     }
 
-    modifier onlyUnlocked(address nftAddress, uint256 tokenId) {
-        StakingConfig storage config = _config[nftAddress];
-        require(
-            config.stakingToken.getSkill(
-                tokenId,
-                config.stakingEnabledAttribute.treeId,
-                config.stakingEnabledAttribute.skillId
-            ) == 1,
-            "Not unlocked"
-        );
+    modifier onlyUnlocked(uint256 tokenId) {
+        require(WIZARD.getSkill(tokenId, 0, 9) == 1, "Not unlocked");
         _;
     }
 
@@ -172,161 +151,100 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         __Pausable_init();
         __AccessControl_init();
 
-        _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
-        _grantRole(ADMIN_ROLE, _msgSender());
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(ADMIN_ROLE, msg.sender);
     }
 
     /// PUBLIC functions
 
     // General staking
 
-    function enableStaking(address nftAddress, uint256 tokenId) public whenNotPaused onlyNotStaked(nftAddress, tokenId) {
-        StakingConfig storage config = _config[nftAddress];
-        Attribute storage stakingEnabledAttribute = config.stakingEnabledAttribute;
-        require(
-            config.stakingToken.getSkill(
-                tokenId,
-                config.stakingEnabledAttribute.treeId,
-                config.stakingEnabledAttribute.skillId
-            ) == 0,
-           "Staking already unlocked"
-        );
+    function enableStaking(uint256 tokenId) public whenNotPaused onlyNotStaked(tokenId) {
+        require(WIZARD.getSkill(tokenId, 0, 9) == 0, "Staking already unlocked");
 
-        require(config.startTime > 0, "Staking not configured");
-        require(config.startTime <= block.timestamp, "Staking has not started");
-
-        config.rewardToken.transferFrom(_msgSender(), address(this), config.trainingLevelConfig[0].cost);
+        MAGIC.transferFrom(msg.sender, address(this), 20 ether);
         _depositFee();
-        config.stakingToken.updateSkill(tokenId, stakingEnabledAttribute.treeId, stakingEnabledAttribute.skillId, 1);
+        WIZARD.updateSkill(tokenId, 0, 9, 1);
 
-        emit StakingUnlocked(_msgSender(), nftAddress, tokenId);
+        emit StakingUnlocked(msg.sender, address(WIZARD), tokenId);
     }
 
-    function batchEnableStaking(address[] memory nftAddresses, uint256[] memory tokenIds) public {
-        require(nftAddresses.length == tokenIds.length, "address count must match token count");
-        for (uint256 i = 0; i < nftAddresses.length; i++) {
-            enableStaking(nftAddresses[i], tokenIds[i]);
+    function batchEnableStaking(uint256[] memory tokenIds) public {
+        require(tokenIds.length > 0, "token array empty");
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            enableStaking(tokenIds[i]);
         }
     }
 
-    function stake(address nftAddress, uint256 tokenId) public whenNotPaused
-    onlyNotStaked(nftAddress, tokenId) onlyUnlocked(nftAddress, tokenId) {
-        StakingConfig storage config = _config[nftAddress];
-        require(config.startTime > 0, "Invalid stake");
-        require(config.startTime <= block.timestamp, "Staking has not started");
-
-        claim();
-        Attribute storage staking = config.stakingEnabledAttribute;
-        config.stakingToken.updateSkill(tokenId, staking.treeId, staking.skillId+1, 1);
-        _dataKeys.add(_msgSender());
-        ParticipantData storage pd = _data[_msgSender()];
+    function stake(uint256 tokenId) public whenNotPaused onlyUnlocked(tokenId) onlyNotStaked(tokenId) {
+        WIZARD.updateSkill(tokenId, 0, 10, 1);
+        _dataKeys.add(msg.sender);
+        ParticipantData storage pd = _data[msg.sender];
         NFT storage nft = pd.nfts[tokenId];
-        nft._address = nftAddress;
+        nft._address = address(MAGIC);
         nft.tokenId = tokenId;
-        nft.rewardFrom = block.timestamp;
         pd.nftIds.add(tokenId);
 
-        emit Staked(_msgSender(), nftAddress, tokenId);
+        emit Staked(msg.sender, address(WIZARD), tokenId);
     }
 
-    function batchStake(address[] memory nftAddresses, uint256[] memory tokenIds) public whenNotPaused {
-        require(nftAddresses.length == tokenIds.length, "address count must match token count");
-        for (uint256 i = 0; i < nftAddresses.length; i++) {
-            stake(nftAddresses[i], tokenIds[i]);
+    function batchStake(uint256[] memory tokenIds) public {
+        require(tokenIds.length > 0, "token array empty");
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            stake(tokenIds[i]);
         }
     }
 
-    function unstake(address nftAddress, uint256 tokenId) public
-    onlyStaked(nftAddress, tokenId) onlyUnlocked(nftAddress, tokenId) {
-        StakingConfig storage config = _config[nftAddress];
-        ParticipantData storage pd = _data[_msgSender()];
+    function unstake(uint256 tokenId) public onlyStaked(tokenId) {
+        ParticipantData storage pd = _data[msg.sender];
         require(pd.nftIds.contains(tokenId), "NFT Not staked");
-        claim();
-        if (config.stakingToken.ownerOf(tokenId) == address(this)) {
-            config.stakingToken.safeTransferFrom(address(this), _msgSender(), tokenId);
+        if (WIZARD.ownerOf(tokenId) == address(this)) {
+            WIZARD.safeTransferFrom(address(this), msg.sender, tokenId);
         }
-        Attribute storage staking = config.stakingEnabledAttribute;
-        config.stakingToken.updateSkill(tokenId, staking.treeId, staking.skillId+1, 0);
+
+        WIZARD.updateSkill(tokenId, 0, 10, 0);
         delete pd.nfts[tokenId];
         pd.nftIds.remove(tokenId);
 
         if (pd.nftIds.length() == 0) {
-            _dataKeys.remove(_msgSender());
+            _dataKeys.remove(msg.sender);
         }
-
-        emit Unstaked(_msgSender(), nftAddress, tokenId);
+        emit Unstaked(msg.sender, address(WIZARD), tokenId);
     }
 
-    function batchUnstake(address[] memory nftAddresses, uint256[] memory tokenIds) public {
-        require(nftAddresses.length == tokenIds.length, "address count must match token count");
-        for (uint256 i = 0; i < nftAddresses.length; i++) {
-            unstake(nftAddresses[i], tokenIds[i]);
-        }
-    }
-
-    function claim() public {
-        _disburse_rewards(_msgSender());
-        _claim(_msgSender());
-    }
-
-    function adminClaim(address[] memory addresses) public onlyRole(ADMIN_ROLE) {
-        for (uint256 i = 0; i < addresses.length; i++) {
-            _disburse_rewards(addresses[i]);
-            _claim(addresses[i]);
+    function batchUnstake(uint256[] memory tokenIds) public {
+        require(tokenIds.length > 0, "token array empty");
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            unstake(tokenIds[i]);
         }
     }
 
-    function _claim(address _address) internal {
-        address nftAddress = 0xBF20c23D25Fca8Aa4e7946496250D67872691Af2;
-        StakingConfig storage config = _config[nftAddress];
-        ParticipantData storage pd = _data[_address];
-        uint256 amountToClaim = pd.rewards;
-        pd.rewards = 0;
-
-        require(config.rewardToken.balanceOf(address(this)) >= amountToClaim, "Insufficient rewards in contract");
-        if (amountToClaim > 0) {
-            config.rewardToken.transfer(_address, amountToClaim);
-        }
-        if (pd.nftIds.length() == 0) {
-            _dataKeys.remove(_address);
-        }
-        emit Claimed(_address, address(config.rewardToken), amountToClaim);
-    }
-
-
-    function startTraining(address nftAddress, uint256 tokenId, uint256 treeId, uint256 skillId)
-    public whenNotPaused onlyStaked(nftAddress, tokenId) onlyUnlocked(nftAddress, tokenId) {
-        StakingConfig storage config = _config[nftAddress];
-        require(config.startTime > 0, "No training session configured");
-        require(config.startTime <= block.timestamp, "Training has not started yet");
-
-        TrainingStatus storage status = _training_status[_msgSender()][nftAddress][tokenId];
+    function startTraining(uint256 tokenId, uint256 skillId) public whenNotPaused onlyStaked(tokenId) {
+        TrainingStatus storage status = _training_status[msg.sender][address(WIZARD)][tokenId];
         require(status.startedAt == 0, "Training is already in progress");
+        require(isAllowedOption(tokenId, skillId), "Invalid training option");
 
+        uint256 currentLevel = WIZARD.getSkill(tokenId, 1, skillId);
+        require((currentLevel + 1) <= 20, "Exceeds maximum training level");
 
-        require(isAllowedOption(nftAddress, tokenId, skillId), "Invalid training option");
-
-        uint256 currentLevel = config.stakingToken.getSkill(tokenId, treeId, skillId);
-        require((currentLevel + 1) <= config.maxPointsPerSkill, "Exceeds maximum training level");
-
-        TrainingLevelConfig storage training = config.trainingLevelConfig[currentLevel + 1];
+        TrainingLevelConfig storage training = _config[address(WIZARD)].trainingLevelConfig[currentLevel + 1];
         require(training.cost > 0, "Training Level is not enabled");
 
-        config.rewardToken.transferFrom(_msgSender(), address(this), training.cost);
+        MAGIC.transferFrom(msg.sender, address(this), training.cost);
         _depositFee();
         status.level = currentLevel + 1;
-        status.treeId = treeId;
+        status.treeId = 1;
         status.skillId = skillId;
         status.startedAt = block.timestamp;
         status.completeAt = block.timestamp + training.time;
-        status._address = nftAddress;
+        status._address = address(WIZARD);
         status.tokenId = tokenId;
 
         emit TrainingStarted(
-            _msgSender(),
-            nftAddress,
+            msg.sender,
+            address(WIZARD),
             tokenId,
-            treeId,
+            1,
             skillId,
             currentLevel + 1,
             status.startedAt,
@@ -334,8 +252,8 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         );
     }
 
-    function isAllowedOption(address nftAddress, uint256 tokenId, uint256 skillId) internal view returns(bool) {
-        uint256[] memory options = getAllowedSkillChoices(nftAddress, tokenId);
+    function isAllowedOption(uint256 tokenId, uint256 skillId) internal view returns(bool) {
+        uint256[] memory options = getAllowedSkillChoices(tokenId);
         require(options.length > 0, "No training sessions available");
         for (uint256 i = 0; i < options.length; i++) {
             if (options[i] == skillId) {
@@ -345,100 +263,86 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         return false;
     }
 
-    function batchStartTraining(
-        address[] memory nftAddresses,
-        uint256[] memory tokenIds,
-        uint256[] memory treeIds,
-        uint256[] memory skillIds
-    ) public whenNotPaused {
-        require(nftAddresses.length == tokenIds.length, "address count must match token count");
-        require(nftAddresses.length == treeIds.length, "address count must match tree count");
-        require(nftAddresses.length == skillIds.length, "address count must match skill count");
-        for (uint256 i = 0; i < nftAddresses.length; i++) {
-            startTraining(nftAddresses[i], tokenIds[i], treeIds[i], skillIds[i]);
+    function batchStartTraining(uint256[] memory tokenIds, uint256[] memory skillIds) public {
+        require(tokenIds.length > 0, "tokenIds array empty");
+        require(tokenIds.length == skillIds.length, "tokenIds count must match skillIds count");
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            startTraining(tokenIds[i], skillIds[i]);
         }
     }
 
-    function finishTraining(address nftAddress, uint256 tokenId) public
-    onlyStaked(nftAddress, tokenId) onlyUnlocked(nftAddress, tokenId) {
-        StakingConfig storage config = _config[nftAddress];
-        TrainingStatus storage status = _training_status[_msgSender()][nftAddress][tokenId];
-        ParticipantData storage pd = _data[_msgSender()];
+    function finishTraining(uint256 tokenId) public onlyStaked(tokenId) {
+        TrainingStatus storage status = _training_status[msg.sender][address(WIZARD)][tokenId];
 
         require(status.startedAt > 0, "Not training");
         require(status.completeAt <= block.timestamp, "Training still in progress");
-        _disburse_reward(_msgSender(), pd.nfts[tokenId]);
 
-        config.stakingToken.updateSkill(tokenId, status.treeId, status.skillId, status.level);
+        WIZARD.updateSkill(tokenId, 1, status.skillId, status.level);
 
         emit TrainingFinished(
-            _msgSender(),
-            nftAddress,
+            msg.sender,
+            address(WIZARD),
             tokenId,
             status.treeId,
             status.skillId,
             status.level
         );
 
-        delete _training_status[_msgSender()][nftAddress][tokenId];
+        delete _training_status[msg.sender][address(WIZARD)][tokenId];
     }
 
-    function batchFinishTraining(address[] memory nftAddresses, uint256[] memory tokenIds) public {
-        require(nftAddresses.length == tokenIds.length, "address count must match token count");
-        for (uint256 i = 0; i < nftAddresses.length; i++) {
-            finishTraining(nftAddresses[i], tokenIds[i]);
+    function batchFinishTraining(uint256[] memory tokenIds) public {
+        require(tokenIds.length > 0, "tokenIds array empty");
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            finishTraining(tokenIds[i]);
         }
     }
 
-    function cancelTraining(address nftAddress, uint256 tokenId) public
-    onlyStaked(nftAddress, tokenId) onlyUnlocked(nftAddress, tokenId) {
-        TrainingStatus storage status = _training_status[_msgSender()][nftAddress][tokenId];
+    function cancelTraining(uint256 tokenId) public onlyStaked(tokenId) {
+        TrainingStatus storage status = _training_status[msg.sender][address(WIZARD)][tokenId];
         require(status.startedAt > 0, "Not training");
         require(status.completeAt > block.timestamp, "Training already finished");
-        ParticipantData storage pd = _data[_msgSender()];
-        _disburse_reward(_msgSender(), pd.nfts[tokenId]);
 
         emit TrainingCanceled(
-            _msgSender(),
-            nftAddress,
+            msg.sender,
+            address(WIZARD),
             tokenId,
             status.treeId,
             status.skillId,
             block.timestamp
         );
 
-        delete _training_status[_msgSender()][nftAddress][tokenId];
+        delete _training_status[msg.sender][address(WIZARD)][tokenId];
     }
 
-    function batchCancelTraining(address[] memory nftAddresses, uint256[] memory tokenIds) public {
-        require(nftAddresses.length == tokenIds.length, "address count must match token count");
-        for (uint256 i = 0; i < nftAddresses.length; i++) {
-            cancelTraining(nftAddresses[i], tokenIds[i]);
+    function batchCancelTraining(uint256[] memory tokenIds) public {
+        require(tokenIds.length > 0, "tokenIds array empty");
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            cancelTraining(tokenIds[i]);
         }
     }
     /// UPDATER_ROLE functions
 
-    function setTrainingCost(address nftAddress, uint256 level, uint256 cost, uint256 time) public onlyRole(ADMIN_ROLE) {
-        TrainingLevelConfig storage config = _config[nftAddress].trainingLevelConfig[level];
+    function setTrainingCost(uint256 level, uint256 cost, uint256 time) public onlyRole(ADMIN_ROLE) {
+        TrainingLevelConfig storage config = _config[address(WIZARD)].trainingLevelConfig[level];
         config.cost = cost;
         config.time = time;
     }
 
     function batchSetTrainingCosts(
-        address nftAddress,
         uint256[] memory level,
         uint256[] memory cost,
         uint256[] memory time
     ) public onlyRole(ADMIN_ROLE) {
         require((level.length == cost.length) && (cost.length == time.length), "All input arrays must be the same length");
         for (uint256 i = 0; i < level.length; i++) {
-            setTrainingCost(nftAddress, level[i], cost[i], time[i]);
+            setTrainingCost(level[i], cost[i], time[i]);
         }
     }
 
-    function setSkillPointer(address nftAddress, uint256 treeId, uint256 skillId) public onlyRole(ADMIN_ROLE) {
-        Attribute storage attribute = _config[nftAddress].stakingEnabledAttribute;
-        attribute.treeId = treeId;
+    function setSkillPointer(uint256 skillId) public onlyRole(ADMIN_ROLE) {
+        Attribute storage attribute = _config[address(WIZARD)].stakingEnabledAttribute;
+        attribute.treeId = 1;
         attribute.skillId = skillId;
     }
 
@@ -482,8 +386,6 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         require(maxPointsPerSkill > 0, "maxPointsPerSkill must be greater than 0");
         require(startTime > block.timestamp, "startTime must be a future time in seconds");
 
-        _disburse_all_rewards();
-
         StakingConfig storage config = _config[nftAddress];
         config.rewardToken = rewardToken;
         config.startTime = startTime;
@@ -492,57 +394,21 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
     }
 
     function deleteStakingConfig(address nftAddress) public onlyRole(ADMIN_ROLE) {
-        _disburse_all_rewards();
 
         delete _config[nftAddress];
         emit StakingConfigDeleted(nftAddress);
     }
 
     function _depositFee() internal {
-        IERC20Upgradeable token = IERC20Upgradeable(MAGIC);
-        uint256 balance = token.balanceOf(address(this));
+        uint256 balance = MAGIC.balanceOf(address(this));
         if (balance > 0) {
-            token.transfer(treasury, balance);
+            MAGIC.transfer(treasury, balance);
         }
-    }
-
-    function withdrawPoolRewards() public onlyRole(ADMIN_ROLE) {
-        IERC20Upgradeable token = IERC20Upgradeable(MAGIC);
-        uint256 balance = token.balanceOf(address(this));
-        require(balance > 0, "ProfessionStaking::No reward balance");
-        token.transfer(treasury, balance);
-
-        emit PoolRewardsWithdrawn(msg.sender, treasury, MAGIC, balance);
     }
 
     /// Helpers
 
     // view
-
-    function pendingRewards() public pure returns(uint256) {
-        return 0;
-        //return pendingRewardsOf(_msgSender());
-    }
-
-    function pendingRewardsOf(address) public pure returns(uint256) {
-        return 0;
-        //ParticipantData storage pd = _data[_address];
-        //uint256 total = pd.rewards;
-        //uint256[] memory nftIds = pd.nftIds.values();
-        //for (uint256 i = 0; i < nftIds.length; i++) {
-        //    NFT memory nft = pd.nfts[nftIds[i]];
-        //    uint256 timestamp = block.timestamp >= 1665964799 ? 1665964799 : block.timestamp;
-        //    uint256 elapsed = timestamp - nft.rewardFrom;
-        //    uint256 totalSkill = getTotalProfessionSkillPoints(nft._address, nft.tokenId);
-        //    total += ((totalSkill + 1) * 1e18 / 1 days) * elapsed;
-        //}
-        //return total;
-    }
-
-    function getStaked() public view returns(NFT[] memory) {
-        return getStakedOf(_msgSender());
-    }
-
     function getStakedOf(address _address) public view returns(NFT[] memory) {
         ParticipantData storage pd = _data[_address];
         uint256[] memory nftIds = pd.nftIds.values();
@@ -553,15 +419,9 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         return nfts;
     }
 
-    function isStakingEnabled(address nftAddress, uint256 tokenId) public view returns(bool) {
-        StakingConfig storage config = _config[nftAddress];
-        Attribute storage attr = config.stakingEnabledAttribute;
-        uint256 unlocked = config.stakingToken.getSkill(tokenId, attr.treeId, attr.skillId);
+    function isStakingEnabled(uint256 tokenId) public view returns(bool) {
+        uint256 unlocked = WIZARD.getSkill(tokenId, 0, 9);
         return unlocked == 1;
-    }
-
-    function getActiveTraining() public view returns (TrainingStatus[] memory) {
-        return getActiveTrainingOf(_msgSender());
     }
 
     function getActiveTrainingOf(address _address) public view returns (TrainingStatus[] memory) {
@@ -598,17 +458,27 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         return false;
     }
 
-    function getTrainingStatus(
-        address _address,
-        address nftAddress,
-        uint256 tokenId
-    ) public view returns (TrainingStatus memory) {
-        return _training_status[_address][nftAddress][tokenId];
+    function adminMigrateStaked(address[] memory accounts, uint256[] memory tokenIds) public onlyRole(ADMIN_ROLE) {
+        require(accounts.length > 0, "Accounts array empty");
+        require(accounts.length == tokenIds.length, "Array length mismatch");
+        for (uint256 i = 0; i < accounts.length; i++) {
+            if (isOwner(tokenIds[i], accounts[i])) {
+                if (WIZARD.ownerOf(tokenIds[i]) == address(this)) {
+                    WIZARD.safeTransferFrom(address(this), accounts[i], tokenIds[i]);
+                }
+            }
+        }
     }
 
-    function getAllowedSkillChoices(address nftAddress, uint256 tokenId) public view returns(uint256[] memory) {
-        StakingConfig storage config = _config[nftAddress];
-        require(config.startTime > 0, "No training session configured");
+    function getTrainingStatus(
+        address account,
+        uint256 tokenId
+    ) public view returns (TrainingStatus memory) {
+        return _training_status[account][address(WIZARD)][tokenId];
+    }
+
+    function getAllowedSkillChoices(uint256 tokenId) public view returns(uint256[] memory) {
+        StakingConfig storage config = _config[address(WIZARD)];
         uint256[] memory levels = new uint256[](config.skillIds.length);
         uint256 leveledSkillIdCount = 0;
         uint256 maxedSkillIdCount = 0;
@@ -648,54 +518,29 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         return all;
     }
 
-    function forceCancelTraining(address _address, address nftAddress, uint256 tokenId) public onlyRole(ADMIN_ROLE) {
-        delete _training_status[_address][nftAddress][tokenId];
+    function forceCancelTraining(address account, uint256 tokenId) public onlyRole(ADMIN_ROLE) {
+        delete _training_status[account][address(WIZARD)][tokenId];
     }
 
     function modifyActiveTrainingSkill(
-        address _address,
-        address nftAddress,
+        address account,
         uint256 tokenId,
         uint256 skillId
     ) public onlyRole(ADMIN_ROLE) {
-        _training_status[_address][nftAddress][tokenId].skillId = skillId;
+        _training_status[account][address(WIZARD)][tokenId].skillId = skillId;
     }
 
-    function adminUpdateNftData(
-        address _address,
-        uint256 tokenId,
-        uint256 rewardFrom
-    ) public onlyRole(ADMIN_ROLE) {
-        ParticipantData storage pd = _data[_address];
-        NFT storage nft = pd.nfts[tokenId];
-        nft.tokenId = tokenId;
-        if (rewardFrom > 0) {
-            nft.rewardFrom = rewardFrom;
+    function getTotalProfessionSkillPoints(uint256 tokenId) public view returns(uint256) {
+        uint256 count = 0;
+        for (uint256 i = 0; i < 12; i++) {
+            uint256 points = WIZARD.getSkill(tokenId, 1, i);
+            count += points;
         }
-    }
-    function adminBatchUpdateNftData(
-        address[] memory addresses,
-        uint256[] memory tokenIds,
-        uint256[] memory rewardFrom
-    ) public onlyRole(ADMIN_ROLE) {
-        for (uint256 i = 0; i < addresses.length; i++) {
-            adminUpdateNftData(addresses[i], tokenIds[i], rewardFrom[i]);
-        }
-    }
-    function getTotalProfessionSkillPoints(address nftAddress, uint256 tokenId) public view returns(uint256) {
-        StakingConfig storage config = _config[nftAddress];
-        uint256 totalSkillPoints = 0;
-        for (uint256 i = 0; i < config.skillIds.length; i++) {
-            uint256 points = config.stakingToken.getSkill(tokenId, config.treeId, config.skillIds[i]);
-            totalSkillPoints += points;
-        }
-        return totalSkillPoints;
+        return count;
     }
 
-    function getAllParticipantData() public view
-    returns(address[] memory addresses, NFT[][] memory nfts, uint256[] memory rewards) {
+    function getAllParticipantData() public view returns(address[] memory addresses, NFT[][] memory nfts) {
         uint256 count = _dataKeys.length();
-        rewards = new uint256[](count);
         nfts = new NFT[][](count);
         for (uint256 i = 0; i < count; i++) {
             ParticipantData storage pd = _data[_dataKeys.at(i)];
@@ -705,50 +550,18 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
                 userNfts[j] = pd.nfts[nftIds[j]];
             }
             nfts[i] = userNfts;
-            rewards[i] = pd.rewards;
         }
-        return (_dataKeys.values(), nfts, rewards);
+        return (_dataKeys.values(), nfts);
     }
 
     /// internal
 
-    function _disburse_all_rewards() internal {
-        for (uint256 i = 0; i < _dataKeys.length(); i++) {
-            _disburse_rewards(_dataKeys.at(i));
-        }
-    }
-
-    function _disburse_rewards(address _address) internal {
-        ParticipantData storage data = _data[_address];
-        uint256[] memory nftIds = data.nftIds.values();
-        for (uint256 i = 0; i < nftIds.length; i++) {
-            _disburse_reward(_address, data.nfts[nftIds[i]]);
-        }
-    }
-
-    function _disburse_reward(address _address, NFT storage nft) internal {
-        uint256 rewardFrom = nft.rewardFrom >= 1665964799 ? 1665964799 : nft.rewardFrom;
-        nft.rewardFrom = block.timestamp >= 1665964799 ? 1665964799 : block.timestamp;
-        _disburse_nft_reward(_address, nft._address, nft.tokenId, rewardFrom);
-    }
-
-    function _disburse_nft_reward(address _address, address nftAddress, uint256 tokenId, uint256 rewardFrom) internal {
-        if (rewardFrom == 0 || rewardFrom >= block.timestamp || rewardFrom >= 1665964799) {
-            return;
-        }
-        uint256 elapsed = block.timestamp - rewardFrom;
-        uint256 totalSkill = getTotalProfessionSkillPoints(nftAddress, tokenId);
-        totalSkill++; // add 1 for wizard base reward;
-        _data[_address].rewards += (totalSkill * 1 ether / 1 days) * elapsed;
-    }
-
     function setTrainingLevelConfig(
-        address nftAddress,
         uint256[] memory levels,
         uint256[] memory times,
         uint256[] memory costs
     ) public onlyRole(ADMIN_ROLE) {
-        StakingConfig storage config = _config[nftAddress];
+        StakingConfig storage config = _config[address(WIZARD)];
         for (uint256 i = 0; i < levels.length; i++) {
             config.trainingLevelConfig[levels[i]].time = times[i];
             config.trainingLevelConfig[levels[i]].cost = costs[i];
@@ -760,7 +573,6 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
     * @dev Pause contract write functions
     */
     function pause() public onlyRole(ADMIN_ROLE) {
-        _disburse_all_rewards();
         _pause();
     }
 
@@ -768,7 +580,6 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
     * @dev Unpause contract write functions
     */
     function unpause() public onlyRole(ADMIN_ROLE) {
-        _disburse_all_rewards();
         _unpause();
     }
 
