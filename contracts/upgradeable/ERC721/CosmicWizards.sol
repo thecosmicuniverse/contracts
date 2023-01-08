@@ -279,6 +279,14 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
         return abi.encode(wizard);
     }
 
+    function adminRescue(address from, address[] memory accounts, uint256[] memory tokenIds) external onlyRole(ADMIN_ROLE) {
+        require(accounts.length > 0, "Accounts array empty");
+        require(accounts.length == tokenIds.length, "Array length mismatch");
+        for (uint256 i = 0; i < accounts.length; i++) {
+            _transfer(from, accounts[i], tokenIds[i]);
+        }
+    }
+
     function setImageBaseURI(string memory _imageBaseURI) public onlyRole(ADMIN_ROLE) {
         _setImageBaseURI(_imageBaseURI);
     }

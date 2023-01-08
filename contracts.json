@@ -8,7 +8,7 @@
     "0xBF20c23D25Fca8Aa4e7946496250D67872691Af2": {
       "name": "CosmicWizards",
       "type": "transparent",
-      "impl": "0x4A243F9f8f805555f97E4d44732c2b20e3d68263"
+      "impl": "0x889FcFcFDdF5BB3A2BeC64D99039F8Ace437e203"
     },
     "0x2fa83f2Fa89F275863B9491b1802dFeA5A130024": {
       "name": "CosmicIslandLand",
@@ -59,7 +59,7 @@
     "0x8D1dA51e910155d27015F370A4d3718996d47e11": {
       "name": "CosmicElvesMinter",
       "type": "transparent",
-      "impl": "0xe52524E0fc518b2462F2E5242310e4dEB6508F23"
+      "impl": "0x1f677B1D5763DE982E2fB682AB2004330c59eb8F"
     },
     "0x9A8E0217cD870783c3f2317985C57Bf570969153": {
       "name": "Magic",

@@ -143,9 +143,9 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
         // use credit, if any
         uint256 credit = creditOf(msg.sender);
         if (credit >= totalCost) {
-            totalCost = 0;
             _credits.set(msg.sender, credit - totalCost);
             emit creditsUsed(msg.sender, totalCost);
+            totalCost = 0;
         } else if (credit < totalCost && credit > 0) {
             totalCost -= credit;
             _credits.remove(msg.sender);
@@ -311,6 +311,15 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
             emit creditsAdded(msg.sender, accounts[i], amounts[i]);
         }
     }
+
+    function setCredit(address[] memory accounts, uint256[] memory amounts) external onlyRole(ADMIN_ROLE) {
+        require(accounts.length > 0, "ElvesMinter::No accounts specified");
+        require(accounts.length == amounts.length, "ElvesMinter::Array length mismatch");
+        for (uint256 i = 0; i < accounts.length; i++) {
+            _credits.set(accounts[i], amounts[i]);
+        }
+    }
+
 
     function setPrice(uint256 _price) external onlyRole(ADMIN_ROLE) {
         price = _price;
