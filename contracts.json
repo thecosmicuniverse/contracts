@@ -3,7 +3,7 @@
     "0x9a337A6F883De95f49e05CD7D801d475a40a9C70": {
       "name": "CosmicElves",
       "type": "transparent",
-      "impl": "0x75B4Eaedd014737C7fd6Aa5e78dA26A7D880BA93"
+      "impl": "0x9049D71F81B13AB093475C47aAa265b7C1A6Ec2C"
     },
     "0xBF20c23D25Fca8Aa4e7946496250D67872691Af2": {
       "name": "CosmicWizards",
@@ -59,7 +59,7 @@
     "0x8D1dA51e910155d27015F370A4d3718996d47e11": {
       "name": "CosmicElvesMinter",
       "type": "transparent",
-      "impl": "0x1f677B1D5763DE982E2fB682AB2004330c59eb8F"
+      "impl": "0x1D757c7b553aa4365f5D01978DE89A28c9Ef515a"
     },
     "0x9A8E0217cD870783c3f2317985C57Bf570969153": {
       "name": "Magic",
@@ -106,7 +106,7 @@
     "0x09692b3a53eB7870F00b342444E4f42e259e7999": {
       "name": "CosmicElves",
       "type": "transparent",
-      "impl": "0xD3739917a8bA5B446a52b7285Fd36161BF9206fb"
+      "impl": "0x53E55BB76918f06855d813E9FD9E1eF8808B79Fb"
     },
     "0x9E2Aa514325e67D3bA78E575cAF6F90fBC628069": {
       "name": "CosmicBadges",

@@ -65,7 +65,7 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConst
         // base (11)
         uint256 baseSkillNameId = gender == 0 ? 0 : 11;
         for (uint256 i = 0; i < 11; i++) {
-            attributes[i] = TokenMetadata.Attribute(getSkillName(0, i), '', getSkillName(1000 + i, baseSkillNameId + getSkill(tokenId, 0, i)), false);
+            attributes[i] = TokenMetadata.Attribute(getSkillName(0, i), '', getSkillName(1000 + i + baseSkillNameId, getSkill(tokenId, 0, i)), false);
         }
         // Elven Adventures / Expeditions (3)
         for (uint256 i = 0; i < 3; i++) {

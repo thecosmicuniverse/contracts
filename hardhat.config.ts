@@ -11,4 +11,6 @@ config.networks.avalanche.url = "https://nd-878-841-440.p2pify.com/09c9f30d4ade5
 
 //@ts-ignore
 config.etherscan?.apiKey.avalanche = process.env.SNOWTRACE_API_KEY
+//@ts-ignore
+config.etherscan?.apiKey.bobaAvax = 'not needed'
 export default config;

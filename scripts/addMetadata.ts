@@ -1,5 +1,5 @@
+import { getContract, getContractAndData } from "@dirtycajunrice/hardhat-tasks";
 import hre, { ethers } from 'hardhat';
-import { getContract, getContractAndData } from "../tasks";
 import ElvesAttributes from './metadata/elves'
 import "dotenv/config"
 
@@ -439,15 +439,17 @@ const setElvesMetadata = async () => {
     for (let attrId = 0; attrId < attributeTypeStrings.length; attrId++) {
       if (attrId === 0) {
         const attributes = ["Male", "Female"]
-        const ids = attributes.map((v, i) => i + baseSkillNameId);
-        const tx = await contract.batchSetSkillName(1000 + attrId, ids, attributes);
+        const ids = attributes.map((v, i) => i);
+        console.log("Setting", gender, "attributes for Gender", `(${1000+attrId+baseSkillNameId}) -`, JSON.stringify(ids), JSON.stringify(attributes))
+        const tx = await contract.batchSetSkillName(1000 + attrId + baseSkillNameId, ids, attributes);
         await tx.wait();
       } else {
+        continue
         const attrType = attributeTypeStrings[attrId];
         const attributes = Object.keys(ElvesAttributes[gender][attrType.toLowerCase()])
-        const ids = attributes.map((v, i) => i + baseSkillNameId);
-        console.log("Setting", gender, "attributes for", attrType, "-", JSON.stringify(ids), JSON.stringify(attributes))
-        const tx = await contract.batchSetSkillName(1000 + attrId, ids, attributes)
+        const ids = attributes.map((v, i) => i);
+        console.log("Setting", gender, "attributes for", attrType, "(", 1000+attrId+baseSkillNameId, ") -", JSON.stringify(ids), JSON.stringify(attributes))
+        const tx = await contract.batchSetSkillName(1000 + attrId + baseSkillNameId, ids, attributes)
         await tx.wait();
       }
     }
@@ -502,7 +504,7 @@ const MakeUEMetadata = async () => {
 
   }
 }
-setBundlesMetadata()
+setElvesMetadata()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error(error)

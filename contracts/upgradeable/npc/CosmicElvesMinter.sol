@@ -8,6 +8,7 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 
 import "../utils/ChainlinkVRFConsumerUpgradeable.sol";
 import "../ERC721/interfaces/ICosmicElvesTicket.sol";
@@ -25,6 +26,7 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
     using CountersUpgradeable for CountersUpgradeable.Counter;
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.AddressSet;
     using EnumerableMapUpgradeable for EnumerableMapUpgradeable.AddressToUintMap;
+    using StringsUpgradeable for uint256;
 
     // constants
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
@@ -181,7 +183,7 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
         // pre-flight checks
         require(pending.requestId == 0, "Existing mint in progress");
         require(count > 0, "Minimum 1 per mint");
-        require(count <= 50, "Maximum 50 per mint");
+        require(count <= 10, "Maximum 10 per mint");
         // cap checks
         uint256 tokenId = _counter.current();
         require(tokenId < cap, "Sold out");
@@ -204,13 +206,31 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
         }
     }
 
+    function adminAddRandomness(address account, uint256 count) external onlyRole(ADMIN_ROLE) {
+        PendingMint storage pending = _pending[account];
+        require(pending.ids.length > 0, "ElvesMinter::No pending request for account");
+        require(pending.ids.length > pending.words.length, "ElvesMinter::Pending request is already satisfied");
+        uint256 missing = pending.ids.length - pending.words.length;
+        uint256 c = missing >= count ? count : missing;
+        pending.requestId = requestRandomWords(uint32(c));
+        _requestIdToAddress[pending.requestId] = account;
+    }
+
+    function adminForceMint(address account, uint256 count) public onlyRole(ADMIN_ROLE) {
+        _mint(account, count);
+    }
+
     function mint(uint256 count) public {
+        _mint(msg.sender, count);
+    }
+
+    function _mint(address account, uint256 count) public {
         // get pending mint reference from storage
-        PendingMint storage pending = _pending[_msgSender()];
+        PendingMint storage pending = _pending[account];
         // pre-flight checks
         require(pending.requestId > 0, "No pending mint");
-        require(pending.words.length > 0, "Results still pending");
-        require(pending.ids.length <= count, "Invalid mint count");
+        require(pending.words.length == pending.ids.length, "Results still pending");
+        require(count <= pending.ids.length, string(abi.encodePacked("Invalid mint count. ", count.toString(), "/", pending.ids.length.toString())));
 
         uint256 remainingCount = 0;
         uint256[] memory remainingIds;
@@ -231,7 +251,7 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
             }
             uint256[] memory randomChunks = chunkWord(pending.words[i], 10_000, 11);
             uint256[] memory attributes = _getAttributes(randomChunks);
-            ELVES.mint(_msgSender(), tokenId);
+            ELVES.mint(account, tokenId);
             ELVES.batchUpdateSkillsOfToken(tokenId, 0, dynamicIds, attributes);
         }
 
@@ -239,8 +259,32 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
             pending.ids = remainingIds;
             pending.words = remainingWords;
         } else {
-            delete _requestIdToAddress[pending.requestId];
-            delete _pending[_msgSender()];
+            delete _pending[account];
+        }
+    }
+
+    function adminForceSpecific(address account, uint256 begin, uint256 end) public {
+        // get pending mint reference from storage
+        PendingMint storage pending = _pending[account];
+        // pre-flight checks
+        require(pending.requestId > 0, "No pending mint");
+        require(pending.words.length == pending.ids.length, "Results still pending");
+
+        uint256[] memory dynamicIds = new uint256[](11);
+        for (uint256 i = 0; i < 11; i++) {
+            dynamicIds[i] = i;
+        }
+
+        for (uint256 i = begin; i < end; i++) {
+            uint256 tokenId = pending.ids[i];
+            uint256[] memory randomChunks = chunkWord(pending.words[i], 10_000, 11);
+            uint256[] memory attributes = _getAttributes(randomChunks);
+            ELVES.mint(account, tokenId);
+            ELVES.batchUpdateSkillsOfToken(tokenId, 0, dynamicIds, attributes);
+        }
+
+        if (end == pending.ids.length) {
+            delete _pending[account];
         }
     }
 
@@ -283,11 +327,23 @@ ChainlinkVRFConsumerUpgradeable, Blacklistable {
     }
 
     function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override {
-        _pending[_requestIdToAddress[requestId]].words = randomWords;
+        PendingMint storage pending = _pending[_requestIdToAddress[requestId]];
+        if (pending.words.length == 0) {
+            pending.words = randomWords;
+        } else {
+            for (uint256 i = 0; i < randomWords.length; i++) {
+                pending.words.push(randomWords[i]);
+            }
+        }
+        delete _requestIdToAddress[requestId];
     }
 
     function pendingMintsOf(address user) public view returns(uint256[] memory, bool) {
-        return (_pending[user].ids, _pending[user].words.length > 0);
+        return (_pending[user].ids, _pending[user].words.length == _pending[user].ids.length);
+    }
+
+    function pendingData(address user) public view returns(uint256[] memory, uint256[] memory, uint256) {
+        return (_pending[user].ids, _pending[user].words, _pending[user].requestId);
     }
 
     function lastTokenId() public view returns(uint256) {
