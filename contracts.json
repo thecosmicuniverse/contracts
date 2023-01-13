@@ -70,6 +70,11 @@
       "name": "ProfessionStakingAvalanche",
       "type": "transparent",
       "impl": "0x7FAaC777937DB6BbBF32327e810B0406810dd2e0"
+    },
+    "0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D": {
+      "name": "lMagicUpgradeable",
+      "type": "transparent",
+      "impl": "0x1ad3aA4A5e79aF6eA12645CF8DA2D9d12409f9a4"
     }
   },
   "43288": {
@@ -86,7 +91,7 @@
     "0xCE953D1A6be7331EEf06ec9Ac8a4a22a4f2BDfB0": {
       "name": "CosmicRawResources",
       "type": "transparent",
-      "impl": "0x19aF25d7f398E57CE308779BdbC77c15B291d044"
+      "impl": "0x922609BF800cc8486B07B5f28Ad4C5F0E2C1c603"
     },
     "0x4F82DFbEED2aa0686EB26ddba7a075406b4C6A67": {
       "name": "CosmicRefinedResources",
@@ -101,7 +106,7 @@
     "0x94932B53B666179cF0cFEB178BDa358f538f36c4": {
       "name": "ElvenAdventures",
       "type": "uups",
-      "impl": "0xB8669d455aB2D65F08d2fB57eDb41878dee1a806"
+      "impl": "0x328Aa4343d541e67d56CCfa4C43F00F10Fe4cB24"
     },
     "0x09692b3a53eB7870F00b342444E4f42e259e7999": {
       "name": "CosmicElves",
@@ -141,7 +146,11 @@
     "0xf0D8537ca2D0F3e268aa01895AFe87a38Faf6D0E": {
       "name": "ChestRedeemer",
       "type": "uups",
-      "impl": "0x0d2a69f06E7f63857726535CfaFF8004E0dB188F"
+      "impl": "0xdaA5439f529F2D22FD2A3a473105dbCd32ca1b08"
+    },
+    "": {
+      "name": "CosmicRawResources",
+      "type": "static"
     }
   }
 }

@@ -99,6 +99,10 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata, IStandardERC1155 {
         super.burn(account, id, amount);
     }
 
+    function adminBurn(address account, uint256 id, uint256 amount) external onlyAdmin {
+        _burn(account, id, amount);
+    }
+
     function _beforeTokenTransfer(
         address operator,
         address from,

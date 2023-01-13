@@ -94,5 +94,5 @@ abstract contract StandardAccessControl is Initializable, AccessControlEnumerabl
         );
     }
 
-    uint256[45] private __gap;
+    uint256[46] private __gap;
 }

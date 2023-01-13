@@ -99,7 +99,11 @@ ERC20PermitUpgradeable, ERC20BurnableUpgradeable, TokenConstants {
 
     function pendingOf(address _address) public view returns(uint256) {
         uint256 balance = balanceOf(_address);
+        if (block.timestamp > OMEGA_TIMESTAMP) {
+            return balance;
+        }
         uint256 claimed = _totalOf[_address] - balance;
+
         uint256 pendingPerSecond = _totalOf[_address] / (OMEGA_TIMESTAMP - GENESIS_TIMESTAMP);
         uint256 pending = ((block.timestamp - GENESIS_TIMESTAMP) * pendingPerSecond);
         if (claimed < pending) {

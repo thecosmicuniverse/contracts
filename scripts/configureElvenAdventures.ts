@@ -1,7 +1,7 @@
+import { getContract } from "@dirtycajunrice/hardhat-tasks";
 import { BigNumberish } from 'ethers';
 import hre, { ethers } from "hardhat";
 const { getContractAt } = ethers
-import { getContract } from '../tasks'
 import "dotenv/config"
 
 enum TokenType { ERC20, ERC1155, ERC721 }

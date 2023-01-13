@@ -151,4 +151,11 @@ ReentrancyGuardUpgradeable, BobaL2TuringClient {
             c.c = configs[i].c;
         }
     }
+
+    function resourcesConfig() external view returns (ResourceConfig[] memory config) {
+        config = new ResourceConfig[](12);
+        for (uint256 i = 0; i < 12; i++) {
+            config[i] = _resourcesConfig[i];
+        }
+    }
 }

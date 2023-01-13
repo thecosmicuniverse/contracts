@@ -219,6 +219,7 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
 
     function sendReward(uint256 level, uint256 skillId) internal {
         Reward storage reward = _rewards[level];
+        address r = reward._address;
         if (reward.tokenType == TokenType.ERC20) {
             IERC20Upgradeable(_magic).transfer(msg.sender, reward.amount);
         } else if (reward.tokenType == TokenType.ERC721) {
@@ -228,13 +229,25 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
             uint256 rewardId = reward.id;
             if (level == 17) {
                 rewardId = (skillId * 15) + 3;
+                // Level 17 reward._address is for raw resources
+                if (!isRawResID(rewardId)) {
+                    r = _rewards[19]._address;
+                }
             } else if (level == 19) {
                 rewardId = (skillId * 15) + 8;
+                // Level 19 reward._address is for refined resources
+                if (isRawResID(rewardId)) {
+                    r = _rewards[17]._address;
+                }
             } else if (level == 20) {
                 rewardId = skillId;
             }
-            IStandardERC1155(reward._address).mint(msg.sender, rewardId, reward.amount, "");
+            IStandardERC1155(r).mint(msg.sender, rewardId, reward.amount, "");
         }
+    }
+
+    function isRawResID(uint256 rewardId) internal pure returns (bool) {
+        return rewardId < 60 || (rewardId >= 105 && rewardId < 120) || (rewardId >= 150 && rewardId < 165);
     }
 
     function isValidSkill(uint256 tokenId, uint256 skillId) internal view returns(bool) {
@@ -272,9 +285,19 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
         }
     }
 
+    function setRewardAddressFor(uint256 level, address _address) public onlyAdmin {
+        require(level > 0, "ElvenAdventures::Invalid Level");
+        require(_address != address(0), "ElvenAdventures::Invalid Address");
+
+        Reward storage reward = _rewards[level];
+        require(reward._address != address(0), "ElvenAdventures::Level not configured");
+
+        reward._address = _address;
+    }
+
     function setLateInit() external onlyAdmin {
-        _elves = 0x09692b3a53eB7870F00b342444E4f42e259e7999;
-        _magic = 0x245B4C64271e91C9FB6bE1971A0208dD92EFeBDe;
+        setRewardAddressFor(17, 0xCE953D1A6be7331EEf06ec9Ac8a4a22a4f2BDfB0);
+        setRewardAddressFor(19, 0x4F82DFbEED2aa0686EB26ddba7a075406b4C6A67);
     }
 
     /*******************
