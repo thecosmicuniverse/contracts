@@ -1,16 +1,29 @@
 import "@nomicfoundation/hardhat-toolbox";
 import '@openzeppelin/hardhat-upgrades';
-import { GetDefaultConfig } from "@dirtycajunrice/hardhat-tasks";
+import {
+  GetEtherscanCustomChains,
+  GetNetworks,
+  GetSolidityCompilers
+} from "@dirtycajunrice/hardhat-tasks";
 import "@dirtycajunrice/hardhat-tasks/tasks";
-
+import 'solidity-docgen';
 import "dotenv/config";
 
-const config = GetDefaultConfig()
-//@ts-ignore
-config.networks.avalanche.url = "https://nd-878-841-440.p2pify.com/09c9f30d4ade5974b6b344c5115bf861/ext/bc/C/rpc"
+const config = {
+  solidity: {
+    compilers: GetSolidityCompilers(["0.8.17", "0.8.16", "0.8.9", "0.8.2", "0.6.0"]),
+  },
+  networks: GetNetworks([process.env.PRIVATE_KEY || '']),
+  etherscan: {
+    apiKey: {
+      avalanche: process.env.SNOWTRACE_API_KEY,
+      bobaAvax: 'not needed'
+    },
+    customChains: GetEtherscanCustomChains()
+  },
+  docgen: {
+    pages: 'files'
+  }
+}
 
-//@ts-ignore
-config.etherscan?.apiKey.avalanche = process.env.SNOWTRACE_API_KEY
-//@ts-ignore
-config.etherscan?.apiKey.bobaAvax = 'not needed'
 export default config;

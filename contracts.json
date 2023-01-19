@@ -24,7 +24,7 @@
     "0xEacF75f43674a85eae7679E4A67C7FEF004CC7CB": {
       "name": "CosmicRefinedResources",
       "type": "transparent",
-      "impl": "0x6eB4e5c2bA4BB253bfBd178A89120210f0C2E84C"
+      "impl": "0x15A34BF9911c79d331c54E7DBE18faCd922B0f98"
     },
     "0xCB9e8C619CF2C27781dAD8F6e5B27fEBB4f1D89C": {
       "name": "CosmicComponents",
@@ -96,7 +96,7 @@
     "0x4F82DFbEED2aa0686EB26ddba7a075406b4C6A67": {
       "name": "CosmicRefinedResources",
       "type": "transparent",
-      "impl": "0x8F41c6BEE54C2545a73C6E7F588b3b58f9F5Da02"
+      "impl": "0xA417C6DCe2c2FE5C77B132f98bD1cbB197657ED4"
     },
     "0x9402aDCfb075155c245862a23F713C15E9CD71c7": {
       "name": "CosmicSkins",
@@ -106,7 +106,7 @@
     "0x94932B53B666179cF0cFEB178BDa358f538f36c4": {
       "name": "ElvenAdventures",
       "type": "uups",
-      "impl": "0x328Aa4343d541e67d56CCfa4C43F00F10Fe4cB24"
+      "impl": "0x5a848E9C306AD195738FEBC66025DFd05A3e9a01"
     },
     "0x09692b3a53eB7870F00b342444E4f42e259e7999": {
       "name": "CosmicElves",
@@ -147,10 +147,6 @@
       "name": "ChestRedeemer",
       "type": "uups",
       "impl": "0xdaA5439f529F2D22FD2A3a473105dbCd32ca1b08"
-    },
-    "": {
-      "name": "CosmicRawResources",
-      "type": "static"
     }
   }
 }

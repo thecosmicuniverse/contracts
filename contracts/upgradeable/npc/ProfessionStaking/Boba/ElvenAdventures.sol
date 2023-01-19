@@ -140,6 +140,7 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
 
     function _startQuest(uint256 tokenId, uint256 skillId, bool leveling) internal {
         Quest storage quest = _quests[tokenId];
+
         require(quest.completeAt == 0, "ElvenAdventures::Quest is already in progress");
 
         require(isValidSkill(tokenId, skillId), "ElvenAdventures::Invalid quest skill");
@@ -230,13 +231,13 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
             if (level == 17) {
                 rewardId = (skillId * 15) + 3;
                 // Level 17 reward._address is for raw resources
-                if (!isRawResID(rewardId)) {
+                if (isRefResID(rewardId)) {
                     r = _rewards[19]._address;
                 }
             } else if (level == 19) {
                 rewardId = (skillId * 15) + 8;
                 // Level 19 reward._address is for refined resources
-                if (isRawResID(rewardId)) {
+                if (!isRefResID(rewardId)) {
                     r = _rewards[17]._address;
                 }
             } else if (level == 20) {
@@ -246,7 +247,7 @@ contract ElvenAdventures is Initializable, IElvenAdventures, PausableUpgradeable
         }
     }
 
-    function isRawResID(uint256 rewardId) internal pure returns (bool) {
+    function isRefResID(uint256 rewardId) internal pure returns (bool) {
         return rewardId < 60 || (rewardId >= 105 && rewardId < 120) || (rewardId >= 150 && rewardId < 165);
     }
 

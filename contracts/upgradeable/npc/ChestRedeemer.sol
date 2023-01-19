@@ -7,11 +7,11 @@ import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
+import "@dirtycajunrice/contracts/third-party/boba/bridge/IStandardERC1155.sol";
+import "@dirtycajunrice/contracts/third-party/boba/turing/TuringClient.sol";
 import "@dirtycajunrice/contracts/utils/access/StandardAccessControl.sol";
-import "@dirtycajunrice/contracts/third-party/boba/TuringClient.sol";
 import "@dirtycajunrice/contracts/utils/math/Numbers.sol";
 
-import "../ERC1155/interfaces/IStandardERC1155.sol";
 import "../ERC721/CosmicTools/ICosmicTools.sol";
 import "../common/SharedStructs.sol";
 /**
