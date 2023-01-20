@@ -89,7 +89,7 @@ _The contract address for the resource is calculated based on `id`_
 function breakdownResource(uint256 id, uint256 quantity) public
 ```
 
-Breaks down raw or refined resources at a rate of (`weight` + 1)**(4 - `rarity`) * `quantity`
+Breaks down raw or refined resources at a rate of (`weight` + 1) * `quantity`
         into `rarity` - 1
 
 _The contract address for the resource is calculated based on `id`_

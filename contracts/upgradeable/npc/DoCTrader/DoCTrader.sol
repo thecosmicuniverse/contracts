@@ -105,7 +105,7 @@ contract DoCTrader is Initializable, PausableUpgradeable, StandardAccessControl,
     }
 
     /**
-     * @notice Breaks down raw or refined resources at a rate of (`weight` + 1)**(4 - `rarity`) * `quantity`
+     * @notice Breaks down raw or refined resources at a rate of (`weight` + 1) * `quantity`
      *         into `rarity` - 1
      * @dev The contract address for the resource is calculated based on `id`
      * @param id TokenID of the resource
@@ -118,7 +118,7 @@ contract DoCTrader is Initializable, PausableUpgradeable, StandardAccessControl,
             isRefinedResourceID(id) ? AddressBook.RefinedResources() : AddressBook.RawResources()
         );
         resource.burn(msg.sender, id, quantity);
-        uint256 result = (resourceWeight(id) + 1)**(4 - rarity) * quantity;
+        uint256 result = resourceWeight(id) + 1 * quantity;
         resource.mint(msg.sender, id - 1, result, "");
     }
 
