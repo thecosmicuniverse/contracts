@@ -12,6 +12,7 @@ import "@dirtycajunrice/contracts/third-party/boba/turing/TuringClient.sol";
 import "@dirtycajunrice/contracts/utils/access/StandardAccessControl.sol";
 import "@dirtycajunrice/contracts/utils/math/Numbers.sol";
 
+import "../ERC721/interfaces/ICosmicAttributeStorage.sol";
 import "../ERC721/CosmicTools/ICosmicTools.sol";
 import "../common/SharedStructs.sol";
 /**
@@ -20,6 +21,7 @@ import "../common/SharedStructs.sol";
 */
 contract ChestRedeemer is Initializable, PausableUpgradeable, StandardAccessControl, UUPSUpgradeable,
 ReentrancyGuardUpgradeable, BobaL2TuringClient {
+    using EnumerableSetUpgradeable for EnumerableSetUpgradeable.UintSet;
     using Numbers for uint256;
 
     struct Resource {
@@ -42,6 +44,8 @@ ReentrancyGuardUpgradeable, BobaL2TuringClient {
     address public refinedResources;
 
     mapping(uint256 => ResourceConfig) private _resourcesConfig;
+
+    EnumerableSetUpgradeable.UintSet private _reRollEligible;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -81,6 +85,17 @@ ReentrancyGuardUpgradeable, BobaL2TuringClient {
         rollRune(randomChunks[2], mythical);
         rollTool(randomChunks[3], randomChunks[4], mythical);
         rollResources(randomChunks, mythical);
+    }
+
+    function reRollToolRarity(uint256 tokenId) public whenNotPaused nonReentrant {
+        require(ICosmicTools(tools).ownerOf(tokenId) == msg.sender, "ChestRedeemer::Not owner");
+        require(_reRollEligible.contains(tokenId), "ChestRedeemer::Not eligible");
+        _reRollEligible.remove(tokenId);
+        _payTuringFee();
+        uint256 random = TuringHelper.Random();
+        uint256 roll = random % 100;
+        uint256 rarity = roll < 10 ? 3 : roll < 35 ? 2 : 1;
+        ICosmicAttributeStorage(tools).updateSkill(tokenId, 0, 2, rarity);
     }
 
     function rollVipPass(uint256 rand, bool mythical) internal {
@@ -156,6 +171,12 @@ ReentrancyGuardUpgradeable, BobaL2TuringClient {
         config = new ResourceConfig[](12);
         for (uint256 i = 0; i < 12; i++) {
             config[i] = _resourcesConfig[i];
+        }
+    }
+
+    function addReRollEligibleIds(uint256[] memory tokenIds) external onlyAdmin {
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            _reRollEligible.add(tokenIds[i]);
         }
     }
 }

@@ -126,7 +126,7 @@
     "0x0458b679C30AA4B8622742eA9fb2A44660c4a2a1": {
       "name": "CosmicTools",
       "type": "transparent",
-      "impl": "0x991Aa13216672B42472Fcb83eED6eB091C7c2569"
+      "impl": "0x2144919A856Aa7541dA306ee874D09A34F897d5E"
     },
     "0x003b43A3876274b76Ee366cFFbC6bc53AB89Acd7": {
       "name": "CosmicWizards",
@@ -146,7 +146,7 @@
     "0xf0D8537ca2D0F3e268aa01895AFe87a38Faf6D0E": {
       "name": "ChestRedeemer",
       "type": "uups",
-      "impl": "0xdaA5439f529F2D22FD2A3a473105dbCd32ca1b08"
+      "impl": "0x859Be44408ec4bE811f5AE5C769c7f0Df8f10462"
     }
   }
 }

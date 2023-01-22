@@ -195,6 +195,22 @@ contract DoCTrader is Initializable, PausableUpgradeable, StandardAccessControl,
         );
     }
 
+    function repairTool(uint256 tokenId) public whenNotPaused {
+        ICosmicTools tools = ICosmicTools(AddressBook.Tools());
+        require(tools.ownerOf(tokenId) == msg.sender, "Trader::Not owner");
+
+        (ICosmicTools.Tool memory tool) = abi.decode(tools.bridgeExtraData(tokenId), (ICosmicTools.Tool));
+        uint256 rarity = uint256(tool.rarity);
+        uint256 maxDurability = rarity == 3 ? 50 : rarity == 2 ? 30 : rarity == 1 ? 15 : 10;
+        require(tool.durability < maxDurability, "Trader::Tool at max durability");
+
+        uint256 pointsToRepair = maxDurability - tool.durability;
+        uint256 successChanceFee = 50 * rarity / maxDurability * pointsToRepair;
+        uint256 baseFee = 5 * pointsToRepair;
+        uint256 fee = (baseFee + successChanceFee) * 1 ether;
+        IStandardERC20(AddressBook.MAGIC()).transferFrom(msg.sender, treasury, fee);
+        tools.setMaxDurability(tokenId);
+    }
 
     /********
      * Read *

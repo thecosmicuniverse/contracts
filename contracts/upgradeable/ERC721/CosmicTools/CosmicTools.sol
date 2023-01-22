@@ -109,18 +109,20 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable  {
         updateSkill(tokenId, 0, 1, maxDurability(Rarity(getSkill(tokenId, 0, 2))));
     }
 
+    function getDurability(uint256 tokenId) public view returns(uint256 current, uint256 max) {
+        return (getSkill(tokenId, 0, 1), maxDurability(Rarity(getSkill(tokenId, 0, 2))));
+    }
+
     function maxDurability(Rarity rarity) internal pure returns(uint256) {
-        if (rarity == Rarity.Legendary) {
-            return 100;
-        } else if (rarity == Rarity.Mythical) {
-            return 50;
-        } else if (rarity == Rarity.Rare) {
-            return 30;
-        } else if (rarity == Rarity.Uncommon) {
-            return 15;
-        } else {
-            return 10;
-        }
+        return rarity == Rarity.Legendary
+            ? 100
+            : rarity == Rarity.Mythical
+                ? 50
+                : rarity == Rarity.Rare
+                    ? 30
+                    : rarity == Rarity.Uncommon
+                        ? 15
+                        : 10;
     }
 
     function rarityString(Rarity rarity) internal pure returns(string memory) {

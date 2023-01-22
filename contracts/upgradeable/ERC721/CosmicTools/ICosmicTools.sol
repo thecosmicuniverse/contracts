@@ -12,4 +12,6 @@ interface ICosmicTools is IStandardERC721, SharedStructs {
     }
 
     function mint(address to, bytes calldata data) external;
+    function setMaxDurability(uint256 tokenId) external;
+    function getDurability(uint256 tokenId) external view returns(uint256 current, uint256 max);
 }
