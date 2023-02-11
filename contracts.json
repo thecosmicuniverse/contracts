@@ -147,6 +147,11 @@
       "name": "ChestRedeemer",
       "type": "uups",
       "impl": "0x859Be44408ec4bE811f5AE5C769c7f0Df8f10462"
+    },
+    "0x9D7E8576531A058C89d7185e0bc6a99572e9811c": {
+      "name": "DoCTrader",
+      "type": "uups",
+      "impl": "0x0Ff5a77bAd441f1A00947a72f849Bd613975640a"
     }
   }
 }

@@ -74,6 +74,12 @@ function nextId() public view returns (uint256)
 function setMaxDurability(uint256 tokenId) public
 ```
 
+### getDurability
+
+```solidity
+function getDurability(uint256 tokenId) public view returns (uint256 current, uint256 max)
+```
+
 ### maxDurability
 
 ```solidity

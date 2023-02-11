@@ -21,7 +21,7 @@ import "../../utils/Multicall.sol";
 * @author @DirtyCajunRice
 * @notice NPC contract for Item purchases and resource trading in Dawn of Crypton
 */
-contract DoCTrader is Initializable, PausableUpgradeable, StandardAccessControl, UUPSUpgradeable, Multicall {
+contract DoCTrader is Initializable, PausableUpgradeable, StandardAccessControl, UUPSUpgradeable {
 
     /*************
      * Libraries *
@@ -78,7 +78,6 @@ contract DoCTrader is Initializable, PausableUpgradeable, StandardAccessControl,
         __Pausable_init();
         __StandardAccessControl_init();
         __UUPSUpgradeable_init();
-        __Multicall_init();
 
         treasury = address(0);
     }

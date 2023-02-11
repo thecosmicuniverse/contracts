@@ -133,6 +133,9 @@
     "chestRedeemer:boba:deploy": "npm run deploy:boba -- --name ChestRedeemer",
     "chestRedeemer:boba:upgrade": "npm run upgrade:boba -- --name ChestRedeemer",
     "chestRedeemer:boba:verify": "npm run verify:boba -- --name ChestRedeemer",
+    "docTrader:boba:deploy": "npm run deploy:boba -- --name DoCTrader",
+    "docTrader:boba:upgrade": "npm run upgrade:boba -- --name DoCTrader",
+    "docTrader:boba:verify": "npm run verify:boba -- --name DoCTrader",
     "------HARMONY------": "",
     "cosmicElvesTicket:harmony:deploy": "npm run deploy -- --name CosmicElvesTicketUpgradeable",
     "cosmicElvesTicket:harmony:upgrade": "npm run upgrade -- --name CosmicElvesTicketUpgradeable --address 0xdC48cECc5443cC1982926060a89392c7dF1d4892",
@@ -160,6 +163,7 @@
     "@dirtycajunrice/contracts": "0.11.0",
     "@ethersproject/experimental": "^5.7.0",
     "@openzeppelin/contracts-upgradeable": "4.8.0",
+    "axios": "^1.2.3",
     "solidity-docgen": "^0.6.0-beta.34"
   }
 }

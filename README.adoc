@@ -45,8 +45,9 @@ s|Collectable (ERC721)| Tools |`0x0458b679C30AA4B8622742eA9fb2A44660c4a2a1` |htt
 |Raw Resources |`0xCE953D1A6be7331EEf06ec9Ac8a4a22a4f2BDfB0` |https://blockexplorer.avax.boba.network/token/0xCE953D1A6be7331EEf06ec9Ac8a4a22a4f2BDfB0[Blockscout,role=external,window=_blank]
 |Refined Resources |`0x4F82DFbEED2aa0686EB26ddba7a075406b4C6A67` |https://blockexplorer.avax.boba.network/token/0x4F82DFbEED2aa0686EB26ddba7a075406b4C6A67[Blockscout,role=external,window=_blank]
 |Skins |`0x9402aDCfb075155c245862a23F713C15E9CD71c7` |https://blockexplorer.avax.boba.network/token/0x9402aDCfb075155c245862a23F713C15E9CD71c7[Blockscout,role=external,window=_blank]
-.2+s|NPC (Contract)|Elven Adventures |`0x94932B53B666179cF0cFEB178BDa358f538f36c4` |https://blockexplorer.avax.boba.network/address/0x94932B53B666179cF0cFEB178BDa358f538f36c4[Blockscout,role=external,window=_blank]
+.3+s|NPC (Contract)|Elven Adventures |`0x94932B53B666179cF0cFEB178BDa358f538f36c4` |https://blockexplorer.avax.boba.network/address/0x94932B53B666179cF0cFEB178BDa358f538f36c4[Blockscout,role=external,window=_blank]
 |Chest Redeemer |`0xf0D8537ca2D0F3e268aa01895AFe87a38Faf6D0E` |https://blockexplorer.avax.boba.network/address/0xf0D8537ca2D0F3e268aa01895AFe87a38Faf6D0E[Blockscout,role=external,window=_blank]
+|DoC Trader |`0x9D7E8576531A058C89d7185e0bc6a99572e9811c` |https://blockexplorer.avax.boba.network/address/0x9D7E8576531A058C89d7185e0bc6a99572e9811c[Blockscout,role=external,window=_blank]
 |===
 
 .Avalanche

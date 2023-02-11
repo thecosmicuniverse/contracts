@@ -18,3 +18,15 @@ struct Tool {
 function mint(address to, bytes data) external
 ```
 
+### setMaxDurability
+
+```solidity
+function setMaxDurability(uint256 tokenId) external
+```
+
+### getDurability
+
+```solidity
+function getDurability(uint256 tokenId) external view returns (uint256 current, uint256 max)
+```
+

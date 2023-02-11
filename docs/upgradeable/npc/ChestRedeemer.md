@@ -65,6 +65,12 @@ function initialize() public
 function redeem(uint256 id) external payable
 ```
 
+### reRollToolRarity
+
+```solidity
+function reRollToolRarity(uint256 tokenId) public
+```
+
 ### rollVipPass
 
 ```solidity
@@ -126,5 +132,11 @@ function setResourcesConfig(uint256[] skillIds, struct ChestRedeemer.ResourceCon
 
 ```solidity
 function resourcesConfig() external view returns (struct ChestRedeemer.ResourceConfig[] config)
+```
+
+### addReRollEligibleIds
+
+```solidity
+function addReRollEligibleIds(uint256[] tokenIds) external
 ```
 

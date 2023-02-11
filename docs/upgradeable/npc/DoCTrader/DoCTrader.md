@@ -129,6 +129,12 @@ Purchase a common rarity tool for `professionId`
 | ---- | ---- | ----------- |
 | professionId | uint256 | ID of the profession |
 
+### repairTool
+
+```solidity
+function repairTool(uint256 tokenId) public
+```
+
 ### shopItem
 
 ```solidity
