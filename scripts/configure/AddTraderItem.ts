@@ -1,7 +1,7 @@
 import { getContract, getContractAndData } from "@dirtycajunrice/hardhat-tasks";
 import { BigNumber, BigNumberish, utils } from "ethers";
 import hre, { ethers } from 'hardhat';
-import ElvesAttributes from './metadata/elves'
+import ElvesAttributes from '../metadata/elves'
 import "dotenv/config"
 
 const professions = ["Alchemy", "Architecture", "Carpentry", "Cooking", "Crystal Extraction", "Farming", "Fishing", "Gem Cutting", "Herbalism", "Mining", "Tailoring", "Woodcutting"];

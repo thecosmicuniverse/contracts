@@ -146,7 +146,7 @@
     "0xf0D8537ca2D0F3e268aa01895AFe87a38Faf6D0E": {
       "name": "ChestRedeemer",
       "type": "uups",
-      "impl": "0x859Be44408ec4bE811f5AE5C769c7f0Df8f10462"
+      "impl": "0x66f3d0695054BD3e6379273918a282EeC7ffE359"
     },
     "0x9D7E8576531A058C89d7185e0bc6a99572e9811c": {
       "name": "DoCTrader",

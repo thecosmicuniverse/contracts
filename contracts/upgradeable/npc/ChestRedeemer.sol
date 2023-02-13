@@ -14,7 +14,7 @@ import "@dirtycajunrice/contracts/utils/math/Numbers.sol";
 
 import "../ERC721/interfaces/ICosmicAttributeStorage.sol";
 import "../ERC721/CosmicTools/ICosmicTools.sol";
-import "../common/SharedStructs.sol";
+import { SharedStructs } from "../common/SharedStructs.sol";
 /**
 * @title Chest Redeemer v1.0.0
 * @author @DirtyCajunRice
@@ -46,6 +46,19 @@ ReentrancyGuardUpgradeable, BobaL2TuringClient {
     mapping(uint256 => ResourceConfig) private _resourcesConfig;
 
     EnumerableSetUpgradeable.UintSet private _reRollEligible;
+
+    event ToolRarityReRolled(
+        address indexed from,
+        uint256 indexed tokenId,
+        uint256 oldRarity,
+        uint256 newRarity
+    );
+
+    event ToolRarityReRollDeclined(
+        address indexed from,
+        uint256 indexed tokenId,
+        uint256 rarity
+    );
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -87,7 +100,7 @@ ReentrancyGuardUpgradeable, BobaL2TuringClient {
         rollResources(randomChunks, mythical);
     }
 
-    function reRollToolRarity(uint256 tokenId) public whenNotPaused nonReentrant {
+    function reRollToolRarity(uint256 tokenId) public payable whenNotPaused nonReentrant {
         require(ICosmicTools(tools).ownerOf(tokenId) == msg.sender, "ChestRedeemer::Not owner");
         require(_reRollEligible.contains(tokenId), "ChestRedeemer::Not eligible");
         _reRollEligible.remove(tokenId);
@@ -95,7 +108,17 @@ ReentrancyGuardUpgradeable, BobaL2TuringClient {
         uint256 random = TuringHelper.Random();
         uint256 roll = random % 100;
         uint256 rarity = roll < 10 ? 3 : roll < 35 ? 2 : 1;
+        uint256 oldRarity = ICosmicAttributeStorage(tools).getSkill(tokenId, 0, 2);
         ICosmicAttributeStorage(tools).updateSkill(tokenId, 0, 2, rarity);
+        emit ToolRarityReRolled(msg.sender, tokenId, oldRarity, rarity);
+    }
+
+    function declineToolReRoll(uint256 tokenId) public whenNotPaused nonReentrant {
+        require(ICosmicTools(tools).ownerOf(tokenId) == msg.sender, "ChestRedeemer::Not owner");
+        require(_reRollEligible.contains(tokenId), "ChestRedeemer::Not eligible");
+        _reRollEligible.remove(tokenId);
+        uint256 rarity = ICosmicAttributeStorage(tools).getSkill(tokenId, 0, 2);
+        emit ToolRarityReRollDeclined(msg.sender, tokenId, rarity);
     }
 
     function rollVipPass(uint256 rand, bool mythical) internal {
@@ -178,5 +201,9 @@ ReentrancyGuardUpgradeable, BobaL2TuringClient {
         for (uint256 i = 0; i < tokenIds.length; i++) {
             _reRollEligible.add(tokenIds[i]);
         }
+    }
+
+    function reRollEligible() external view returns (uint256[] memory) {
+        return _reRollEligible.values();
     }
 }
