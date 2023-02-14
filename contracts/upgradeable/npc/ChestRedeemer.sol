@@ -110,6 +110,7 @@ ReentrancyGuardUpgradeable, BobaL2TuringClient {
         uint256 rarity = roll < 10 ? 3 : roll < 35 ? 2 : 1;
         uint256 oldRarity = ICosmicAttributeStorage(tools).getSkill(tokenId, 0, 2);
         ICosmicAttributeStorage(tools).updateSkill(tokenId, 0, 2, rarity);
+        ICosmicAttributeStorage(tools).updateSkill(tokenId, 0, 1, rarity == 3 ? 50 : rarity == 2 ? 30 : 15);
         emit ToolRarityReRolled(msg.sender, tokenId, oldRarity, rarity);
     }
 
