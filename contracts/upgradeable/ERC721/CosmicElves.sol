@@ -7,7 +7,7 @@ import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 
-import "./extensions/ERC721EnumerableExtendedUpgradeable.sol";
+import "./extensions/ERC721EnumerableExtended.sol";
 import "./extensions/ERC721BurnableExtendedUpgradeable.sol";
 import "./extensions/CosmicAttributeStorageUpgradeable.sol";
 import "./extensions/ERC721URITokenJSON.sol";
@@ -21,7 +21,7 @@ import "../utils/Blacklistable.sol";
 * @author @DirtyCajunRice
 */
 contract CosmicElves is Initializable, ERC721Upgradeable, PausableUpgradeable, AccessControlEnumerableUpgradeable,
-ERC721BurnableExtendedUpgradeable, ERC721EnumerableExtendedUpgradeable,
+ERC721BurnableExtendedUpgradeable, ERC721EnumerableExtended,
 ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConstants, IStandardERC721  {
     using StringsUpgradeable for uint256;
     using TokenMetadata for string;
@@ -174,7 +174,7 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConst
         uint256 firstTokenId,
         uint256 batchSize
     ) internal whenNotPaused notBlacklisted(from) notBlacklisted(to)
-    override(ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable, ERC721BurnableExtendedUpgradeable)
+    override(ERC721Upgradeable, ERC721EnumerableExtended, ERC721BurnableExtendedUpgradeable)
     {
         super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
@@ -182,7 +182,7 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConst
     function supportsInterface(bytes4 interfaceId) public view
     override(
         ERC721Upgradeable,
-        ERC721EnumerableExtendedUpgradeable,
+        ERC721EnumerableExtended,
         AccessControlEnumerableUpgradeable,
         ERC721BurnableExtendedUpgradeable,
         IERC165Upgradeable

@@ -6,7 +6,7 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
-import "./extensions/ERC721EnumerableExtendedUpgradeable.sol";
+import "./extensions/ERC721EnumerableExtended.sol";
 import "./extensions/ERC721URIStorageExtendedUpgradeable.sol";
 import "./extensions/ERC721BurnableExtendedUpgradeable.sol";
 import "./interfaces/IStandardERC721.sol";
@@ -17,7 +17,7 @@ import "../utils/TokenConstants.sol";
 * @title Cosmic Island Land v1.0.0
 * @author @DirtyCajunRice
 */
-contract CosmicIslandLand is Initializable, ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable,
+contract CosmicIslandLand is Initializable, ERC721Upgradeable, ERC721EnumerableExtended,
 ERC721URIStorageExtendedUpgradeable, PausableUpgradeable, AccessControlEnumerableUpgradeable,
 ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.AddressSet;
@@ -234,6 +234,14 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
         imageBaseURI = _imageBaseURI;
     }
 
+    function adminRescue(address from, address[] memory accounts, uint256[] memory tokenIds) external onlyRole(ADMIN_ROLE) {
+        require(accounts.length > 0, "Accounts array empty");
+        require(accounts.length == tokenIds.length, "Array length mismatch");
+        for (uint256 i = 0; i < accounts.length; i++) {
+            _transfer(from, accounts[i], tokenIds[i]);
+        }
+    }
+
     function burn(uint256 tokenId) public virtual override(IStandardERC721, ERC721BurnableExtendedUpgradeable) {
         super.burn(tokenId);
     }
@@ -253,7 +261,7 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
         uint256 firstTokenId,
         uint256 batchSize
     ) internal whenNotPaused notBlacklisted(from) notBlacklisted(to)
-    override(ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable, ERC721BurnableExtendedUpgradeable)
+    override(ERC721Upgradeable, ERC721EnumerableExtended, ERC721BurnableExtendedUpgradeable)
     {
         super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
@@ -261,7 +269,7 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
     function supportsInterface(bytes4 interfaceId) public view
     override(
     ERC721Upgradeable,
-    ERC721EnumerableExtendedUpgradeable,
+    ERC721EnumerableExtended,
     AccessControlEnumerableUpgradeable,
     ERC721BurnableExtendedUpgradeable,
     IERC165Upgradeable

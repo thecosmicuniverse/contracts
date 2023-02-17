@@ -2,6 +2,7 @@
 pragma solidity ^0.8.16;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
@@ -10,7 +11,9 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
  * enumerability of all the token ids in the contract as well as all token ids owned by each
  * account.
  */
-abstract contract ERC721EnumerableExtendedUpgradeable is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeable {
+abstract contract ERC721EnumerableExtended is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeable {
+    using EnumerableSetUpgradeable for EnumerableSetUpgradeable.UintSet;
+
     function __ERC721EnumerableExtended_init() internal onlyInitializing {
         __ERC721Enumerable_init();
     }
@@ -34,21 +37,12 @@ abstract contract ERC721EnumerableExtendedUpgradeable is Initializable, ERC721Up
     }
 
     function getAllTokenIds() public view returns (uint256[] memory) {
-        uint256 count = 0;
-        for (uint256 i = 1; i < 10_000; i++) {
-            if (_exists(i)) {
-                count++;
-            }
+        uint256 total = totalSupply();
+        uint256[] memory ids = new uint256[](total);
+        for (uint256 i = 0; i < total; i++) {
+            ids[i] = tokenByIndex(i);
         }
-        uint256[] memory tokenIds = new uint256[](count);
-        uint256 index = 0;
-        for (uint256 i = 1; i < 10_000; i++) {
-            if (_exists(i)) {
-                tokenIds[index] = i;
-                index++;
-            }
-        }
-        return tokenIds;
+        return ids;
     }
 
     function supportsInterface(bytes4 interfaceId)

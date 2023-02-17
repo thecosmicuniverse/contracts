@@ -7,7 +7,7 @@ import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 
-import "./extensions/ERC721EnumerableExtendedUpgradeable.sol";
+import "./extensions/ERC721EnumerableExtended.sol";
 import "./extensions/ERC721URIStorageExtendedUpgradeable.sol";
 import "./extensions/ERC721BurnableExtendedUpgradeable.sol";
 import "../utils/TokenConstants.sol";
@@ -16,7 +16,7 @@ import "../utils/TokenConstants.sol";
 * @title Framed Wizards v1.0.0
 * @author @DirtyCajunRice
 */
-contract FramedWizardsUpgradeable is Initializable, ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable,
+contract FramedWizards is Initializable, ERC721Upgradeable, ERC721EnumerableExtended,
 ERC721URIStorageExtendedUpgradeable, PausableUpgradeable, AccessControlEnumerableUpgradeable,
 ERC721BurnableExtendedUpgradeable, TokenConstants {
     using StringsUpgradeable for uint256;
@@ -118,6 +118,14 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
         return uris;
     }
 
+    function adminRescue(address from, address[] memory accounts, uint256[] memory tokenIds) external onlyRole(ADMIN_ROLE) {
+        require(accounts.length > 0, "Accounts array empty");
+        require(accounts.length == tokenIds.length, "Array length mismatch");
+        for (uint256 i = 0; i < accounts.length; i++) {
+            _transfer(from, accounts[i], tokenIds[i]);
+        }
+    }
+
     function _burn(uint256 tokenId) internal virtual override(ERC721Upgradeable, ERC721URIStorageExtendedUpgradeable) {
         super._burn(tokenId);
     }
@@ -133,7 +141,7 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
         uint256 firstTokenId,
         uint256 batchSize
     ) internal whenNotPaused notBlacklisted(from) notBlacklisted(to)
-    override(ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable, ERC721BurnableExtendedUpgradeable)
+    override(ERC721Upgradeable, ERC721EnumerableExtended, ERC721BurnableExtendedUpgradeable)
     {
         super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
@@ -141,7 +149,7 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
     function supportsInterface(bytes4 interfaceId) public view
     override(
     ERC721Upgradeable,
-    ERC721EnumerableExtendedUpgradeable,
+    ERC721EnumerableExtended,
     AccessControlEnumerableUpgradeable,
     ERC721BurnableExtendedUpgradeable
     ) returns (bool)

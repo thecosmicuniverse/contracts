@@ -3,18 +3,17 @@
     "0x9a337A6F883De95f49e05CD7D801d475a40a9C70": {
       "name": "CosmicElves",
       "type": "transparent",
-      "impl": "0x9049D71F81B13AB093475C47aAa265b7C1A6Ec2C"
+      "impl": "0xcA5535a606D63547Cfe3A03eE91f2e9240e0A26b"
     },
     "0xBF20c23D25Fca8Aa4e7946496250D67872691Af2": {
       "name": "CosmicWizards",
       "type": "transparent",
-      "impl": "0x889FcFcFDdF5BB3A2BeC64D99039F8Ace437e203"
+      "impl": "0x5F8Eeba2d92702Ac7a3937f2bf0608F27df108e9"
     },
     "0x2fa83f2Fa89F275863B9491b1802dFeA5A130024": {
       "name": "CosmicIslandLand",
       "type": "transparent",
-      "impl": "0xca4E27e97003Aa51Ec9B7122731A1478b7B9B410",
-      "admin": "0x918eA0E87ef08a5931aD3777b8c0EB69e2Ce37Dd"
+      "impl": "0xbeAEd4Aa9631a26E3BA140bA0DD7376C28AB0C19"
     },
     "0xF31dC5F3A6D0af979FC3D8ad7A216E2eA49a1Cb1": {
       "name": "CosmicRawResources",
@@ -54,7 +53,7 @@
     "0x39Ad4AAfa177f59ed7356fFDBbF36A840075b7A6": {
       "name": "CosmicTools",
       "type": "transparent",
-      "impl": "0x6cd499b7aD63508d198cd2E339090ABaFF74F728"
+      "impl": "0x971e6e46666ce4f30798f3CE315AbD82bb83f4de"
     },
     "0x8D1dA51e910155d27015F370A4d3718996d47e11": {
       "name": "CosmicElvesMinter",
@@ -75,6 +74,16 @@
       "name": "lMagicUpgradeable",
       "type": "transparent",
       "impl": "0x1ad3aA4A5e79aF6eA12645CF8DA2D9d12409f9a4"
+    },
+    "0xf7Faa28f8934D3dcAf571ef3dd0A41BD5604915C": {
+      "name": "FramedWizards",
+      "type": "transparent",
+      "impl": "0x09A100532500b9798C4e4265c1c4AE5994FF41B8"
+    },
+    "0x87D0F9ff4B51EEfe9f5f1578bc35e4ddA28bBd1e": {
+      "name": "CosmicElvesTicket",
+      "type": "transparent",
+      "impl": "0xDb38996e1975Fc32e0a000c0C619DAff532a2A2D"
     }
   },
   "43288": {
@@ -111,7 +120,7 @@
     "0x09692b3a53eB7870F00b342444E4f42e259e7999": {
       "name": "CosmicElves",
       "type": "transparent",
-      "impl": "0x53E55BB76918f06855d813E9FD9E1eF8808B79Fb"
+      "impl": "0x0A251a2e3B013B32597707eD0eD809669d88Ef59"
     },
     "0x9E2Aa514325e67D3bA78E575cAF6F90fBC628069": {
       "name": "CosmicBadges",
@@ -126,17 +135,17 @@
     "0x0458b679C30AA4B8622742eA9fb2A44660c4a2a1": {
       "name": "CosmicTools",
       "type": "transparent",
-      "impl": "0x2144919A856Aa7541dA306ee874D09A34F897d5E"
+      "impl": "0x1A08357989Fb5797A4Cb6538a1E3512091b4D559"
     },
     "0x003b43A3876274b76Ee366cFFbC6bc53AB89Acd7": {
       "name": "CosmicWizards",
       "type": "transparent",
-      "impl": "0xF5F97ba831a99a0848a4E1392927D80fDFdAd898"
+      "impl": "0xc0846cF613Ddf35fc693adE582866164E8D60AD0"
     },
     "0x3280522Ca527e3802bb90aC74AF6Ca3CB0433F73": {
       "name": "CosmicIslandLand",
       "type": "transparent",
-      "impl": "0x30D9EC1c5F566853b0fd601eb6Fe386D8c25B1F6"
+      "impl": "0x5e0a905596Ec58F728Ca7EFd8dd7cc22E6f8683e"
     },
     "0x245B4C64271e91C9FB6bE1971A0208dD92EFeBDe": {
       "name": "MagicL2",

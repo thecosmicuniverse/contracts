@@ -12,14 +12,14 @@ import "@openzeppelin/contracts-upgradeable/utils/Base64Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 
 import "../utils/deprecated/ChainlinkVRFConsumerUpgradeable.sol";
-import "./extensions/ERC721EnumerableExtendedUpgradeable.sol";
+import "./extensions/ERC721EnumerableExtended.sol";
 import "./extensions/ERC721BurnableExtendedUpgradeable.sol";
 
 /**
 * @title Cosmic Elves Ticket v2.0.0
 * @author @DirtyCajunRice
 */
-contract CosmicElvesTicket is Initializable, ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable,
+contract CosmicElvesTicket is Initializable, ERC721Upgradeable, ERC721EnumerableExtended,
 PausableUpgradeable, AccessControlEnumerableUpgradeable, ERC721BurnableExtendedUpgradeable,
 ChainlinkVRFConsumerUpgradeable {
     using CountersUpgradeable for CountersUpgradeable.Counter;
@@ -380,7 +380,7 @@ ChainlinkVRFConsumerUpgradeable {
         uint256 firstTokenId,
         uint256 batchSize
     ) internal whenNotPaused notBlacklisted(from) notBlacklisted(to)
-    override(ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable, ERC721BurnableExtendedUpgradeable)
+    override(ERC721Upgradeable, ERC721EnumerableExtended, ERC721BurnableExtendedUpgradeable)
     {
         super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
@@ -391,7 +391,7 @@ ChainlinkVRFConsumerUpgradeable {
     override(
         ERC721Upgradeable,
         ERC721BurnableExtendedUpgradeable,
-        ERC721EnumerableExtendedUpgradeable,
+        ERC721EnumerableExtended,
         AccessControlEnumerableUpgradeable
     )
     returns (bool)

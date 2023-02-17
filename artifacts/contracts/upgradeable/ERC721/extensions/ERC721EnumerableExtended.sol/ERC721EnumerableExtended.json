@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
-  "contractName": "ERC721EnumerableExtendedUpgradeable",
-  "sourceName": "contracts/upgradeable/ERC721/extensions/ERC721EnumerableExtendedUpgradeable.sol",
+  "contractName": "ERC721EnumerableExtended",
+  "sourceName": "contracts/upgradeable/ERC721/extensions/ERC721EnumerableExtended.sol",
   "abi": [
     {
       "anonymous": false,

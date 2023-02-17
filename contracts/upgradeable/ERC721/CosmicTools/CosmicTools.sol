@@ -8,7 +8,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 
-import "../extensions/ERC721EnumerableExtendedUpgradeable.sol";
+import "../extensions/ERC721EnumerableExtended.sol";
 import "../extensions/ERC721BurnableExtendedUpgradeable.sol";
 import "../extensions/CosmicAttributeStorageUpgradeable.sol";
 import "../../utils/access/StandardAccessControl.sol";
@@ -21,7 +21,7 @@ import "./ICosmicTools.sol";
 * @author @DirtyCajunRice
 */
 contract CosmicTools is Initializable, ICosmicTools, ERC721Upgradeable, PausableUpgradeable, StandardAccessControl,
-ERC721BurnableExtendedUpgradeable, ERC721EnumerableExtendedUpgradeable,
+ERC721BurnableExtendedUpgradeable, ERC721EnumerableExtended,
 ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable  {
     using CountersUpgradeable for CountersUpgradeable.Counter;
     using StringsUpgradeable for uint256;
@@ -92,13 +92,17 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable  {
         bridgeContract = _bridgeContract;
     }
 
-    function bridgeExtraData(uint256 tokenId) external view returns(bytes memory) {
+    function getTool(uint256 tokenId) public view returns(Tool memory) {
         Tool memory tool = Tool({
             skillId: getSkill(tokenId, 0, 0),
             durability: getSkill(tokenId, 0, 1),
             rarity: Rarity(getSkill(tokenId, 0, 2))
         });
-        return abi.encode(tool);
+        return tool;
+    }
+
+    function bridgeExtraData(uint256 tokenId) external view returns(bytes memory) {
+        return abi.encode(getTool(tokenId));
     }
 
     function nextId() public view returns (uint256) {
@@ -109,34 +113,24 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable  {
         updateSkill(tokenId, 0, 1, maxDurability(Rarity(getSkill(tokenId, 0, 2))));
     }
 
+    function removeDurability(uint256 tokenId, uint256 amount) public onlyContract {
+        uint256 current = getSkill(tokenId, 0, 1);
+        require(amount <= current, "CosmicTools::Amount exceeds remaining durability");
+        updateSkill(tokenId, 0, 1, current - amount);
+    }
+
     function getDurability(uint256 tokenId) public view returns(uint256 current, uint256 max) {
         return (getSkill(tokenId, 0, 1), maxDurability(Rarity(getSkill(tokenId, 0, 2))));
     }
 
     function maxDurability(Rarity rarity) internal pure returns(uint256) {
-        return rarity == Rarity.Legendary
-            ? 100
-            : rarity == Rarity.Mythical
-                ? 50
-                : rarity == Rarity.Rare
-                    ? 30
-                    : rarity == Rarity.Uncommon
-                        ? 15
-                        : 10;
+        uint8[5] memory max = [10, 15, 30, 50, 100];
+        return uint256(max[uint256(rarity)]);
     }
 
     function rarityString(Rarity rarity) internal pure returns(string memory) {
-        if (rarity == Rarity.Legendary) {
-            return "Legendary";
-        } else if (rarity == Rarity.Mythical) {
-            return "Mythical";
-        } else if (rarity == Rarity.Rare) {
-            return "Rare";
-        } else if (rarity == Rarity.Uncommon) {
-            return "Uncommon";
-        } else {
-            return "Common";
-        }
+        string[5] memory s = ["Common", "Uncommon", "Rare", "Mythical", "Legendary"];
+        return s[uint256(rarity)];
     }
 
     // PAUSER_ROLE Functions
@@ -188,7 +182,7 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable  {
         uint256 firstTokenId,
         uint256 batchSize
     ) internal whenNotPaused notBlacklisted(from) notBlacklisted(to)
-    override(ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable, ERC721BurnableExtendedUpgradeable)
+    override(ERC721Upgradeable, ERC721EnumerableExtended, ERC721BurnableExtendedUpgradeable)
     {
         super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
@@ -196,7 +190,7 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable  {
     function supportsInterface(bytes4 interfaceId) public view
     override(
         ERC721Upgradeable,
-        ERC721EnumerableExtendedUpgradeable,
+        ERC721EnumerableExtended,
         AccessControlEnumerableUpgradeable,
         ERC721BurnableExtendedUpgradeable,
         IERC165Upgradeable

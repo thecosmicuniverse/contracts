@@ -8,7 +8,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/Base64Upgradeable.sol";
 
-import "./extensions/ERC721EnumerableExtendedUpgradeable.sol";
+import "./extensions/ERC721EnumerableExtended.sol";
 import "./extensions/ERC721URIStorageExtendedUpgradeable.sol";
 import "./extensions/ERC721BurnableExtendedUpgradeable.sol";
 import "./extensions/CosmicAttributeStorageUpgradeable.sol";
@@ -21,7 +21,7 @@ import "../utils/TokenConstants.sol";
 * @title Cosmic Wizards v2.0.0
 * @author @DirtyCajunRice
 */
-contract CosmicWizards is Initializable, ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable,
+contract CosmicWizards is Initializable, ERC721Upgradeable, ERC721EnumerableExtended,
 ERC721URIStorageExtendedUpgradeable, PausableUpgradeable, AccessControlEnumerableUpgradeable,
 ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
     using StringsUpgradeable for uint256;
@@ -314,7 +314,7 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
         uint256 firstTokenId,
         uint256 batchSize
     ) internal whenNotPaused notBlacklisted(from) notBlacklisted(to) notActive(firstTokenId)
-    override(ERC721Upgradeable, ERC721EnumerableExtendedUpgradeable, ERC721BurnableExtendedUpgradeable)
+    override(ERC721Upgradeable, ERC721EnumerableExtended, ERC721BurnableExtendedUpgradeable)
     {
         super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
@@ -322,7 +322,7 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
     function supportsInterface(bytes4 interfaceId) public view
     override(
         ERC721Upgradeable,
-        ERC721EnumerableExtendedUpgradeable,
+        ERC721EnumerableExtended,
         AccessControlEnumerableUpgradeable,
         ERC721BurnableExtendedUpgradeable,
         IERC165Upgradeable
