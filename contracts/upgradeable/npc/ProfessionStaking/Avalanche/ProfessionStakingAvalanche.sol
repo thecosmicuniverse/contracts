@@ -181,7 +181,7 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         _dataKeys.add(msg.sender);
         ParticipantData storage pd = _data[msg.sender];
         NFT storage nft = pd.nfts[tokenId];
-        nft._address = address(MAGIC);
+        nft._address = address(WIZARD);
         nft.tokenId = tokenId;
         pd.nftIds.add(tokenId);
 
@@ -430,7 +430,7 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         uint256 count = 0;
         for (uint256 i = 0; i < nftIds.length; i++) {
             NFT memory nft = pd.nfts[nftIds[i]];
-            if (_training_status[_address][nft._address][nft.tokenId].completeAt > 0) {
+            if (_training_status[_address][address(WIZARD)][nft.tokenId].completeAt > 0) {
                 count++;
             }
         }
@@ -438,7 +438,7 @@ contract ProfessionStakingAvalanche is Initializable, PausableUpgradeable, Acces
         uint256 added = 0;
         for (uint256 i = 0; i < nftIds.length; i++) {
             NFT memory nft = pd.nfts[nftIds[i]];
-            TrainingStatus memory status = _training_status[_address][nft._address][nft.tokenId];
+            TrainingStatus memory status = _training_status[_address][address(WIZARD)][nft.tokenId];
             if (status.completeAt > 0) {
                 training[added] = status;
                 added++;

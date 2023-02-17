@@ -68,7 +68,7 @@
     "0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1": {
       "name": "ProfessionStakingAvalanche",
       "type": "transparent",
-      "impl": "0x7FAaC777937DB6BbBF32327e810B0406810dd2e0"
+      "impl": "0xdF08C6b622478651F3C557Ec0416A7951f346D5c"
     },
     "0x8EebaCaBD19B84AAe85821e9ffa5452b096e769D": {
       "name": "lMagicUpgradeable",
