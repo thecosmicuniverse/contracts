@@ -45,6 +45,10 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
     event ValueUpdated(uint256 indexed tokenId, uint256 treeId, uint256 skillId, uint256 value);
     event TextUpdated(uint256 indexed tokenId, uint256 customId, string value);
 
+    // ERC-5192
+    event Locked(uint256 tokenId);
+    event Unlocked(uint256 tokenId);
+
     modifier notActive(uint256 tokenId) {
         require(_store[tokenId][0][10] == 0 || ownerOf(tokenId) == 0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1, "Wizard is staked");
         _;
@@ -125,10 +129,20 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
         _unpause();
     }
 
+    function _emitLocked(uint256 tokenId, uint256 locked) internal {
+        if (locked == 1) {
+            emit Locked(tokenId);
+        }
+        else if (locked == 0) {
+            emit Unlocked(tokenId);
+        }
+    }
+
     // CosmicAttributeStorage
     function updateSkill(uint256 tokenId, uint256 treeId, uint256 skillId, uint256 value) public onlyRole(CONTRACT_ROLE) {
         _store[tokenId][treeId][skillId] = value;
         emit ValueUpdated(tokenId, treeId, skillId, value);
+        if (treeId == 0 && skillId == 10) _emitLocked(tokenId, value);
     }
 
     function batchUpdateSkills(
@@ -138,6 +152,7 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
         uint256[] memory values) public onlyRole(CONTRACT_ROLE) {
         for (uint256 i = 0; i < tokenIds.length; i++) {
             _store[tokenIds[i]][treeIds[i]][skillIds[i]] = values[i];
+            if (treeIds[i] == 0 && skillIds[i] == 10) _emitLocked(tokenIds[i], values[i]);
         }
     }
 
@@ -148,6 +163,7 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
         uint256[] memory values) public onlyRole(CONTRACT_ROLE) {
         for (uint256 i = 0; i < skillIds.length; i++) {
             _store[tokenId][treeId][skillIds[i]] = values[i];
+            if (treeId == 0 && skillIds[i] == 10) _emitLocked(tokenId, values[i]);
         }
     }
 
@@ -293,6 +309,17 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
 
     function setBridgeContract(address _bridgeContract) public onlyRole(ADMIN_ROLE) {
         bridgeContract = _bridgeContract;
+    }
+
+    function updateOSStakedStatus(uint256 tokenId) public {
+        _emitLocked(tokenId, _store[tokenId][0][10]);
+    }
+
+    function batchUpdateOSStakedStatus(uint256[] calldata tokenIds) public {
+        uint256 count = tokenIds.length;
+        for (uint256 i = 0; i < count; i++) {
+            _emitLocked(tokenIds[i], _store[tokenIds[i]][0][10]);
+        }
     }
 
     function burn(uint256 tokenId) public virtual override(IStandardERC721, ERC721BurnableExtendedUpgradeable) {
