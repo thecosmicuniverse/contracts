@@ -67,4 +67,12 @@ library CosmicAddressBookBobaAvax {
     function ElvenAdventures() internal pure returns (address) {
         return 0x94932B53B666179cF0cFEB178BDa358f538f36c4;
     }
+
+    /*******
+     * NPC *
+     *******/
+
+    function Treasury() internal pure returns (address) {
+        return address(0);
+    }
 }

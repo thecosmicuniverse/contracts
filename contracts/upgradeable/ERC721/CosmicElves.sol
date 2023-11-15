@@ -15,6 +15,7 @@ import "./interfaces/IStandardERC721.sol";
 import "./interfaces/ICosmicElves.sol";
 import "../utils/TokenConstants.sol";
 import "../utils/Blacklistable.sol";
+import "../library/Elves.sol";
 
 /**
 * @title Cosmic Elves v1.0.0
@@ -25,6 +26,7 @@ ERC721BurnableExtendedUpgradeable, ERC721EnumerableExtended,
 ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConstants, IStandardERC721  {
     using StringsUpgradeable for uint256;
     using TokenMetadata for string;
+    using LibElves for uint256[];
 
     address public bridgeContract;
 
@@ -64,19 +66,34 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConst
 
         // base (11)
         uint256 baseSkillNameId = gender == 0 ? 0 : 11;
+        uint256[] memory baseSkills = new uint256[](11);
         for (uint256 i = 0; i < 11; i++) {
-            attributes[i] = TokenMetadata.Attribute(getSkillName(0, i), '', getSkillName(1000 + i + baseSkillNameId, getSkill(tokenId, 0, i)), false);
+            baseSkills[i] = getSkill(tokenId, 0, i);
+            attributes[i] = TokenMetadata.Attribute(getSkillName(0, i), '', getSkillName(1000 + i + baseSkillNameId, baseSkills[i]), TokenMetadata.DisplayType.Text);
         }
-        // Elven Adventures / Expeditions (3)
-        for (uint256 i = 0; i < 3; i++) {
-            attributes[i + 11] = TokenMetadata.Attribute(getSkillName(3, i), '', getSkill(tokenId, 3, i) == 0 ? 'False' : 'True', false);
+        // Elven Adventures Unlocked / Character Active (2)
+        attributes[11] = TokenMetadata.Attribute('', '', getSkill(tokenId, 3, 0) == 0 ? 'Adventures Locked' : 'Adventures Unlocked', TokenMetadata.DisplayType.Value);
+        attributes[12] = TokenMetadata.Attribute("", '', getSkill(tokenId, 3, 1) == 0 ? 'Not On Adventure' : 'On Adventure', TokenMetadata.DisplayType.Value);
+        for (uint256 i = 0; i < 2; i++) {
+
+
         }
         // Professions (12)
         for (uint256 i = 0; i < 12; i++) {
-            attributes[i + 14] = TokenMetadata.Attribute(getSkillName(1, i), '', getSkill(tokenId, 1, i).toString(), true);
+            attributes[i + 13] = TokenMetadata.Attribute(getSkillName(1, i), '', getSkill(tokenId, 1, i).toString(), TokenMetadata.DisplayType.Number);
         }
 
+        attributes[25] = TokenMetadata.Attribute("Rarity Bonus", 'boost_percentage', baseSkills.getRarityBonus().toString(), TokenMetadata.DisplayType.Special);
+
         return makeMetadataJSON(tokenId, name, 'A Cosmic Elf', attributes);
+    }
+
+    function getRarityBonus(uint256 tokenId) public view returns(uint256) {
+        uint256[] memory baseSkills = new uint256[](11);
+        for (uint256 i = 0; i < 11; i++) {
+            baseSkills[i] = getSkill(tokenId, 0, i);
+        }
+        return baseSkills.getRarityBonus();
     }
 
     function mint(address to, uint256 tokenId, bytes memory data) public onlyRole(MINTER_ROLE) {
@@ -157,6 +174,10 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable, TokenConst
 
     function burn(uint256 tokenId) public virtual override(IStandardERC721, ERC721BurnableExtendedUpgradeable) {
         super.burn(tokenId);
+    }
+
+    function teleport(uint256 tokenId) external onlyRole(ADMIN_ROLE) {
+        super._burn(tokenId);
     }
 
     function _burn(uint256 tokenId) internal virtual override(ERC721Upgradeable) {

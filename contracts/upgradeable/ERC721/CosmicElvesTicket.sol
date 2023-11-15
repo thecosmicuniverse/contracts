@@ -229,7 +229,7 @@ ChainlinkVRFConsumerUpgradeable {
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
         uint256 discount = discountOf(tokenId);
         string memory discountStr = string(abi.encodePacked(discount.toString(), '%'));
-        string memory imageURI = string(abi.encodePacked(imageBaseURI, discount.toString()));
+        string memory imageURI = string(abi.encodePacked("https://r2.cosmicuniverse.io/elves-tickets/", discount.toString(), ".mp4"));
         string memory oddsOfStr = oddsOf(discount);
         address owner = ownerOf(tokenId);
         bytes memory dataURIGeneral = abi.encodePacked(

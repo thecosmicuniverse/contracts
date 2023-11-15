@@ -66,6 +66,11 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable  {
         updateSkill(tokenId, 0, 2, uint256(tool.rarity));
     }
 
+    function mint(address to, uint256 tokenId) external onlyMinter {
+        _safeMint(to, tokenId);
+        _removeBurnedId(tokenId);
+    }
+
     function tokenURI(uint256 tokenId) public view virtual override(ERC721URITokenJSON, ERC721Upgradeable) returns(string memory) {
         return tokenURIJSON(tokenId).toBase64();
     }
@@ -76,9 +81,9 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable  {
         Rarity rarity = Rarity(getSkill(tokenId, 0, 2));
         string memory durability = string(abi.encodePacked(getSkill(tokenId, 0, 1).toString(), "/", maxDurability(rarity).toString()));
         TokenMetadata.Attribute[] memory attributes = new TokenMetadata.Attribute[](3);
-        attributes[0] = TokenMetadata.Attribute("Profession", '', getSkillName(1, skillId), false);
-        attributes[1] = TokenMetadata.Attribute("Durability", '', durability, false);
-        attributes[2] = TokenMetadata.Attribute("Rarity", '', rarityString(rarity), false);
+        attributes[0] = TokenMetadata.Attribute("Profession", '', getSkillName(1, skillId), TokenMetadata.DisplayType.Text);
+        attributes[1] = TokenMetadata.Attribute("Durability", '', durability, TokenMetadata.DisplayType.Text);
+        attributes[2] = TokenMetadata.Attribute("Rarity", '', rarityString(rarity), TokenMetadata.DisplayType.Text);
 
         return makeMetadataJSON(tokenId, name, 'Cosmic Tools for Cosmic Universe', attributes);
     }
@@ -168,6 +173,10 @@ ERC721URITokenJSON, CosmicAttributeStorageUpgradeable, Blacklistable  {
     }
 
     function _burn(uint256 tokenId) internal virtual override(ERC721Upgradeable) {
+        super._burn(tokenId);
+    }
+
+    function teleport(uint256 tokenId) external onlyAdmin {
         super._burn(tokenId);
     }
 

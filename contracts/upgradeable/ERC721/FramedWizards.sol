@@ -151,7 +151,8 @@ ERC721BurnableExtendedUpgradeable, TokenConstants {
     ERC721Upgradeable,
     ERC721EnumerableExtended,
     AccessControlEnumerableUpgradeable,
-    ERC721BurnableExtendedUpgradeable
+    ERC721BurnableExtendedUpgradeable,
+    IERC165Upgradeable
     ) returns (bool)
     {
         return super.supportsInterface(interfaceId);

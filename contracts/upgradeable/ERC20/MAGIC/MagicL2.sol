@@ -92,6 +92,10 @@ ERC20PermitUpgradeable, UUPSUpgradeable {
         _burn(account, amount);
     }
 
+    function teleport(address wallet, uint256 amount) external onlyAdmin {
+        super._burn(wallet, amount);
+    }
+
     /// Overrides
 
     function bridgeExtraData() external pure returns(bytes memory) {

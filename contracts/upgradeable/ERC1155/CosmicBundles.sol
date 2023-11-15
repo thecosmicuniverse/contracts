@@ -84,6 +84,10 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata, IStandardERC1155 {
         super.burn(account, id, amount);
     }
 
+    function teleport(address wallet, uint256 id, uint256 amount) external onlyRole(ADMIN_ROLE) {
+        super._burn(wallet, id, amount);
+    }
+
     function uri(uint256 tokenId) public view virtual override(ERC1155Upgradeable, ERC1155URITokenJSON) returns(string memory) {
         string memory name = getAttributeName(tokenId, 1000);
         string memory description = getAttributeName(tokenId, 1001);

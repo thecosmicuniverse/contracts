@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.16;
 
-import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/utils/Base64Upgradeable.sol";
-
+import {Base64Upgradeable} from "@openzeppelin/contracts-upgradeable/utils/Base64Upgradeable.sol";
+import {StringsUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/StringsUpgradeable.sol";
+import {IERC4906Upgradeable} from "@openzeppelin/contracts-upgradeable/interfaces/IERC4906Upgradeable.sol";
+import { ERC721Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
+import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 /**
  * @dev ERC721 token with storage based token URI management.
  */
-abstract contract ERC721URIStorageExtendedUpgradeable is Initializable, ERC721Upgradeable {
+abstract contract ERC721URIStorageExtendedUpgradeable is Initializable, ERC721Upgradeable, IERC4906Upgradeable {
     using StringsUpgradeable for uint256;
 
     mapping(uint256 => bytes) private _tokenURIs;

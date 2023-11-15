@@ -66,6 +66,10 @@ ERC1155URITokenJSON, ERC1155Soulbound, ERC1155Metadata {
         super.burn(account, id, amount);
     }
 
+    function teleport(address wallet, uint256 id, uint256 amount) external onlyAdmin {
+        super._burn(wallet, id, amount);
+    }
+
     function burnBatch(address from, uint256[] memory ids, uint256[] memory amounts) override(ERC1155BurnableUpgradeable) public onlyAdmin {
         _burnBatch(from, ids, amounts);
     }

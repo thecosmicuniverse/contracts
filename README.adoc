@@ -34,9 +34,7 @@ DirtyCajunRice#0001 (Discord)
 |===
 h|Category h|Contract h|Address h|Explorer Link
 s|Token (ERC20) |MAGIC |`0x245B4C64271e91C9FB6bE1971A0208dD92EFeBDe` |https://blockexplorer.avax.boba.network/token/0x245B4C64271e91C9FB6bE1971A0208dD92EFeBDe[Blockscout,role=external,window=_blank]
-.2+s|Character (ERC721)|Wizards |`0x003b43A3876274b76Ee366cFFbC6bc53AB89Acd7` |https://blockexplorer.avax.boba.network/token/0x003b43A3876274b76Ee366cFFbC6bc53AB89Acd7[Blockscout,role=external,window=_blank]
-|Elves |`0x09692b3a53eB7870F00b342444E4f42e259e7999` |https://blockexplorer.avax.boba.network/token/0x09692b3a53eB7870F00b342444E4f42e259e7999[Blockscout,role=external,window=_blank]
-s|Land (ERC721) |Cosmic Island Land |`0x3280522Ca527e3802bb90aC74AF6Ca3CB0433F73` |https://blockexplorer.avax.boba.network/token/0x3280522Ca527e3802bb90aC74AF6Ca3CB0433F73[Blockscout,role=external,window=_blank]
+s|Character (ERC721)|Elves |`0x09692b3a53eB7870F00b342444E4f42e259e7999` |https://blockexplorer.avax.boba.network/token/0x09692b3a53eB7870F00b342444E4f42e259e7999[Blockscout,role=external,window=_blank]
 s|Collectable (ERC721)| Tools |`0x0458b679C30AA4B8622742eA9fb2A44660c4a2a1` |https://blockexplorer.avax.boba.network/token/0x0458b679C30AA4B8622742eA9fb2A44660c4a2a1[Blockscout,role=external,window=_blank]
 .7+s|Item (ERC1155) |Badges |`0x9E2Aa514325e67D3bA78E575cAF6F90fBC628069` |https://blockexplorer.avax.boba.network/token/0x9E2Aa514325e67D3bA78E575cAF6F90fBC628069[Blockscout,role=external,window=_blank]
 |Bundles |`0x69938433cB243721978986a5B3c981A681970212` |https://blockexplorer.avax.boba.network/token/0x69938433cB243721978986a5B3c981A681970212[Blockscout,role=external,window=_blank]

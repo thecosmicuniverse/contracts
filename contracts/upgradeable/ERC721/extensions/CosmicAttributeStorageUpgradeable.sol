@@ -11,6 +11,11 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 * @dev Central storage contract for Cosmic Universe NFTs
 */
 abstract contract CosmicAttributeStorageUpgradeable is Initializable, AccessControlEnumerableUpgradeable {
+    /// @dev This event emits when the metadata of a token is changed.
+    /// So that the third-party platforms such as NFT market could
+    /// timely update the images and related attributes of the NFT.
+    event MetadataUpdate(uint256 _tokenId);
+
     bytes32 public constant CONTRACT_ROLE = keccak256("CONTRACT_ROLE");
 
     // tokenId > treeId  > skillId > value
@@ -43,6 +48,7 @@ abstract contract CosmicAttributeStorageUpgradeable is Initializable, AccessCont
     function updateSkill(uint256 tokenId, uint256 treeId, uint256 skillId, uint256 value) public onlyRole(CONTRACT_ROLE) {
         _store[tokenId][treeId][skillId] = value;
         emit ValueUpdated(tokenId, treeId, skillId, value);
+        emit MetadataUpdate(tokenId);
     }
 
     function batchUpdateSkills(
@@ -52,6 +58,7 @@ abstract contract CosmicAttributeStorageUpgradeable is Initializable, AccessCont
         uint256[] memory values) public onlyRole(CONTRACT_ROLE) {
         for (uint256 i = 0; i < tokenIds.length; i++) {
             _store[tokenIds[i]][treeIds[i]][skillIds[i]] = values[i];
+            emit MetadataUpdate(tokenIds[i]);
         }
     }
 
@@ -63,11 +70,13 @@ abstract contract CosmicAttributeStorageUpgradeable is Initializable, AccessCont
         for (uint256 i = 0; i < skillIds.length; i++) {
             _store[tokenId][treeId][skillIds[i]] = values[i];
         }
+        emit MetadataUpdate(tokenId);
     }
 
     function updateString(uint256 tokenId, uint256 customId, string memory value) public onlyRole(CONTRACT_ROLE) {
         _textStore[tokenId][customId] = value;
         emit TextUpdated(tokenId, customId, value);
+        emit MetadataUpdate(tokenId);
     }
 
     function setSkillName(uint256 treeId, uint256 skillId, string memory name) public onlyRole(CONTRACT_ROLE) {

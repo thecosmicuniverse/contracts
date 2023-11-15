@@ -16,14 +16,15 @@ import "./interfaces/IStandardERC721.sol";
 import "./interfaces/ICosmicWizards.sol";
 import "../library/TokenMetadata.sol";
 import "../utils/TokenConstants.sol";
+import "./extensions/ERC5192.sol";
 
 /**
-* @title Cosmic Wizards v2.0.0
+* @title Cosmic Wizards v2.1.0
 * @author @DirtyCajunRice
 */
 contract CosmicWizards is Initializable, ERC721Upgradeable, ERC721EnumerableExtended,
 ERC721URIStorageExtendedUpgradeable, PausableUpgradeable, AccessControlEnumerableUpgradeable,
-ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
+ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721, IERC5192 {
     using StringsUpgradeable for uint256;
     using StringsUpgradeable for address;
     using TokenMetadata for string;
@@ -44,10 +45,6 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
 
     event ValueUpdated(uint256 indexed tokenId, uint256 treeId, uint256 skillId, uint256 value);
     event TextUpdated(uint256 indexed tokenId, uint256 customId, string value);
-
-    // ERC-5192
-    event Locked(uint256 tokenId);
-    event Unlocked(uint256 tokenId);
 
     modifier notActive(uint256 tokenId) {
         require(_store[tokenId][0][10] == 0 || ownerOf(tokenId) == 0x71e9e186DcFb6fd1BA018DF46d21e7aA10969aD1, "Wizard is staked");
@@ -129,19 +126,11 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
         _unpause();
     }
 
-    function _emitLocked(uint256 tokenId, uint256 locked) internal {
-        if (locked == 1) {
-            emit Locked(tokenId);
-        }
-        else if (locked == 0) {
-            emit Unlocked(tokenId);
-        }
-    }
-
     // CosmicAttributeStorage
     function updateSkill(uint256 tokenId, uint256 treeId, uint256 skillId, uint256 value) public onlyRole(CONTRACT_ROLE) {
         _store[tokenId][treeId][skillId] = value;
         emit ValueUpdated(tokenId, treeId, skillId, value);
+        emit MetadataUpdate(tokenId);
         if (treeId == 0 && skillId == 10) _emitLocked(tokenId, value);
     }
 
@@ -152,6 +141,7 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
         uint256[] memory values) public onlyRole(CONTRACT_ROLE) {
         for (uint256 i = 0; i < tokenIds.length; i++) {
             _store[tokenIds[i]][treeIds[i]][skillIds[i]] = values[i];
+            emit MetadataUpdate(tokenIds[i]);
             if (treeIds[i] == 0 && skillIds[i] == 10) _emitLocked(tokenIds[i], values[i]);
         }
     }
@@ -165,11 +155,13 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
             _store[tokenId][treeId][skillIds[i]] = values[i];
             if (treeId == 0 && skillIds[i] == 10) _emitLocked(tokenId, values[i]);
         }
+        emit MetadataUpdate(tokenId);
     }
 
     function updateString(uint256 tokenId, uint256 customId, string memory value) public onlyRole(CONTRACT_ROLE) {
         _textStore[tokenId][customId] = value;
         emit TextUpdated(tokenId, customId, value);
+        emit MetadataUpdate(tokenId);
     }
 
     function updateAttributeStrings(
@@ -229,22 +221,22 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
         TokenMetadata.Attribute[] memory attributes = new TokenMetadata.Attribute[](24);
 
         // base
-        attributes[0] = TokenMetadata.Attribute("Gender", '', genderString, false);
+        attributes[0] = TokenMetadata.Attribute("Gender", '', genderString, TokenMetadata.DisplayType.Text);
         string[8] memory baseNames = ["Background", "Hair", "Hat", "Eyes", "Base", "Staff", "Robe", "Mouth"];
         for (uint256 i = 1; i < 9; i++) {
-            attributes[i] = TokenMetadata.Attribute(baseNames[i-1], '', _attributeNameStore[0][gender == 0 ? i : i + 10][_store[tokenId][0][i]], false);
+            attributes[i] = TokenMetadata.Attribute(baseNames[i-1], '', _attributeNameStore[0][gender == 0 ? i : i + 10][_store[tokenId][0][i]], TokenMetadata.DisplayType.Text);
         }
 
         // staking
-        attributes[9] = TokenMetadata.Attribute("Staking Unlocked", '', _store[tokenId][0][9] == 0 ? 'False' : 'True', false);
-        attributes[10] = TokenMetadata.Attribute("Staked", '', _store[tokenId][0][10] == 0 ? 'False' : 'True', false);
+        attributes[9] = TokenMetadata.Attribute("", '', _store[tokenId][0][9] == 0 ? 'Staking Locked' : 'Staking Unlocked', TokenMetadata.DisplayType.Value);
+        attributes[10] = TokenMetadata.Attribute("", '', _store[tokenId][0][10] == 0 ? 'Unstaked' : 'Staked', TokenMetadata.DisplayType.Value);
         // professions
         string[12] memory professionNames = ["Alchemy", "Architecture", "Carpentry", "Cooking", "Crystal Extraction", "Farming", "Fishing", "Gem Cutting", "Herbalism", "Mining", "Tailoring", "Woodcutting"];
         for (uint256 i = 0; i < 12; i++) {
-            attributes[i + 11] = TokenMetadata.Attribute(professionNames[i], '', _store[tokenId][1][i].toString(), true);
+            attributes[i + 11] = TokenMetadata.Attribute(professionNames[i], '', _store[tokenId][1][i].toString(), TokenMetadata.DisplayType.Number);
         }
         // rewards
-        attributes[23] = TokenMetadata.Attribute("Chests Claimed", 'boost_number', _store[tokenId][2][0].toString(), true);
+        attributes[23] = TokenMetadata.Attribute("Chests Claimed", 'boost_number', _store[tokenId][2][0].toString(), TokenMetadata.DisplayType.Special);
         string memory imageURI = string(abi.encodePacked(imageBaseURI, tokenId.toString()));
         return TokenMetadata.makeMetadataJSON(
             tokenId,
@@ -313,13 +305,29 @@ ERC721BurnableExtendedUpgradeable, TokenConstants, IStandardERC721 {
 
     function updateOSStakedStatus(uint256 tokenId) public {
         _emitLocked(tokenId, _store[tokenId][0][10]);
+        emit MetadataUpdate(tokenId);
     }
 
     function batchUpdateOSStakedStatus(uint256[] calldata tokenIds) public {
         uint256 count = tokenIds.length;
         for (uint256 i = 0; i < count; i++) {
             _emitLocked(tokenIds[i], _store[tokenIds[i]][0][10]);
+            emit MetadataUpdate(tokenIds[i]);
         }
+    }
+
+    /// @notice emit locked based on 0 (false) or 1 (true)
+    function _emitLocked(uint256 tokenId, uint256 _locked) internal {
+        if (_locked == 1) {
+            emit Locked(tokenId);
+        }
+        else if (_locked == 0) {
+            emit Unlocked(tokenId);
+        }
+    }
+
+    function locked(uint256 tokenId) external override view returns (bool) {
+        return _store[tokenId][0][10] == 1;
     }
 
     function burn(uint256 tokenId) public virtual override(IStandardERC721, ERC721BurnableExtendedUpgradeable) {

@@ -1,35 +1,77 @@
-import "@nomicfoundation/hardhat-toolbox";
+import * as tdly from "@tenderly/hardhat-tenderly";
+import { NetworksUserConfig } from "hardhat/types";
+import "@dirtycajunrice/hardhat-tasks/internal/type-extensions"
+import "@dirtycajunrice/hardhat-tasks";
 import '@openzeppelin/hardhat-upgrades';
-import {
-  GetEtherscanCustomChains,
-  GetNetworks,
-  GetSolidityCompilers
-} from "@dirtycajunrice/hardhat-tasks";
-import "@dirtycajunrice/hardhat-tasks/tasks";
-import 'solidity-docgen';
+import "@nomicfoundation/hardhat-ethers";
+import "@nomicfoundation/hardhat-verify";
+import './tasks';
 import "dotenv/config";
-import "./tasks/sourcify";
+
+tdly.setup();
+
+const networkData = [
+  {
+    name: "avalanche",
+    chainId: 43_114,
+    urls: {
+      rpc: `https://api.avax.network/ext/bc/C/rpc`,
+      api: "https://api.snowtrace.io/api",
+      browser: "https://snowtrace.io",
+    },
+  },
+  {
+    name: "boba",
+    chainId: 43_288,
+    urls: {
+      rpc: `https://avax.boba.network`,
+      api: "https://blockexplorer.avax.boba.network/api",
+      browser: "https://blockexplorer.avax.boba.network/",
+    },
+  }
+];
+
 const config = {
+  defaultNetwork: "avalanche",
   solidity: {
-    compilers: GetSolidityCompilers(["0.8.17", "0.8.16", "0.8.9", "0.8.2", "0.6.0"]),
+    compilers: [ "8.20", "8.19", "8.18", "8.17", "8.16", "8.9", "8.2", "6.0" ].map(v => (
+      {
+        version: `0.${ v }`,
+        settings: {
+          ...(
+            v === "8.20" ? { evmVersion: "london" } : {}
+          ), optimizer: { enabled: true, runs: 200 }
+        },
+      }
+    )),
   },
-  networks: {
-    ...GetNetworks([process.env.PRIVATE_KEY || '']),
-    dfk: {
-      url: "https://avax-dfk.gateway.pokt.network/v1/lb/6244818c00b9f0003ad1b619//ext/bc/q2aTwKuyzgs8pynF7UXBZCU7DejbZbZ6EUyHr3JQzYgwNPUPi/rpc",
-      chainId: 53935,
-      accounts: [process.env.PRIVATE_KEY, process.env.PRIVATE_KEY_3],
+  networks: networkData.reduce((o, network) => {
+    o[network.name] = {
+      url: network.urls.rpc,
+      chainId: network.chainId,
+      accounts: [ process.env.PRIVATE_KEY! ]
     }
-  },
+    return o;
+  }, {} as NetworksUserConfig),
   etherscan: {
     apiKey: {
       avalanche: process.env.SNOWTRACE_API_KEY,
-      bobaAvax: 'not needed'
     },
-    customChains: GetEtherscanCustomChains(),
+    customChains: networkData.map(network => (
+      {
+        network: network.name,
+        chainId: network.chainId,
+        urls: { apiURL: network.urls.api, browserURL: network.urls.browser },
+      }
+    ))
   },
   docgen: {
     pages: 'files'
+  },
+  tenderly: {
+    project: "cosmic-universe",
+    username: "DirtyCajunRIce",
+    privateVerification: false
   }
 }
 

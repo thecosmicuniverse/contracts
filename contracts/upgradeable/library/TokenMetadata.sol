@@ -17,11 +17,17 @@ library TokenMetadata {
         ERC721
     }
 
+    enum DisplayType {
+        Text,
+        Number,
+        Special,
+        Value
+    }
     struct Attribute {
         string name;
-        string displayType;
+        string displayText;
         string value;
-        bool isNumber;
+        DisplayType displayType;
     }
 
     function toBase64(string memory json) internal pure returns (string memory) {
@@ -63,15 +69,19 @@ library TokenMetadata {
         string memory attributeString = "";
         for (uint256 i = 0; i < attributes.length; i++) {
             string memory comma = i == (attributes.length - 1) ? '' : ',';
-            string memory quote = attributes[i].isNumber ? '' : '"';
+            string memory quote = attributes[i].displayType == DisplayType.Number
+                || attributes[i].displayType == DisplayType.Special ? '' : '"';
+            string memory traitType = attributes[i].displayType == DisplayType.Value
+                ? ''
+                : string(abi.encodePacked('"trait_type":"', attributes[i].name, '",'));
             string memory value = string(abi.encodePacked(quote, attributes[i].value, quote));
-            string memory displayType = bytes(attributes[i].displayType).length == 0
-            ? ''
-            : string(abi.encodePacked('"display_type":"', attributes[i].displayType, '",'));
+            string memory displayType = attributes[i].displayType == DisplayType.Special
+            ? string(abi.encodePacked('"display_type":"', attributes[i].displayText, '",'))
+            : '';
             string memory newAttributeString = string(
                 abi.encodePacked(
                     attributeString,
-                    '{"trait_type":"', attributes[i].name, '",', displayType, '"value":', value, '}',
+                    '{', traitType, displayType, '"value":', value, '}',
                     comma
                 )
             );
