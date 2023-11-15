@@ -1,0 +1,7 @@
+[
+  "function batchMint(address,uint256[])",
+  "function bridgeMint(address,uint256)",
+  "function burn(uint256)",
+  "function burn(address,uint256)",
+  "function mint(address,uint256)"
+]

@@ -1,0 +1,9 @@
+[
+  "function getSkill(address,uint256,uint256,uint256) view returns (uint256)",
+  "function getSkillsByTree(address,uint256,uint256,uint256[]) view returns (uint256[])",
+  "function getString(address,uint256,uint256) view returns (string)",
+  "function getStringOfTokens(address,uint256[],uint256) view returns (string[])",
+  "function getStrings(address,uint256,uint256[]) view returns (string[])",
+  "function updateSkill(address,uint256,uint256,uint256,uint256)",
+  "function updateString(address,uint256,uint256,string)"
+]

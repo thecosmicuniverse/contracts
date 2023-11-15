@@ -1,0 +1,3 @@
+[
+  "function isOwner(uint256,address) view returns (bool)"
+]

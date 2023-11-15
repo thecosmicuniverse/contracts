@@ -1,0 +1,23 @@
+account_id: "DirtyCajunRice"
+actions:
+  dirtycajunrice/cosmic-universe:
+    runtime: v2
+    sources: actions
+    specs:
+      teleportTransactions:
+        description: Transaction teleported assets off of boba-avalanche network
+        function: teleport:teleport
+        execution_type: parallel
+        trigger:
+          type: transaction
+          transaction:
+            status:
+            - mined
+            filters:
+            - network: 43288
+              status: success
+              eventEmitted:
+                contract:
+                  address: 0x5581b3831dbaa9a60bc6f7cd9a1d917efe57c190
+                name: AssetTeleported
+project_slug: ""

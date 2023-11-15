@@ -1,0 +1,4 @@
+[
+  "event Initialized(uint8)",
+  "function multicall(bytes[]) returns (bytes[])"
+]

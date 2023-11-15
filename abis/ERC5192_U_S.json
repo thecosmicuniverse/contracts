@@ -1,0 +1,6 @@
+[
+  "event Initialized(uint8)",
+  "event Locked(uint256)",
+  "event Unlocked(uint256)",
+  "function locked(uint256) view returns (bool)"
+]

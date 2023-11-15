@@ -1,0 +1,4 @@
+[
+  "function ADMIN_ROLE() view returns (bytes32)",
+  "function CONTRACT_ROLE() view returns (bytes32)"
+]

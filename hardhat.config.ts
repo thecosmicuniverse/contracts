@@ -5,8 +5,12 @@ import "@dirtycajunrice/hardhat-tasks";
 import '@openzeppelin/hardhat-upgrades';
 import "@nomicfoundation/hardhat-ethers";
 import "@nomicfoundation/hardhat-verify";
-import './tasks';
+import './src/tasks';
 import "dotenv/config";
+import "hardhat-gas-reporter";
+import "hardhat-contract-sizer";
+import "hardhat-abi-exporter";
+import "solidity-docgen";
 
 tdly.setup();
 
@@ -72,6 +76,27 @@ const config = {
     project: "cosmic-universe",
     username: "DirtyCajunRIce",
     privateVerification: false
+  },
+  contractSizer: {
+    alphaSort: true,
+    runOnCompile: true,
+    disambiguatePaths: false,
+    strict: true,
+    only: [ ':.*' ],
+    except: [],
+  },
+  abiExporter: {
+    path: "./abis",
+    runOnCompile: true,
+    clear: true,
+    flat: true,
+    only: ['src/contracts/'],
+    except: [ 'ChainlinkVRFConsumerUpgradeable' ],
+    spacing: 2,
+    pretty: true,
+  },
+  paths: {
+    sources: "./src/contracts",
   }
 }
 

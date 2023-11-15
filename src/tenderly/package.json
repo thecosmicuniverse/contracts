@@ -1,0 +1,19 @@
+{
+  "name": "actions",
+  "scripts": {
+    "generate-types": "typechain --always-generate-overloads --target=ethers-v5 'actions/abi/*.json' ",
+    "build": "tsc",
+    "deploy": "tenderly actions deploy"
+  },
+  "devDependencies": {
+    "@types/node": "^20.6.0",
+    "typescript": "^5.2.2",
+    "axios": "^1.5.0",
+    "ethers": "^5.7.2",
+    "@typechain/ethers-v5": "^11.1.1"
+  },
+  "dependencies": {
+    "@tenderly/actions": "^0.2.6"
+  },
+  "private": true
+}

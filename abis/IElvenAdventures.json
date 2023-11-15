@@ -1,0 +1,8 @@
+[
+  "event BeganAdventure(address indexed,uint256)",
+  "event BeganQuest(address indexed,uint256,uint256,uint256,uint256)",
+  "event CancelledQuest(address indexed,uint256,uint256)",
+  "event FinishedAdventure(address indexed,uint256)",
+  "event FinishedQuest(address indexed,uint256,uint256,uint256)",
+  "event UnlockedAdventures(address indexed,uint256)"
+]

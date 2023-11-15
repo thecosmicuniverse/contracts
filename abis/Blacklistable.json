@@ -1,0 +1,5 @@
+[
+  "event Initialized(uint8)",
+  "function getBlacklisted() view returns (address[])",
+  "function isBlacklisted(address) view returns (bool)"
+]

@@ -1,0 +1,7 @@
+[
+  "constructor()",
+  "event Initialized(uint8)",
+  "function ELVES() view returns (address)",
+  "function getAllElves() view returns (string[])",
+  "function initialize()"
+]

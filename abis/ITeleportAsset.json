@@ -1,0 +1,12 @@
+[
+  "function balanceOf(address,uint256) view returns (uint256)",
+  "function balanceOf(address) view returns (uint256)",
+  "function mint(address,uint256)",
+  "function mint(address,uint256,uint256,bytes)",
+  "function mint(address,uint256,bytes)",
+  "function teleport(address,uint256)",
+  "function teleport(uint256)",
+  "function teleport(address,uint256,uint256)",
+  "function tokenOfOwnerByIndex(address,uint256) view returns (uint256)",
+  "function tokensOfOwner(address) view returns (uint256[])"
+]

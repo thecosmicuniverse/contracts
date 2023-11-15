@@ -1,0 +1,11 @@
+[
+  "error BetValueMismatch(uint256,uint256)",
+  "error InvalidBetIncrement(uint256,uint256)",
+  "error InvalidRound(uint256)",
+  "error InvalidToken(address)",
+  "event RoundAccepted(address indexed,uint256 indexed)",
+  "event RoundClosed(uint256 indexed)",
+  "event RoundCompleted(uint256 indexed,uint8,uint256,uint256)",
+  "event RoundCreated(address indexed,uint256 indexed,address indexed,uint256)",
+  "event TokenConfigUpdated(address indexed,uint256,uint256,uint256)"
+]

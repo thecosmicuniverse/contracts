@@ -1,0 +1,7 @@
+[
+  "event Initialized(uint8)",
+  "function batchTokenURI(uint256[]) view returns (string[])",
+  "function batchUri(uint256[]) view returns (string[])",
+  "function imageBaseURI() view returns (string)",
+  "function uri(uint256) view returns (string)"
+]
