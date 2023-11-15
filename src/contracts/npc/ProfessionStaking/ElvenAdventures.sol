@@ -11,10 +11,10 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@dirtycajunrice/contracts/utils/access/StandardAccessControl.sol";
 
-import "../../../ERC721/interfaces/ICosmicAttributeStorage.sol";
-import "../../../ERC1155/interfaces/IStandardERC1155.sol";
-import "../../../ERC721/interfaces/IStandardERC721.sol";
-import "../../../ERC721/CosmicTools/ICosmicTools.sol";
+import "../../ERC721/interfaces/ICosmicAttributeStorage.sol";
+import "../../ERC1155/interfaces/IStandardERC1155.sol";
+import "../../ERC721/interfaces/IStandardERC721.sol";
+import "../../ERC721/CosmicTools/ICosmicTools.sol";
 import "./IElvenAdventures.sol";
 
 /**

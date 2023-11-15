@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "../../../common/SharedStructs.sol";
+import "../../common/SharedStructs.sol";
 
 interface IElvenAdventures is SharedStructs {
 

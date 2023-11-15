@@ -6,9 +6,9 @@ import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 
-import "../../../ERC1155/interfaces/ICosmicBundles.sol";
-import "../../../ERC721/interfaces/ICosmicWizards.sol";
-import "../../../utils/ContractConstants.sol";
+import "../../ERC1155/interfaces/ICosmicBundles.sol";
+import "../../ERC721/interfaces/ICosmicWizards.sol";
+import "../../utils/ContractConstants.sol";
 import "./IProfessionStakingAvalanche.sol";
 
 /**

@@ -1,16 +1,18 @@
 import * as tdly from "@tenderly/hardhat-tenderly";
 import { NetworksUserConfig } from "hardhat/types";
-import "@dirtycajunrice/hardhat-tasks/internal/type-extensions"
-import "@dirtycajunrice/hardhat-tasks";
-import '@openzeppelin/hardhat-upgrades';
-import "@nomicfoundation/hardhat-ethers";
-import "@nomicfoundation/hardhat-verify";
+
+
 import './src/tasks';
 import "dotenv/config";
 import "hardhat-gas-reporter";
 import "hardhat-contract-sizer";
 import "hardhat-abi-exporter";
 import "solidity-docgen";
+import "@dirtycajunrice/hardhat-tasks/internal/type-extensions";
+import "@dirtycajunrice/hardhat-tasks";
+import "@nomicfoundation/hardhat-ethers";
+import '@openzeppelin/hardhat-upgrades';
+import "@nomicfoundation/hardhat-verify";
 
 tdly.setup();
 
@@ -22,15 +24,6 @@ const networkData = [
       rpc: `https://api.avax.network/ext/bc/C/rpc`,
       api: "https://api.snowtrace.io/api",
       browser: "https://snowtrace.io",
-    },
-  },
-  {
-    name: "boba",
-    chainId: 43_288,
-    urls: {
-      rpc: `https://avax.boba.network`,
-      api: "https://blockexplorer.avax.boba.network/api",
-      browser: "https://blockexplorer.avax.boba.network/",
     },
   }
 ];

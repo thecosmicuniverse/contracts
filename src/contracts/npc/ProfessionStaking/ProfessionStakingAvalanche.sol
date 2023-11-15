@@ -9,7 +9,7 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
-import "../../../ERC721/interfaces/ICosmicAttributeStorage.sol";
+import "../../ERC721/interfaces/ICosmicAttributeStorage.sol";
 
 /**
 * @title Cosmic Universe NFT Staking v2.0.0
